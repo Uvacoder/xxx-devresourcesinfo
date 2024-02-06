@@ -1,6 +1,6 @@
 export const menu = [
   {
-    url: "/",
+    url: "/conferences",
     text: "Conferences",
   },
   {
