@@ -1,0 +1,31 @@
+---
+import {
+Astronav,
+MenuItems,
+MenuIcon,
+} from "astro-navbar";
+import {menu} from "../../data/data"
+---
+<header class="lblock sm:hidden relative">
+   <Astronav closeOnClick>
+      <div class="flex w-full lg:w-auto justify-end">
+     
+         <div class="block lg:hidden">
+            <MenuIcon class="w-4 h-4 text-white" />
+         </div>
+      </div>
+      <MenuItems class="hidden lg:flex">
+         <ul class="flex flex-col gap-[10px] p-5"> 
+        {menu.map(item => 
+            {
+              const path = new URL(Astro.url.href).pathname;
+              const isActive = path === item.url ? "font-[700]" : "text-neutral-200 font-[400]";
+             return  (<li>
+                <a class={`inline-block text-[14px] sm:text-[15px] xl:text-[16px] no-underline hover:text-white ${isActive}`} href={item.url}>{item.text}</a>
+            </li>)
+            }
+        )}
+     </ul>
+      </MenuItems>
+   </Astronav>
+</header>

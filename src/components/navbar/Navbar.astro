@@ -1,23 +1,23 @@
 
 ---
-import { PrimaryBtn } from "..";
+import { MobileMenu, PrimaryBtn } from "..";
 import {menu} from "../../data/data"
 import logo_sign from "../../asstes/logo_sign.svg"
 import { Image } from "astro:assets";
 ---
 
 <header class="bg-neutral-base text-white">
-  <nav class="px-[10px] xl:px-[80px] flex justify-between items-center">
-    <div class="flex gap-[10px] items-center">
-      <div class="w-[30px] h-[30px] md:w-[40px] md:h-[40px] lg:w-[48px] lg:h-[48px]">
+  <nav class="px-[10px] xl:px-[80px] flex justify-between sm:items-center">
+    <div class="flex gap-[10px] sm:items-center">
+      <div class="w-[30px] h-[30px] m-2 sm:m-0 md:w-[40px] md:h-[40px] lg:w-[48px] lg:h-[48px]">
         <Image src={logo_sign} alt="logo sign"/>
       </div>
       <h1 class="text-[28px] hidden lg:block">
         <a href="/" class="text-[#ffffffb8]">Dev<span class="font-bold text-white">Resources</span></a>
       </h1>
     </div>
-    <div class="flex gap-[10px] lg:gap-[20px] xl:gap-[32px] items-center">
-      <ul class="flex gap-[10px] lg:gap-[20px] xl:gap-[32px]"> 
+    <div class="flex gap-[10px] lg:gap-[20px] xl:gap-[32px] items-center py-[7px] sm:py-0">
+      <ul class="hidden sm:flex gap-[10px] lg:gap-[20px] xl:gap-[32px]"> 
         {menu.map(item => 
             {
               const path = new URL(Astro.url.href).pathname;
@@ -27,8 +27,9 @@ import { Image } from "astro:assets";
             </li>)
             }
         )}
-    </ul>
-    <PrimaryBtn text="Submit New"/>
+     </ul>
+      <PrimaryBtn text="Submit New"/>
+      <MobileMenu/>
     </div>
   </nav>
 </header>
