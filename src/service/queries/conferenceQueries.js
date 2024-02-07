@@ -1,160 +1,81 @@
 import { gql } from "graphql-request";
 
+const commonQueries = `edges {
+      node {
+        id
+        name
+        startDate
+        endDate
+        language {
+          ... on Language {
+            id
+            name
+            slug
+          }
+        }
+        tags
+        technologies {
+          ... on Technology {
+            id
+            name
+            slug
+          }
+        }
+        url
+        city {
+          id
+          name
+          slug
+        }
+        continent {
+          ... on Continent {
+            id
+            name
+            slug
+          }
+        }
+        country {
+          ... on Country {
+            id
+            name
+            slug
+          }
+        }
+      }
+    }
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }`;
+
 export const allConferenceQuery = () => gql`
   query allConference {
     allConference {
-      edges {
-        node {
-          id
-          name
-          startDate
-          endDate
-          technologies {
-            ... on Technology {
-              id
-              name
-              slug
-            }
-          }
-          url
-          tags
-          language {
-            ... on Language {
-              id
-              name
-              slug
-            }
-          }
-          city {
-            id
-            name
-            slug
-            country {
-              id
-              name
-              slug
-              continent {
-                id
-                name
-                slug
-              }
-            }
-          }
-        }
-      }
-      totalCount
-      pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
-      }
+      ${commonQueries}
     }
   }
 `;
 
-const sortedConferenceQuery = (sortBy) => gql`
+//ASC or DESC
+export const sortedConferenceQuery = (sortBy) => gql`
   query allConference {
     allConference(sort: { startDate: ${sortBy} }) {
-      edges {
-        node {
-          id
-          name
-          startDate
-          endDate
-          technologies {
-            ... on Technology {
-              id
-              name
-              slug
-            }
-          }
-          url
-          tags
-          language {
-            ... on Language {
-              id
-              name
-              slug
-            }
-          }
-          city {
-            id
-            name
-            slug
-            country {
-              id
-              name
-              slug
-              continent {
-                id
-                name
-                slug
-              }
-            }
-          }
-        }
-      }
-      totalCount
-      pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
-      }
+     ${commonQueries}
     }
   }
 `;
 
-const sortedConferenceDESC = () => gql`
+export const findConferenceByTechQuery = (techName) => gql`
   query allConference {
-    allConference(sort: { startDate: DESC }) {
-      edges {
-        node {
-          id
-          name
-          startDate
-          endDate
-          technologies {
-            ... on Technology {
-              id
-              name
-              slug
-            }
-          }
-          url
-          tags
-          language {
-            ... on Language {
-              id
-              name
-              slug
-            }
-          }
-          city {
-            id
-            name
-            slug
-            country {
-              id
-              name
-              slug
-              continent {
-                id
-                name
-                slug
-              }
-            }
-          }
-        }
+    allConference(
+      where: {
+        technologies: {findOne: {Technology: {name: { contains: ${techName} } } } }
       }
-      totalCount
-      pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
-      }
+    ) {
+        ${commonQueries}
     }
   }
 `;
@@ -166,52 +87,31 @@ export const findConferenceByCityQuery = (cityName) => gql`
         city: { findOne: { City: { name: { contains: ${cityName} } } } }
       }
     ) {
-      edges {
-        node {
-          id
-          name
-          startDate
-          endDate
-          language {
-            ... on Language {
-              id
-              name
-              slug
-            }
-          }
-          tags
-          technologies {
-            ... on Technology {
-              id
-              name
-              slug
-            }
-          }
-          url
-          city {
-            name
-            id
-            slug
-            country {
-              id
-              name
-              slug
-              continent {
-                id
-                name
-                slug
-              }
-            }
-          }
-        }
+        ${commonQueries}
+    }
+  }
+`;
+
+export const findConferenceByCountryQuery = (countryName) => gql`
+  query allConference {
+    allConference(
+      where: {
+        country: {findOne: {Country: {name: { contains: ${countryName} } } } }
       }
-      pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
+    ) {
+        ${commonQueries}
+    }
+  }
+`;
+
+export const findConferenceByContinentQuery = (continentName) => gql`
+  query allConference {
+    allConference(
+      where: {
+        continent: {findOne: {Continent: {name: { contains: ${continentName} } } } }
       }
-      totalCount
+    ) {
+        ${commonQueries}
     }
   }
 `;
