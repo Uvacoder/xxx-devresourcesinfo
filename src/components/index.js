@@ -1,3 +1,5 @@
-import Card from "./card/Card";
+import Navbar from "./navbar/Navbar.astro";
+import PrimaryBtn from "./primaryBtn/PrimaryBtn.jsx";
+import MobileMenu from "./mobileMenu/MobileMenu.astro";
 
-export { Card };
+export { Navbar, PrimaryBtn, MobileMenu };

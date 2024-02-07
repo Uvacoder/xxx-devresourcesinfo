@@ -5,5 +5,13 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), react()]
+  redirects: {
+    "/": "/conferences",
+  },
+  integrations: [
+    tailwind(),
+    react({
+      experimentalReactChildren: true,
+    }),
+  ],
 });

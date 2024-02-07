@@ -1,5 +1,5 @@
 ---
-
+import {Navbar} from "../../components";
 const { title } = Astro.props;
 ---
 
@@ -14,9 +14,16 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<Navbar/>
+		<div class="p-5 sm:p-10 lg:px-[80px] lg:py-[32px] overflow-hidden">
+			<slot />  
+		</div>
 	</body>
 </html>
 <style>
-	
+	@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+	* {
+	   font-family: "Manrope", sans-serif;
+	}
 </style>
