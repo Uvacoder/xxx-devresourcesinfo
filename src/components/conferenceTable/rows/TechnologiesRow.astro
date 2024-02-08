@@ -1,0 +1,20 @@
+---
+import { iconsData } from "../../../data/data";
+
+const { tech } = Astro.props;
+  const findIcon = iconsData.find((obj) => obj.name === tech.name);
+---
+
+    <div>
+      <img
+        src={findIcon.image.src}
+        class="tableRowJs w-[30px] h-[31px] sm:w-[40px] sm:h-[41px]"
+        alt="javascript logo"
+      />
+      <img
+        src={findIcon.imageHover.src}
+        class="tableRowJsHover w-[30px] h-[31px] sm:w-[40px] sm:h-[41px]"
+        alt="javascript logo"
+      />
+    </div>
+

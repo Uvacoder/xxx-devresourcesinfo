@@ -1,0 +1,47 @@
+---
+import DateRow from "./rows/DateRow.astro";
+import TechnologiesRow from "./rows/TechnologiesRow.astro";
+const {data} = Astro.props;
+
+ const groupedObjects = data?.reduce((acc, obj) => {
+    const startDate = new Date(obj.node.startDate);
+    const monthYear = startDate.toLocaleString("default", {
+      month: "long",
+      year: "numeric",
+    });
+    acc[monthYear] = [...(acc[monthYear] || []), obj];
+    return acc;
+  }, {});
+---
+
+<div class="border border-neutrals-100 rounded-[8px] overflow-hidden">
+      {Object.entries(groupedObjects).map(([monthYear, arrays]) => (
+        <div>
+          <h2 class="uppercase text-[12px] tracking-[1.2px] font-[700] text-neutrals-300 py-[8px] px-[24px] bg-[#f6f6f980] border-b border-neutrals-100">
+            {monthYear}
+          </h2>
+          <ul>
+            {arrays?.map(({ node }) => (
+              <li class="confTable flex items-center border-b border-neutrals-100 bg-white hover:bg-[#f7f6fe] text-neutrals-400 hover:text-neutrals-600 cursor-pointer">
+                <DateRow node={node} />
+                <div class="w-full flex flex-col items-start py-[16px] pl-3 sm:pl-[40px] lg:pl-[64px]">
+                  <p class="tableRowTitle text-xl sm:text-2xl text-neutrals-900 font-[700]">
+                    {node.name}
+                  </p>
+                  <p class="text-neutrals-500 text-[12px] sm:text-sm">
+                    {node?.city?.name}, {node?.country[0]?.name},{" "}
+                    {node?.continent[0]?.name}
+                  </p>
+                </div>
+                <div class="min-w-[100px] sm:min-w-[200px] pl-3 sm:pl-[40px] lg:min-w-[360px] flex flex-wrap py-[16px] gap-[5px] sm:gap-[10px] items-center self-stretch text-neutrals-500 text-lg">
+                  {node.technologies.map((tech) => (
+                    <TechnologiesRow tech={tech} client:load />
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+   

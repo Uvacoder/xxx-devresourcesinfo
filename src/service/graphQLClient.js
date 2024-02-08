@@ -1,8 +1,6 @@
-import { gql } from "graphql-request";
 import { GraphQLClient } from "graphql-request";
 
 export const getClient = (preview) => {
-
   const headers = {
     "x-caisy-apikey": import.meta.env.PUBLIC_CAISY_API_KEY,
   };

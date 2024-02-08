@@ -1,4 +1,39 @@
- .primaryBtn{
-    background: linear-gradient(133deg, #C201CA 20.28%, #3129E7 83.49%);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.80);
-  }
+.primaryBtn {
+  background: linear-gradient(133deg, #c201ca 20.28%, #3129e7 83.49%);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.8);
+}
+
+.color {
+  color: #f6f6f980;
+}
+
+.confTable:hover .tableRowConf {
+  color: #535576;
+}
+
+.confTable:hover .tableRowConfYear {
+  color: #686c8f;
+}
+
+.confTable:hover .tableRowTitle {
+  background: linear-gradient(90deg, #c201ca 12.99%, #3129e7 80.48%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tableRowJs {
+  display: block;
+}
+
+.confTable:hover .tableRowJs {
+  display: none;
+}
+
+.tableRowJsHover {
+  display: none;
+}
+
+.confTable:hover .tableRowJsHover {
+  display: block;
+}
