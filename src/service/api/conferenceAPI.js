@@ -1,6 +1,7 @@
 import { getClient } from "../graphQLClient";
 import {
   allConferenceQuery,
+  upcomingConferenceQuery,
   sortedConferenceQuery,
   findConferenceByTechQuery,
   findConferenceByCityQuery,
@@ -17,7 +18,23 @@ export const getAllConferences = async () => {
       data: gqlResponse?.allConference?.edges || [],
     };
   } catch (error) {
-    console.error("Error fetching podcast data:", error);
+    console.error("Error fetching conference data:", error);
+    return { data: [] };
+  }
+};
+
+export const getUpcomingConferences = async (currentDate, endCursorValue) => {
+  const client = getClient(false);
+  try {
+    const dataQuery = upcomingConferenceQuery(currentDate, endCursorValue);
+    const gqlResponse = await client.request(dataQuery);
+    return {
+      data: gqlResponse?.allConference?.edges || [],
+      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
+      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
+    };
+  } catch (error) {
+    console.error("Error fetching conference data:", error);
     return { data: [] };
   }
 };
@@ -31,9 +48,11 @@ export const getsortedConferences = async (sortBy) => {
     const gqlResponse = await client.request(dataQuery);
     return {
       data: gqlResponse?.allConference?.edges || [],
+      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
+      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
     };
   } catch (error) {
-    console.error("Error fetching podcast data:", error);
+    console.error("Error fetching conference data:", error);
     return { data: [] };
   }
 };
@@ -45,9 +64,11 @@ export const getConferenceByTech = async (techName) => {
     const gqlResponse = await client.request(dataQuery);
     return {
       data: gqlResponse?.allConference?.edges || [],
+      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
+      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
     };
   } catch (error) {
-    console.error("Error fetching podcast data:", error);
+    console.error("Error fetching conference data:", error);
     return { data: [] };
   }
 };
@@ -59,9 +80,11 @@ export const getConferenceByCity = async (cityName) => {
     const gqlResponse = await client.request(dataQuery);
     return {
       data: gqlResponse?.allConference?.edges || [],
+      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
+      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
     };
   } catch (error) {
-    console.error("Error fetching podcast data:", error);
+    console.error("Error fetching conference data:", error);
     return { data: [] };
   }
 };
@@ -73,9 +96,11 @@ export const getConferenceByCountry = async (countryName) => {
     const gqlResponse = await client.request(dataQuery);
     return {
       data: gqlResponse?.allConference?.edges || [],
+      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
+      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
     };
   } catch (error) {
-    console.error("Error fetching podcast data:", error);
+    console.error("Error fetching conference data:", error);
     return { data: [] };
   }
 };
@@ -87,9 +112,11 @@ export const getConferenceByContinent = async (continentName) => {
     const gqlResponse = await client.request(dataQuery);
     return {
       data: gqlResponse?.allConference?.edges || [],
+      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
+      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
     };
   } catch (error) {
-    console.error("Error fetching podcast data:", error);
+    console.error("Error fetching conference data:", error);
     return { data: [] };
   }
 };

@@ -1,5 +1,7 @@
 import { gql } from "graphql-request";
 
+const dataLimit = import.meta.env.PUBLIC_CAISY_DATA_LIMIT || 20;
+
 const commonQueries = `edges {
       node {
         id
@@ -54,6 +56,16 @@ const commonQueries = `edges {
 export const allConferenceQuery = () => gql`
   query allConference {
     allConference {
+      ${commonQueries}
+    }
+  }
+`;
+
+export const upcomingConferenceQuery = (currentDate, endCursorValue) => gql`
+  query allConference {
+    allConference(first: ${dataLimit}, after: ${
+  endCursorValue ?? `""`
+}, sort: {startDate: ASC}, where: {startDate: {gte: ${currentDate}}}) {
       ${commonQueries}
     }
   }
