@@ -4,7 +4,7 @@ import { useData } from "../context/store";
 import ConferenceTable from "@/components/conferenceTable";
 import FilterBar from "@/components/filterBar";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
-import { getAllConferences } from "@/services/api/conferenceAPI";
+import { getUpcomingConferences } from "@/services/api/conferenceAPI";
 
 const Conferences = () => {
   const { state, dispatch } = useData();
@@ -13,7 +13,9 @@ const Conferences = () => {
 
   const fetchData = async () => {
     try {
-      const { data, hasEndCursor, hasNextPage } = await getAllConferences();
+      const { data, hasEndCursor, hasNextPage } = await getUpcomingConferences(
+        convertedDate
+      );
 
       dispatch({ type: "FETCH_CONFERENCES", payload: data });
     } catch (error) {
@@ -38,7 +40,11 @@ const Conferences = () => {
         A curated list of the developer conferences for {currentYear} and beyond
       </p>
       <FilterBar />
-      <ConferenceTable data={state.allConferences} />
+      {state.allConferences.length > 0 ? (
+        <ConferenceTable data={state.allConferences} />
+      ) : (
+        <p className="text-neutrals-800">Loading data...</p>
+      )}
     </main>
   );
 };

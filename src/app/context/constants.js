@@ -4,13 +4,15 @@ export const initialState = {
   countrySelected: "",
   continentSelected: "",
   techSelected: "",
-  pastConf:false
+  pastConf: false,
 };
 
 export const reducerFunc = (state, action) => {
   switch (action.type) {
     case "FETCH_CONFERENCES":
       return { ...state, allConferences: action.payload };
+    case "SET_PAST_CONFERENCES":
+      return { ...state, pastConf: action.payload };
     case "SET_CITY":
       return {
         ...state,
