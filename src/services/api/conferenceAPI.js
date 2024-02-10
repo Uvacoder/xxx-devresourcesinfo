@@ -2,6 +2,7 @@ import { getClient } from "../graphQLClient";
 import {
   allConferenceQuery,
   upcomingConferenceQuery,
+  upcomingConferenceLimitQuery,
   sortedConferenceQuery,
   findConferenceByTechQuery,
   findConferenceByCityQuery,
@@ -27,10 +28,29 @@ export const getAllConferences = async () => {
   }
 };
 
-export const getUpcomingConferences = async (currentDate, endCursorValue) => {
+export const getUpcomingConferences = async (currentDate) => {
   const client = getClient(false);
   try {
-    const dataQuery = upcomingConferenceQuery(currentDate, endCursorValue);
+    const dataQuery = upcomingConferenceQuery(currentDate);
+    const gqlResponse = await client.request(dataQuery);
+    return {
+      data: gqlResponse?.allConference?.edges || [],
+      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
+      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
+    };
+  } catch (error) {
+    console.error("Error fetching conference data:", error);
+    return { data: [] };
+  }
+};
+
+export const getUpcomingLimitConferences = async (
+  currentDate,
+  endCursorValue
+) => {
+  const client = getClient(false);
+  try {
+    const dataQuery = upcomingConferenceLimitQuery(currentDate, endCursorValue);
     const gqlResponse = await client.request(dataQuery);
     return {
       data: gqlResponse?.allConference?.edges || [],

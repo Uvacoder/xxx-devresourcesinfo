@@ -61,7 +61,18 @@ export const allConferenceQuery = () => gql`
   }
 `;
 
-export const upcomingConferenceQuery = (currentDate, endCursorValue) => gql`
+export const upcomingConferenceQuery = (currentDate) => gql`
+  query allConference {
+    allConference( sort: {startDate: ASC}, where: {startDate: {gte: ${currentDate}}}) {
+      ${commonQueries}
+    }
+  }
+`;
+
+export const upcomingConferenceLimitQuery = (
+  currentDate,
+  endCursorValue
+) => gql`
   query allConference {
     allConference(first: ${dataLimit}, after: ${
   endCursorValue ?? `""`

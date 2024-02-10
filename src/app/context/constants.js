@@ -4,6 +4,7 @@ export const initialState = {
   countrySelected: "",
   continentSelected: "",
   techSelected: "",
+  pastConf:false
 };
 
 export const reducerFunc = (state, action) => {

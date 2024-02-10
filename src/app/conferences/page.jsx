@@ -4,10 +4,7 @@ import { useData } from "../context/store";
 import ConferenceTable from "@/components/conferenceTable";
 import FilterBar from "@/components/filterBar";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
-import {
-  getUpcomingConferences,
-  getAllConferences,
-} from "@/services/api/conferenceAPI";
+import { getAllConferences } from "@/services/api/conferenceAPI";
 
 const Conferences = () => {
   const { state, dispatch } = useData();
