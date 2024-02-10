@@ -9,28 +9,30 @@ import {
   getConferenceByTech,
 } from "@/services/api/conferenceAPI";
 import { addQuotesToString } from "../../utils/utils";
+import { useData } from "@/app/context/store";
 
 const ModalContainer = ({ title, setShowModal, categoryData }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [dropDownSelected, setDropDownSelected] = useState("");
+  const { state, dispatch } = useData();
 
   const findCategoryData = [
-    { name: "City", func: getConferenceByCity, toChangeAtt: "citySelected" },
+    { name: "City", func: getConferenceByCity, toChangeAtt: "SET_CITY" },
     {
       name: "Country",
       func: getConferenceByCountry,
-      toChangeAtt: "countrySelected",
+      toChangeAtt: "SET_COUNTRY",
     },
     {
       name: "Continent",
       func: getConferenceByContinent,
-      toChangeAtt: "continentSelected",
+      toChangeAtt: "SET_CONTINENT",
     },
     {
       name: "Technology",
       func: getConferenceByTech,
-      toChangeAtt: "technologySelected",
+      toChangeAtt: "SET_TECH",
     },
   ];
 
@@ -39,13 +41,18 @@ const ModalContainer = ({ title, setShowModal, categoryData }) => {
   const getData = async (dropDownSelected) => {
     const response = await categorySelected.func(dropDownSelected);
     setShowModal(false);
-    console.log("response", response);
+    dispatch({ type: "FETCH_CONFERENCES", payload: response?.data });
+    console.log("response", state);
   };
 
   useEffect(() => {
     if (dropDownSelected) {
       const convertedStr = addQuotesToString(dropDownSelected);
       getData(convertedStr);
+      dispatch({
+        type: categorySelected.toChangeAtt,
+        payload: dropDownSelected,
+      });
     }
   }, [dropDownSelected]);
 
