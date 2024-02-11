@@ -1,4 +1,3 @@
-"use client";
 import DateRow from "./rows/DateRow";
 import TechnologiesRow from "./rows/TechnologiesRow";
 
