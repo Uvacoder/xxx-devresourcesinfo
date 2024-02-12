@@ -12,6 +12,7 @@ import {
   findAllCountriesQuery,
   findAllContinentsQuery,
   findAllTechnologiesQuery,
+  allFilterQuery,
 } from "../queries/conferenceQueries";
 
 export const getAllConferences = async () => {
@@ -197,6 +198,33 @@ export const getAllTechnologies = async () => {
     };
   } catch (error) {
     console.error("Error fetching technologies data:", error);
+    return { data: [] };
+  }
+};
+
+export const getConferenceByAllFilters = async (
+  areaSelected,
+  areaValue,
+  techSelected,
+  convertedDate
+) => {
+  const client = getClient(false);
+  try {
+    const dataQuery = allFilterQuery(
+      areaSelected,
+      areaValue,
+      techSelected,
+      convertedDate
+    );
+    const gqlResponse = await client.request(dataQuery);
+    console.log(gqlResponse.allConference.totalCount);
+    return {
+      data: gqlResponse?.allConference?.edges || [],
+      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
+      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
+    };
+  } catch (error) {
+    console.error("Error fetching conference data:", error);
     return { data: [] };
   }
 };

@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 
-const pastDate = process.env.NEXT_PAST_DATE_DATA || "2023-01-01";
+const pastDate = process.env.NEXT_PAST_DATE_DATA || `"2023-01-01"`;
 
 const commonQueries = `edges {
       node {
@@ -194,3 +194,59 @@ export const findAllTechnologiesQuery = () => gql`
     }
   }
 `;
+
+export const allFilterQuery = (
+  areaSelected,
+  areaValue,
+  techSelected,
+  convertedDate
+) => {
+  console.log({ areaValue });
+  if (convertedDate) {
+    return gql`
+  query allConference {
+    allConference(
+      sort: {startDate: ASC},
+      where: {
+        startDate: {gte: ${convertedDate}},
+        ${
+          techSelected &&
+          `technologies: {findOne: {Technology: {name: {contains: ${techSelected}}}}}`
+        },
+         ${
+           areaSelected === "city"
+             ? `city: {findOne: {City: {name: {contains: ${areaValue}}}}}`
+             : areaSelected === "continent"
+             ? `continent: {findOne: {Continent: {name: {contains: ${areaValue}}}}}`
+             : `country: {findOne: {Country: {name: {contains: ${areaValue}}}}}`
+         }
+      }
+    ) {
+        ${commonQueries}
+    }
+  }
+`;
+  } else {
+    console.log("here maybe");
+    return gql`
+  query allConference {
+    allConference(
+      sort: {startDate: ASC},
+      where: {
+         startDate: {gte: ${pastDate}},
+          ${
+            techSelected &&
+            `technologies: {findOne: {Technology: {name: {contains: ${techSelected}}}}}`
+          },
+          ${
+            areaSelected === "city" &&
+            `city: {findOne: {City: {name: {contains: ${areaValue}}}}}`
+          }
+      }
+    ) {
+        ${commonQueries}
+    }
+  }
+`;
+  }
+};

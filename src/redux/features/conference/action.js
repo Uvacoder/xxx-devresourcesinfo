@@ -9,6 +9,7 @@ import {
   getAllCountries,
   getAllContinents,
   getAllTechnologies,
+  getConferenceByAllFilters,
 } from "@/services/api/conferenceAPI";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -98,6 +99,24 @@ export const fetchAllTechnologies = createAsyncThunk(
   "conferences/getAllTechnologies",
   async () => {
     const { data, hasEndCursor, hasNextPage } = await getAllTechnologies();
+    return data;
+  }
+);
+
+export const fetchConferencesByAllFilter = createAsyncThunk(
+  "conferences/getConferenceByAllFilters",
+  async ({
+    areaSelected,
+    areaValue,
+    techSelected,
+    convertedDate,
+  }) => {
+    const { data, hasEndCursor, hasNextPage } = await getConferenceByAllFilters(
+      areaSelected,
+      areaValue,
+      techSelected,
+      convertedDate
+    );
     return data;
   }
 );

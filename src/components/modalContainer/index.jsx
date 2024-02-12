@@ -54,7 +54,7 @@ const ModalContainer = ({ title, setShowModal, categoryData }) => {
 
   return (
     <Modal onClose={closeModal}>
-      <div className="absolute top-0 left-0 z-10 w-[300px] md:top-10 p-[24px] flex flex-col gap-[16px] self-stretch bg-white border border-[##3129e73d] modalShadow rounded-[4px]">
+      <div className="absolute top-0 left-0 z-10 md:w-[300px] md:top-10 p-[24px] flex flex-col gap-[16px] self-stretch bg-white border border-[##3129e73d] modalShadow rounded-[4px]">
         <div className="w-full flex flex-col items-start gap-[8px] self-stretch">
           <p className="text-neutral-base text-[16px] font-[700] self-stretch">
             {title}

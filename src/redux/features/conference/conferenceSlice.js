@@ -6,6 +6,7 @@ import {
   fetchConferencesByCity,
   fetchConferencesByCountry,
   fetchConferencesByContinent,
+  fetchConferencesByAllFilter,
 } from "./action";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   pastConf: false,
   status: "",
   error: "",
+  todayDate: "",
 };
 
 export const conferenceSlice = createSlice({
@@ -57,6 +59,9 @@ export const conferenceSlice = createSlice({
       state.citySelected = "";
       state.techSelected = "";
       state.pastConf = action.payload;
+    },
+    setTodayDate: (state, action) => {
+      state.todayDate = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -137,6 +142,19 @@ export const conferenceSlice = createSlice({
       .addCase(fetchConferencesByContinent.rejected, (state, action) => {
         state.status = "error";
         state.error = action.error.message;
+      })
+
+      // fetchConferencesByAllFilter
+      .addCase(fetchConferencesByAllFilter.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchConferencesByAllFilter.fulfilled, (state, action) => {
+        state.status = "success";
+        state.allConferences = action.payload;
+      })
+      .addCase(fetchConferencesByAllFilter.rejected, (state, action) => {
+        state.status = "error";
+        state.error = action.error.message;
       });
   },
 });
@@ -147,6 +165,7 @@ export const {
   setContinentFilter,
   setTechFilter,
   pastConfUpdate,
+  setTodayDate,
 } = conferenceSlice.actions;
 
 export default conferenceSlice.reducer;

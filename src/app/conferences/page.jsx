@@ -4,7 +4,11 @@ import ConferenceTable from "@/components/conferenceTable";
 import ConferenceFilterBar from "@/components/conferenceFilterBar";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUpcomingConferences } from "@/redux/features/conference/action";
+import {
+  fetchUpcomingConferences,
+  fetchConferencesByAllFilter,
+} from "@/redux/features/conference/action";
+import { setTodayDate } from "@/redux/features/conference/conferenceSlice";
 
 const Conferences = () => {
   const dispatch = useDispatch();
@@ -14,8 +18,21 @@ const Conferences = () => {
 
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
+
   useEffect(() => {
+    dispatch(setTodayDate(convertedDate));
     dispatch(fetchUpcomingConferences(convertedDate));
+  }, []);
+
+  useEffect(() => {
+    dispatch(
+      fetchConferencesByAllFilter({
+        areaSelected: "continent",
+        areaValue: `"Europe"`,
+        techSelected: `"JavaScript"`,
+        convertedDate,
+      })
+    );
   }, []);
 
   const currentYear = currentDate.split("-")[0];
