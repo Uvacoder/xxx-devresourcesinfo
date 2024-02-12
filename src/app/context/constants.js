@@ -5,6 +5,7 @@ export const initialState = {
   continentSelected: "",
   techSelected: "",
   pastConf: false,
+  loading: false,
 };
 
 export const reducerFunc = (state, action) => {
@@ -45,6 +46,8 @@ export const reducerFunc = (state, action) => {
         continentSelected: "",
         techSelected: action.payload,
       };
+    case "LOADING":
+      return { ...state, loading: action.payload };
     default:
       return state;
   }

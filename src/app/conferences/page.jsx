@@ -13,13 +13,16 @@ const Conferences = () => {
 
   const fetchData = async () => {
     try {
+      dispatch({ type: "LOADING", payload: true });
       const { data, hasEndCursor, hasNextPage } = await getUpcomingConferences(
         convertedDate
       );
 
       dispatch({ type: "FETCH_CONFERENCES", payload: data });
+      dispatch({ type: "LOADING", payload: false });
     } catch (error) {
       console.log("error in fetching data", error);
+      dispatch({ type: "LOADING", payload: false });
     }
   };
 
@@ -29,7 +32,7 @@ const Conferences = () => {
   const currentYear = currentDate.split("-")[0];
 
   return (
-    <main>
+    <main className="min-h-[600px]">
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] mt-[30px] lg:mt-[40px]">
         Developers Conferences
       </h1>
@@ -40,10 +43,12 @@ const Conferences = () => {
         A curated list of the developer conferences for {currentYear} and beyond
       </p>
       <FilterBar />
-      {state.allConferences.length > 0 ? (
+      {state.loading ? (
+        <p className="text-neutrals-800">Loading data...</p>
+      ) : state.allConferences.length > 0 ? (
         <ConferenceTable data={state.allConferences} />
       ) : (
-        <p className="text-neutrals-800">Loading data...</p>
+        <p>No conferences found!</p>
       )}
     </main>
   );
