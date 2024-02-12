@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import ConferenceTable from "@/components/conferenceTable";
-import FilterBar from "@/components/filterBar";
+import ConferenceFilterBar from "@/components/conferenceFilterBar";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUpcomingConferences } from "@/redux/features/conference/action";
@@ -31,7 +31,7 @@ const Conferences = () => {
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
         A curated list of the developer conferences for {currentYear} and beyond
       </p>
-      <FilterBar />
+      <ConferenceFilterBar />
       {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>
       ) : allConferences.length > 0 ? (

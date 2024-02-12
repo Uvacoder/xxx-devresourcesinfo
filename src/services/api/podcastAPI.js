@@ -8,12 +8,13 @@ import {
 export const getAllPodcasts = async () => {
   const client = getClient(false);
   try {
-    const gqlResponse = await client.request(allPodcastQuery);
+    const dataQuery = allPodcastQuery();
+    const gqlResponse = await client.request(dataQuery);
     return {
       data: gqlResponse?.allPodcast?.edges || [],
     };
   } catch (error) {
-    console.error("Error fetching podcast data:", error);
+    console.error("Error fetching all podcast data:", error);
     return { data: [] };
   }
 };
@@ -29,7 +30,7 @@ export const getPodcastByLang = async (langSelected) => {
       hasNextPage: gqlResponse?.allPodcast?.pageInfo?.hasNextPage,
     };
   } catch (error) {
-    console.error("Error fetching podcast data:", error);
+    console.error("Error fetching podcast data by language:", error);
     return { data: [] };
   }
 };
@@ -45,7 +46,7 @@ export const getPodcastByAudience = async (audienceType) => {
       hasNextPage: gqlResponse?.allPodcast?.pageInfo?.hasNextPage,
     };
   } catch (error) {
-    console.error("Error fetching podcast data:", error);
+    console.error("Error fetching podcast data by audience:", error);
     return { data: [] };
   }
 };

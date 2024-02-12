@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 
-// const dataLimit = process.env.NEXT_PUBLIC_CAISY_DATA_LIMIT || 20;
+const pastDate = process.env.NEXT_PAST_DATE_DATA || "2023-01-01";
 
 const commonQueries = `edges {
       node {

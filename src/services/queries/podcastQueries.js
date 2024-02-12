@@ -33,7 +33,35 @@ const commonQueries = `edges {
 export const allPodcastQuery = () => gql`
   query allPodcast {
     allPodcast {
-      ${commonQueries}
+      edges {
+        node {
+          id
+          language {
+            ... on Language {
+              id
+              name
+              slug
+            }
+          }
+          name
+          target {
+            ... on Target {
+              id
+              name
+              slug
+            }
+          }
+          url
+          tags
+        }
+      }
+      totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
     }
   }
 `;

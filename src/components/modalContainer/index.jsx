@@ -3,44 +3,15 @@ import React, { useEffect, useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import Modal from "../modal";
 import { addQuotesToString } from "../../utils/utils";
-import { useDispatch } from "react-redux";
-import {
-  fetchConferencesByCity,
-  fetchConferencesByCountry,
-  fetchConferencesByContinent,
-  fetchConferencesByTech,
-} from "@/redux/features/conference/action";
-import {
-  setCityFilter,
-  setCountryFilter,
-  setContinentFilter,
-  setTechFilter,
-} from "@/redux/features/conference/conferenceSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { findCategoryData } from "@/data/modalContainerData";
 
 const ModalContainer = ({ title, setShowModal, categoryData }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [dropDownSelected, setDropDownSelected] = useState("");
   const dispatch = useDispatch();
-
-  const findCategoryData = [
-    { name: "City", func: fetchConferencesByCity, toChangeAtt: setCityFilter },
-    {
-      name: "Country",
-      func: fetchConferencesByCountry,
-      toChangeAtt: setCountryFilter,
-    },
-    {
-      name: "Continent",
-      func: fetchConferencesByContinent,
-      toChangeAtt: setContinentFilter,
-    },
-    {
-      name: "Technology",
-      func: fetchConferencesByTech,
-      toChangeAtt: setTechFilter,
-    },
-  ];
+  const conferences = useSelector(({ conferences }) => conferences);
 
   const categorySelected = findCategoryData.find(({ name }) => name === title);
 
@@ -107,7 +78,12 @@ const ModalContainer = ({ title, setShowModal, categoryData }) => {
                   {filteredDropDownData?.map((obj) => (
                     <li
                       key={obj.node.id}
-                      className="text-[14px] text-neutrals-600 font-[700] hover:bg-[#3129e714] hover:text-[#3129E7] p-[10px]"
+                      className={`text-[14px] font-[700] hover:bg-[#3129e714] hover:text-[#3129E7] p-[10px] ${
+                        conferences[categorySelected?.isActiveValue] ===
+                        obj?.node?.name
+                          ? "text-[#3129E7] bg-[#3129e714]"
+                          : "text-neutrals-600"
+                      }`}
                       onClick={(e) => handleDropDownSelected(e)}
                     >
                       {obj?.node?.name}
