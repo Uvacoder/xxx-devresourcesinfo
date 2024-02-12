@@ -1,16 +1,17 @@
 "use client";
-
-import { useData } from "@/app/context/store";
 import { useEffect, useState } from "react";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  getUpcomingConferences,
-  getAllConferences,
-} from "@/services/api/conferenceAPI";
+  fetchAllConferences,
+  fetchUpcomingConferences,
+} from "@/redux/features/conference/action";
+import { pastConfUpdate } from "@/redux/features/conference/conferenceSlice";
 
 const Switch = () => {
-  const { state, dispatch } = useData();
-  const [checked, setChecked] = useState(state.pastConf);
+  const { pastConf } = useSelector(({ conferences }) => conferences);
+  const dispatch = useDispatch();
+  const [checked, setChecked] = useState(pastConf);
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
 
@@ -19,17 +20,12 @@ const Switch = () => {
   };
 
   const fetchData = async () => {
-    dispatch({ type: "SET_PAST_CONFERENCES", payload: checked });
-    try {
-      if (checked) {
-        const response = await getAllConferences();
-        dispatch({ type: "FETCH_CONFERENCES", payload: response.data });
-      } else {
-        const response = await getUpcomingConferences(convertedDate);
-        dispatch({ type: "FETCH_CONFERENCES", payload: response.data });
-      }
-    } catch (error) {
-      console.log("Error in fetching conference data");
+    dispatch(pastConfUpdate(checked));
+
+    if (checked) {
+      dispatch(fetchAllConferences());
+    } else {
+      dispatch(fetchUpcomingConferences(convertedDate));
     }
   };
 
@@ -37,12 +33,16 @@ const Switch = () => {
     fetchData();
   }, [checked]);
 
+  useEffect(() => {
+    setChecked(pastConf);
+  }, [pastConf]);
+
   return (
     <label className="switch">
       <input
         type="checkbox"
         onChange={(e) => changeHandler()}
-        checked={state?.pastConf}
+        checked={pastConf}
       />
       <span className="slider round"></span>
     </label>

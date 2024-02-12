@@ -4,7 +4,6 @@ import DropdownWrapper from "../dropDownWrapper";
 import Switch from "../switch";
 
 const FilterBar = () => {
- 
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between items-center md:h-[48px] border border-[#3129e714] rounded-[8px] mb-[10px]">
       <div className="flex items-center p-1 pl-[12px]">

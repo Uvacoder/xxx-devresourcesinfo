@@ -2,57 +2,58 @@
 import React, { useEffect, useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import Modal from "../modal";
-import {
-  getConferenceByCity,
-  getConferenceByCountry,
-  getConferenceByContinent,
-  getConferenceByTech,
-} from "@/services/api/conferenceAPI";
 import { addQuotesToString } from "../../utils/utils";
-import { useData } from "@/app/context/store";
+import { useDispatch } from "react-redux";
+import {
+  fetchConferencesByCity,
+  fetchConferencesByCountry,
+  fetchConferencesByContinent,
+  fetchConferencesByTech,
+} from "@/redux/features/conference/action";
+import {
+  setCityFilter,
+  setCountryFilter,
+  setContinentFilter,
+  setTechFilter,
+} from "@/redux/features/conference/conferenceSlice";
 
 const ModalContainer = ({ title, setShowModal, categoryData }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [dropDownSelected, setDropDownSelected] = useState("");
-  const { state, dispatch } = useData();
+  const dispatch = useDispatch();
 
   const findCategoryData = [
-    { name: "City", func: getConferenceByCity, toChangeAtt: "SET_CITY" },
+    { name: "City", func: fetchConferencesByCity, toChangeAtt: setCityFilter },
     {
       name: "Country",
-      func: getConferenceByCountry,
-      toChangeAtt: "SET_COUNTRY",
+      func: fetchConferencesByCountry,
+      toChangeAtt: setCountryFilter,
     },
     {
       name: "Continent",
-      func: getConferenceByContinent,
-      toChangeAtt: "SET_CONTINENT",
+      func: fetchConferencesByContinent,
+      toChangeAtt: setContinentFilter,
     },
     {
       name: "Technology",
-      func: getConferenceByTech,
-      toChangeAtt: "SET_TECH",
+      func: fetchConferencesByTech,
+      toChangeAtt: setTechFilter,
     },
   ];
 
   const categorySelected = findCategoryData.find(({ name }) => name === title);
 
   const getData = async (dropDownSelected) => {
-    const response = await categorySelected.func(dropDownSelected);
     setShowModal(false);
-    dispatch({ type: "FETCH_CONFERENCES", payload: response?.data });
-    console.log("response", state);
+    dispatch(categorySelected.func(dropDownSelected));
   };
 
   useEffect(() => {
     if (dropDownSelected) {
       const convertedStr = addQuotesToString(dropDownSelected);
       getData(convertedStr);
-      dispatch({
-        type: categorySelected.toChangeAtt,
-        payload: dropDownSelected,
-      });
+      dispatch(categorySelected.toChangeAtt(dropDownSelected));
     }
   }, [dropDownSelected]);
 

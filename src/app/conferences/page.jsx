@@ -1,34 +1,23 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { useData } from "../context/store";
+import React, { useEffect } from "react";
 import ConferenceTable from "@/components/conferenceTable";
 import FilterBar from "@/components/filterBar";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
-import { getUpcomingConferences } from "@/services/api/conferenceAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUpcomingConferences } from "@/redux/features/conference/action";
 
 const Conferences = () => {
-  const { state, dispatch } = useData();
+  const dispatch = useDispatch();
+  const { allConferences, status } = useSelector(
+    ({ conferences }) => conferences
+  );
+
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
-
-  const fetchData = async () => {
-    try {
-      dispatch({ type: "LOADING", payload: true });
-      const { data, hasEndCursor, hasNextPage } = await getUpcomingConferences(
-        convertedDate
-      );
-
-      dispatch({ type: "FETCH_CONFERENCES", payload: data });
-      dispatch({ type: "LOADING", payload: false });
-    } catch (error) {
-      console.log("error in fetching data", error);
-      dispatch({ type: "LOADING", payload: false });
-    }
-  };
-
   useEffect(() => {
-    fetchData();
+    dispatch(fetchUpcomingConferences(convertedDate));
   }, []);
+
   const currentYear = currentDate.split("-")[0];
 
   return (
@@ -43,12 +32,12 @@ const Conferences = () => {
         A curated list of the developer conferences for {currentYear} and beyond
       </p>
       <FilterBar />
-      {state.loading ? (
+      {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>
-      ) : state.allConferences.length > 0 ? (
-        <ConferenceTable data={state.allConferences} />
+      ) : allConferences.length > 0 ? (
+        <ConferenceTable data={allConferences} />
       ) : (
-        <p>No conferences found!</p>
+        status === "success" && <p>No conferences found!</p>
       )}
     </main>
   );

@@ -8,32 +8,33 @@ import {
   getAllContinents,
   getAllTechnologies,
 } from "@/services/api/conferenceAPI";
-import { useData } from "@/app/context/store";
+import { useSelector } from "react-redux";
 
 const DropdownWrapper = ({ title }) => {
   const [showModal, setShowModal] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
-  const { state } = useData();
+  const { citySelected, countrySelected, continentSelected, techSelected } =
+    useSelector(({ conferences }) => conferences);
   const handleClick = () => {
     setShowModal(() => !showModal);
   };
 
   const findCategory = [
-    { name: "City", func: getAllCities, attrSelected: state?.citySelected },
+    { name: "City", func: getAllCities, attrSelected: citySelected },
     {
       name: "Country",
       func: getAllCountries,
-      attrSelected: state?.countrySelected,
+      attrSelected: countrySelected,
     },
     {
       name: "Continent",
       func: getAllContinents,
-      attrSelected: state?.continentSelected,
+      attrSelected: continentSelected,
     },
     {
       name: "Technology",
       func: getAllTechnologies,
-      attrSelected: state?.techSelected,
+      attrSelected: techSelected,
     },
   ];
 
