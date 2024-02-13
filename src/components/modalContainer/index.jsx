@@ -1,32 +1,19 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import Modal from "../modal";
-import { addQuotesToString } from "../../utils/utils";
-import { useDispatch, useSelector } from "react-redux";
 import { findCategoryData } from "@/data/modalContainerData";
+import ConferencesDropDown from "./pagesDropDown/ConferencesDropDown";
+import PodcastDropDown from "./pagesDropDown/PodcastDropDown";
 
-const ModalContainer = ({ title, setShowModal, categoryData }) => {
+const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [dropDownSelected, setDropDownSelected] = useState("");
-  const dispatch = useDispatch();
-  const conferences = useSelector(({ conferences }) => conferences);
 
   const categorySelected = findCategoryData.find(({ name }) => name === title);
 
-  const getData = async (dropDownSelected) => {
-    setShowModal(false);
-    dispatch(categorySelected.func(dropDownSelected));
-  };
-
-  useEffect(() => {
-    if (dropDownSelected) {
-      const convertedStr = addQuotesToString(dropDownSelected);
-      getData(convertedStr);
-      dispatch(categorySelected.toChangeAtt(dropDownSelected));
-    }
-  }, [dropDownSelected]);
+  let menuTitle = title.toLowerCase();
 
   const closeModal = () => {
     setShowModal(false);
@@ -76,17 +63,24 @@ const ModalContainer = ({ title, setShowModal, categoryData }) => {
               {showDropDown && (
                 <ul className="flex flex-col border border-neutrals-200 rounded-[4px] max-h-[248px] overflow-auto">
                   {filteredDropDownData?.map((obj) => (
-                    <li
-                      key={obj.node.id}
-                      className={`text-[14px] font-[700] hover:bg-[#3129e714] hover:text-[#3129E7] p-[10px] ${
-                        conferences[categorySelected?.isActiveValue] ===
-                        obj?.node?.name
-                          ? "text-[#3129E7] bg-[#3129e714]"
-                          : "text-neutrals-600"
-                      }`}
-                      onClick={(e) => handleDropDownSelected(e)}
-                    >
-                      {obj?.node?.name}
+                    <li key={obj.node.id}>
+                      {page === "conferences" ? (
+                        <ConferencesDropDown
+                          obj={obj.node}
+                          handleDropDownSelected={handleDropDownSelected}
+                          categorySelected={categorySelected}
+                          menuTitle={menuTitle}
+                          setShowModal={setShowModal}
+                        />
+                      ) : (
+                        <PodcastDropDown
+                          obj={obj.node}
+                          handleDropDownSelected={handleDropDownSelected}
+                          categorySelected={categorySelected}
+                          menuTitle={menuTitle}
+                          setShowModal={setShowModal}
+                        />
+                      )}
                     </li>
                   ))}
                 </ul>

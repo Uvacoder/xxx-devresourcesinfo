@@ -1,47 +1,59 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getCurrentDate, addQuotesToString } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchAllConferences,
-  fetchUpcomingConferences,
-} from "@/redux/features/conference/action";
+import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
 import { pastConfUpdate } from "@/redux/features/conference/conferenceSlice";
+import { addQuotesToString } from "@/utils/utils";
 
 const Switch = () => {
-  const { pastConf } = useSelector(({ conferences }) => conferences);
+  const {
+    citySelected,
+    countrySelected,
+    continentSelected,
+    techSelected,
+    pastConf,
+    todayDate,
+  } = useSelector(({ conferences }) => conferences);
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(pastConf);
-  const currentDate = getCurrentDate();
-  const convertedDate = addQuotesToString(currentDate);
 
   const changeHandler = () => {
-    setChecked(() => !checked);
+    let newCheckedValue = checked ? false : true;
+    setChecked(newCheckedValue);
+    dispatch(pastConfUpdate(newCheckedValue));
+    getData(newCheckedValue);
   };
 
-  const fetchData = async () => {
-    dispatch(pastConfUpdate(checked));
-
-    if (checked) {
-      dispatch(fetchAllConferences());
-    } else {
-      dispatch(fetchUpcomingConferences(convertedDate));
-    }
+  const getData = (newCheckedValue) => {
+    const convertCity = citySelected
+      ? addQuotesToString(citySelected)
+      : undefined;
+    const convertCountry = countrySelected
+      ? addQuotesToString(countrySelected)
+      : undefined;
+    const convertContinent = continentSelected
+      ? addQuotesToString(continentSelected)
+      : undefined;
+    const convertTech = techSelected
+      ? addQuotesToString(techSelected)
+      : undefined;
+    let convertedDate = newCheckedValue ? undefined : todayDate;
+    dispatch(
+      fetchConferencesByAllFilter({
+        citySelected: convertCity,
+        countrySelected: convertCountry,
+        continentSelected: convertContinent,
+        techSelected: convertTech,
+        convertedDate,
+      })
+    );
   };
-
-  useEffect(() => {
-    fetchData();
-  }, [checked]);
-
-  useEffect(() => {
-    setChecked(pastConf);
-  }, [pastConf]);
 
   return (
     <label className="switch">
       <input
         type="checkbox"
-        onChange={(e) => changeHandler()}
+        onChange={() => changeHandler()}
         checked={pastConf}
       />
       <span className="slider round"></span>

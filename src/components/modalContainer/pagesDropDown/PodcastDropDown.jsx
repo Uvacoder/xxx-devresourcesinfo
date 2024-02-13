@@ -9,6 +9,7 @@ const PodcastDropDown = ({
   handleDropDownSelected,
   categorySelected,
   menuTitle,
+  setShowModal,
 }) => {
   const podcasts = useSelector(({ podcasts }) => podcasts);
   const { langSelected, audienceSelected, tagSelected } = useSelector(
@@ -24,7 +25,7 @@ const PodcastDropDown = ({
       ? addQuotesToString(audienceSelected)
       : undefined;
     const convertTag = tagSelected ? addQuotesToString(tagSelected) : undefined;
-
+    setShowModal((prev) => !prev);
     if (menuTitle === "language") {
       dispatch(
         fetchPodcastByAllFilter({

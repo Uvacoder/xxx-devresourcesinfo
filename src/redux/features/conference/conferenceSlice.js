@@ -27,38 +27,21 @@ export const conferenceSlice = createSlice({
   reducers: {
     setCityFilter: (state, action) => {
       state.citySelected = action.payload;
-      state.countrySelected = "";
-      state.continentSelected = "";
-      state.techSelected = "";
-      state.pastConf = true;
     },
     setCountryFilter: (state, action) => {
       state.citySelected = "";
       state.countrySelected = action.payload;
-      state.continentSelected = "";
-      state.techSelected = "";
-      state.pastConf = true;
     },
     setContinentFilter: (state, action) => {
       state.citySelected = "";
       state.countrySelected = "";
       state.continentSelected = action.payload;
-      state.techSelected = "";
-      state.pastConf = true;
     },
     setTechFilter: (state, action) => {
-      state.countrySelected = "";
-      state.continentSelected = "";
-      state.citySelected = "";
       state.techSelected = action.payload;
-      state.pastConf = true;
     },
     pastConfUpdate: (state, action) => {
-      state.countrySelected = "";
-      state.continentSelected = "";
-      state.citySelected = "";
-      state.techSelected = "";
-      state.pastConf = action.payload;
+      state.pastConf = !state.pastConf;
     },
     setTodayDate: (state, action) => {
       state.todayDate = action.payload;

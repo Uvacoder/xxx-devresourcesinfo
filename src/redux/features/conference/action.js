@@ -106,14 +106,16 @@ export const fetchAllTechnologies = createAsyncThunk(
 export const fetchConferencesByAllFilter = createAsyncThunk(
   "conferences/getConferenceByAllFilters",
   async ({
-    areaSelected,
-    areaValue,
+    citySelected,
+    countrySelected,
+    continentSelected,
     techSelected,
     convertedDate,
   }) => {
     const { data, hasEndCursor, hasNextPage } = await getConferenceByAllFilters(
-      areaSelected,
-      areaValue,
+      citySelected,
+      countrySelected,
+      continentSelected,
       techSelected,
       convertedDate
     );

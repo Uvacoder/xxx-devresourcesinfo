@@ -201,7 +201,44 @@ export const allFilterQuery = (
   techSelected,
   convertedDate
 ) => {
-  console.log({ areaValue });
+  let techAndAreaSelected;
+  console.log({ techSelected, areaValue });
+  if (techSelected && areaValue) {
+    console.log("inside both");
+    techAndAreaSelected = `${
+      techSelected
+        ? `technologies: { findOne: { Technology: { name: { contains: ${techSelected} } } } }`
+        : ""
+    },
+            ${
+              areaValue
+                ? areaSelected === "city"
+                  ? `city: { findOne: { City: { name: { contains: ${areaValue} } } } }`
+                  : areaSelected === "continent"
+                  ? `continent: { findOne: { Continent: { name: { contains: ${areaValue} } } } }`
+                  : `country: { findOne: { Country: { name: { contains: ${areaValue} } } } }`
+                : ""
+            }`;
+  } else if (techSelected) {
+    techAndAreaSelected = `${
+      techSelected
+        ? `technologies: { findOne: { Technology: { name: { contains: ${techSelected} } } } }`
+        : ""
+    }`;
+  } else if (areaValue) {
+    techAndAreaSelected = `${
+      areaValue
+        ? areaSelected === "city"
+          ? `city: { findOne: { City: { name: { contains: ${areaValue} } } } }`
+          : areaSelected === "continent"
+          ? `continent: { findOne: { Continent: { name: { contains: ${areaValue} } } } }`
+          : `country: { findOne: { Country: { name: { contains: ${areaValue} } } } }`
+        : ""
+    }`;
+  } else {
+    techAndAreaSelected = "";
+  }
+
   if (convertedDate) {
     return gql`
   query allConference {
@@ -209,17 +246,7 @@ export const allFilterQuery = (
       sort: {startDate: ASC},
       where: {
         startDate: {gte: ${convertedDate}},
-        ${
-          techSelected &&
-          `technologies: {findOne: {Technology: {name: {contains: ${techSelected}}}}}`
-        },
-         ${
-           areaSelected === "city"
-             ? `city: {findOne: {City: {name: {contains: ${areaValue}}}}}`
-             : areaSelected === "continent"
-             ? `continent: {findOne: {Continent: {name: {contains: ${areaValue}}}}}`
-             : `country: {findOne: {Country: {name: {contains: ${areaValue}}}}}`
-         }
+        ${techAndAreaSelected}
       }
     ) {
         ${commonQueries}
@@ -227,21 +254,76 @@ export const allFilterQuery = (
   }
 `;
   } else {
-    console.log("here maybe");
+    console.log("here maybe", { techSelected, areaSelected, areaValue });
+
     return gql`
   query allConference {
     allConference(
       sort: {startDate: ASC},
       where: {
          startDate: {gte: ${pastDate}},
-          ${
-            techSelected &&
-            `technologies: {findOne: {Technology: {name: {contains: ${techSelected}}}}}`
-          },
-          ${
-            areaSelected === "city" &&
-            `city: {findOne: {City: {name: {contains: ${areaValue}}}}}`
-          }
+          ${techAndAreaSelected}
+      }
+    ) {
+        ${commonQueries}
+    }
+  }
+`;
+  }
+};
+
+//  where: {country: {findOne: {Country: {name: {contains: "United States"}}}}, technologies: {findOne: {Technology: {name: {contains: "JavaScript"}}}}, startDate: {gte: "2024-01-10"}, city: {findOne: {City: {name: {contains: "San Francisco"}}}}, continent: {findOne: {Continent: {name: {contains: "North America"}}}}}
+
+export const allConferenceFilterQuery = (
+  citySelected,
+  countrySelected,
+  continentSelected,
+  techSelected,
+  convertedDate
+) => {
+  let filtersSelected = `${
+    techSelected
+      ? `technologies: { findOne: { Technology: { name: { contains: ${techSelected} } } } }`
+      : ""
+  },
+  ${
+    citySelected
+      ? `city: { findOne: { City: { name: { contains: ${citySelected} } } } }`
+      : ""
+  }, 
+  ${
+    countrySelected
+      ? `country: { findOne: { Country: { name: { contains: ${countrySelected} } } } }`
+      : ""
+  },
+  ${
+    continentSelected
+      ? `continent: { findOne: { Continent: { name: { contains: ${continentSelected} } } } }`
+      : ""
+  }`;
+
+  if (convertedDate) {
+    return gql`
+      query allConference {
+        allConference(
+          sort: {startDate: ASC},
+          where: {
+            startDate: {gte: ${convertedDate}},
+              ${filtersSelected}
+         }
+       ) {
+           ${commonQueries}
+       }
+     }
+    `;
+  } else {
+    return gql`
+  query allConference {
+    allConference(
+      sort: {startDate: ASC},
+      where: {
+         startDate: {gte: ${pastDate}},
+          ${filtersSelected}
       }
     ) {
         ${commonQueries}

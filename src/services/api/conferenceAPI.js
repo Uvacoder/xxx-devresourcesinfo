@@ -12,7 +12,7 @@ import {
   findAllCountriesQuery,
   findAllContinentsQuery,
   findAllTechnologiesQuery,
-  allFilterQuery,
+  allConferenceFilterQuery,
 } from "../queries/conferenceQueries";
 
 export const getAllConferences = async () => {
@@ -203,21 +203,24 @@ export const getAllTechnologies = async () => {
 };
 
 export const getConferenceByAllFilters = async (
-  areaSelected,
-  areaValue,
+  citySelected,
+  countrySelected,
+  continentSelected,
   techSelected,
   convertedDate
 ) => {
   const client = getClient(false);
   try {
-    const dataQuery = allFilterQuery(
-      areaSelected,
-      areaValue,
+    const dataQuery = allConferenceFilterQuery(
+      citySelected,
+      countrySelected,
+      continentSelected,
       techSelected,
       convertedDate
     );
+
     const gqlResponse = await client.request(dataQuery);
-    console.log(gqlResponse.allConference.totalCount);
+
     return {
       data: gqlResponse?.allConference?.edges || [],
       hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
