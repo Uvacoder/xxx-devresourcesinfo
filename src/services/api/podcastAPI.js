@@ -109,11 +109,9 @@ export const getPodcastByAllFilter = async (
       audienceSelected,
       tagSelected
     );
-    console.log(
-      allPodcastFilterQuery(langSelected, audienceSelected, tagSelected)
-    );
+
     const gqlResponse = await client.request(dataQuery);
-    console.log(gqlResponse.allPodcast.totalCount);
+
     return {
       data: gqlResponse?.allPodcast?.edges || [],
     };
