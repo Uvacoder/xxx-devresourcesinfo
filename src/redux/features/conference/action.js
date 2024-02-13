@@ -1,10 +1,6 @@
 import {
   getAllConferences,
   getUpcomingConferences,
-  getConferenceByTech,
-  getConferenceByCity,
-  getConferenceByCountry,
-  getConferenceByContinent,
   getAllCities,
   getAllCountries,
   getAllContinents,
@@ -26,46 +22,6 @@ export const fetchUpcomingConferences = createAsyncThunk(
   async (convertedDate) => {
     const { data, hasEndCursor, hasNextPage } = await getUpcomingConferences(
       convertedDate
-    );
-    return data;
-  }
-);
-
-export const fetchConferencesByTech = createAsyncThunk(
-  "conferences/getConferenceByTech",
-  async (techName) => {
-    const { data, hasEndCursor, hasNextPage } = await getConferenceByTech(
-      techName
-    );
-    return data;
-  }
-);
-
-export const fetchConferencesByCity = createAsyncThunk(
-  "conferences/getConferenceByCity",
-  async (cityName) => {
-    const { data, hasEndCursor, hasNextPage } = await getConferenceByCity(
-      cityName
-    );
-    return data;
-  }
-);
-
-export const fetchConferencesByCountry = createAsyncThunk(
-  "conferences/getConferenceByCountry",
-  async (countryName) => {
-    const { data, hasEndCursor, hasNextPage } = await getConferenceByCountry(
-      countryName
-    );
-    return data;
-  }
-);
-
-export const fetchConferencesByContinent = createAsyncThunk(
-  "conferences/getConferenceByContinent",
-  async (continentName) => {
-    const { data, hasEndCursor, hasNextPage } = await getConferenceByContinent(
-      continentName
     );
     return data;
   }

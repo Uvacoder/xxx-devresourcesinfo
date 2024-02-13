@@ -2,10 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchAllConferences,
   fetchUpcomingConferences,
-  fetchConferencesByTech,
-  fetchConferencesByCity,
-  fetchConferencesByCountry,
-  fetchConferencesByContinent,
   fetchConferencesByAllFilter,
 } from "./action";
 
@@ -71,58 +67,6 @@ export const conferenceSlice = createSlice({
         state.allConferences = action.payload;
       })
       .addCase(fetchUpcomingConferences.rejected, (state, action) => {
-        state.status = "error";
-        state.error = action.error.message;
-      })
-
-      // fetchConferencesByTech
-      .addCase(fetchConferencesByTech.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchConferencesByTech.fulfilled, (state, action) => {
-        state.status = "success";
-        state.allConferences = action.payload;
-      })
-      .addCase(fetchConferencesByTech.rejected, (state, action) => {
-        state.status = "error";
-        state.error = action.error.message;
-      })
-
-      // fetchConferencesByCity
-      .addCase(fetchConferencesByCity.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchConferencesByCity.fulfilled, (state, action) => {
-        state.status = "success";
-        state.allConferences = action.payload;
-      })
-      .addCase(fetchConferencesByCity.rejected, (state, action) => {
-        state.status = "error";
-        state.error = action.error.message;
-      })
-
-      // fetchConferencesByCountry
-      .addCase(fetchConferencesByCountry.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchConferencesByCountry.fulfilled, (state, action) => {
-        state.status = "success";
-        state.allConferences = action.payload;
-      })
-      .addCase(fetchConferencesByCountry.rejected, (state, action) => {
-        state.status = "error";
-        state.error = action.error.message;
-      })
-
-      // fetchConferencesByContinent
-      .addCase(fetchConferencesByContinent.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchConferencesByContinent.fulfilled, (state, action) => {
-        state.status = "success";
-        state.allConferences = action.payload;
-      })
-      .addCase(fetchConferencesByContinent.rejected, (state, action) => {
         state.status = "error";
         state.error = action.error.message;
       })
