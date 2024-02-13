@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  fetchAllPodcasts,
-  fetchPodcastsByLang,
-  fetchPodcastsByAudience,
-  fetchPodcastByAllFilter,
-} from "./action";
+import { fetchAllPodcasts, fetchPodcastByAllFilter } from "./action";
 
 const initialState = {
   allPodcasts: [],
@@ -40,32 +35,6 @@ export const podcastSlice = createSlice({
         state.allPodcasts = action.payload;
       })
       .addCase(fetchAllPodcasts.rejected, (state, action) => {
-        state.status = "error";
-        state.error = action.error.message;
-      })
-
-      // fetchPodcastsByLang
-      .addCase(fetchPodcastsByLang.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchPodcastsByLang.fulfilled, (state, action) => {
-        state.status = "success";
-        state.allPodcasts = action.payload;
-      })
-      .addCase(fetchPodcastsByLang.rejected, (state, action) => {
-        state.status = "error";
-        state.error = action.error.message;
-      })
-
-      // fetchPodcastsByAudience
-      .addCase(fetchPodcastsByAudience.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchPodcastsByAudience.fulfilled, (state, action) => {
-        state.status = "success";
-        state.allPodcasts = action.payload;
-      })
-      .addCase(fetchPodcastsByAudience.rejected, (state, action) => {
         state.status = "error";
         state.error = action.error.message;
       })

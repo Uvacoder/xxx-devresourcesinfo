@@ -45,26 +45,6 @@ export const allPodcastQuery = () => gql`
   }
 `;
 
-export const findPodcastByLangQuery = (langSelected) => gql`
-  query allPodcast {
-    allPodcast(
-       where: {language: {findOne: {Language: {name: {contains: ${langSelected}}}}}}
-    ) {
-        ${commonQueries}
-    }
-  }
-`;
-
-export const findPodcastByAudienceQuery = (audienceType) => gql`
-  query allPodcast {
-    allPodcast(
-      where: {target: {findOne: {Target: {name: {contains: ${audienceType}}}}}}
-    ) {
-        ${commonQueries}
-    }
-  }
-`;
-
 export const findAllLangQuery = () => gql`
   query allLanguage {
     allLanguage {
