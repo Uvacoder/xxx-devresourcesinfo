@@ -11,6 +11,8 @@ const initialState = {
   countrySelected: "",
   continentSelected: "",
   techSelected: "",
+  cityId: "",
+  countryId: "",
   pastConf: false,
   status: "",
   error: "",
@@ -22,19 +24,28 @@ export const conferenceSlice = createSlice({
   initialState,
   reducers: {
     setCityFilter: (state, action) => {
-      state.citySelected = action.payload;
+      state.citySelected = action.payload.value;
+      state.cityId = action.payload.id;
     },
     setCountryFilter: (state, action) => {
       state.citySelected = "";
-      state.countrySelected = action.payload;
+      state.countrySelected = action.payload.value;
+      state.countryId = action.payload.id;
     },
     setContinentFilter: (state, action) => {
       state.citySelected = "";
       state.countrySelected = "";
-      state.continentSelected = action.payload;
+      state.continentSelected = action.payload.value;
     },
     setTechFilter: (state, action) => {
-      state.techSelected = action.payload;
+      state.techSelected = action.payload.value;
+    },
+    setOtherByCity: (state, action) => {
+      state.countrySelected = action.payload.country;
+      state.continentSelected = action.payload.continent;
+    },
+    setOtherByCountry: (state, action) => {
+      state.continentSelected = action.payload;
     },
     pastConfUpdate: (state, action) => {
       state.pastConf = !state.pastConf;
@@ -91,6 +102,8 @@ export const {
   setCountryFilter,
   setContinentFilter,
   setTechFilter,
+  setOtherByCity,
+setOtherByCountry,
   pastConfUpdate,
   setTodayDate,
 } = conferenceSlice.actions;

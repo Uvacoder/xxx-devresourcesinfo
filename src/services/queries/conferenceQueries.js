@@ -138,6 +138,41 @@ export const findAllTechnologiesQuery = () => gql`
   }
 `;
 
+export const findAreaByCityQuery = (cityId) => gql`
+  query City {
+    City(id: ${cityId}) {
+      id
+      name
+      slug
+      country {
+        continent {
+          id
+          name
+          slug
+        }
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
+export const findAreaByCountryQuery = (countryId) => gql`
+  query Country {
+    Country(id: ${countryId}) {
+      id
+      name
+      slug
+      continent {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
 export const allConferenceFilterQuery = (
   citySelected,
   countrySelected,

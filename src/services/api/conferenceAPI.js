@@ -8,6 +8,8 @@ import {
   findAllContinentsQuery,
   findAllTechnologiesQuery,
   allConferenceFilterQuery,
+  findAreaByCityQuery,
+  findAreaByCountryQuery,
 } from "../queries/conferenceQueries";
 
 export const getAllConferences = async () => {
@@ -111,6 +113,35 @@ export const getAllTechnologies = async () => {
     };
   } catch (error) {
     console.error("Error fetching technologies data:", error);
+    return { data: [] };
+  }
+};
+
+export const getAreaByCity = async (cityId) => {
+  const client = getClient(false);
+  try {
+    const dataQuery = findAreaByCityQuery(cityId);
+    const gqlResponse = await client.request(dataQuery);
+    return {
+      data: gqlResponse?.City || [],
+    };
+  } catch (error) {
+    console.error("Error fetching country and continent by city:", error);
+    return { data: [] };
+  }
+};
+
+export const getAreaByCountry = async (countryId) => {
+  const client = getClient(false);
+  try {
+    const dataQuery = findAreaByCountryQuery(countryId);
+    const gqlResponse = await client.request(dataQuery);
+
+    return {
+      data: gqlResponse?.Country || [],
+    };
+  } catch (error) {
+    console.error("Error fetching continent by country:", error);
     return { data: [] };
   }
 };
