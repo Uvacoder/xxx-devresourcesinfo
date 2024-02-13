@@ -6,12 +6,13 @@ import logo_sign from "@/assets/logo_sign.svg";
 import { menu } from "@/data/commonData";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import MobileNavbar from "../mobileNavbar";
 
 const Navbar = () => {
   let pathname = usePathname();
 
   return (
-    <header className="bg-neutral-base text-white">
+    <header className="fixed w-full z-20 bg-neutral-base text-white">
       <nav className="px-[10px] xl:px-[80px] flex justify-between sm:items-center">
         <div className="flex gap-[10px] sm:items-center">
           <div className="w-[30px] h-[30px] m-2 sm:m-0 md:w-[40px] md:h-[40px] lg:w-[48px] lg:h-[48px]">
@@ -25,7 +26,7 @@ const Navbar = () => {
             </a>
           </h1>
         </div>
-        <div className="flex gap-[10px] lg:gap-[20px] xl:gap-[32px] items-center py-[7px] sm:py-0">
+        <div className="hidden sm:flex gap-[10px] lg:gap-[20px] xl:gap-[32px] items-center py-[7px] sm:py-0">
           <ul className="hidden sm:flex gap-[10px] lg:gap-[20px] xl:gap-[32px]">
             {menu?.map((item) => {
               const isActive =
@@ -45,8 +46,8 @@ const Navbar = () => {
             })}
           </ul>
           <PrimaryBtn text="Submit New" />
-          {/* <MobileMenu /> */}
         </div>
+        <MobileNavbar menu={menu} pathname={pathname} />
       </nav>
     </header>
   );
