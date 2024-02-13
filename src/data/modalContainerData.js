@@ -10,6 +10,11 @@ import {
   setContinentFilter,
   setTechFilter,
 } from "@/redux/features/conference/conferenceSlice";
+import {
+  setLangFilter,
+  setAudienceFilter,
+  setTagFilter,
+} from "@/redux/features/podcast/podcastSlice";
 
 export const findCategoryData = [
   {
@@ -34,6 +39,21 @@ export const findCategoryData = [
     name: "Technology",
     func: fetchConferencesByTech,
     toChangeAtt: setTechFilter,
+    isActiveValue: "techSelected",
+  },
+  {
+    name: "Language",
+    toChangeAtt: setLangFilter,
+    isActiveValue: "techSelected",
+  },
+  {
+    name: "Audience",
+    toChangeAtt: setAudienceFilter,
+    isActiveValue: "techSelected",
+  },
+  {
+    name: "Tags",
+    toChangeAtt: setTagFilter,
     isActiveValue: "techSelected",
   },
 ];

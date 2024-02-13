@@ -2,6 +2,7 @@ import {
   getAllPodcasts,
   getPodcastByLang,
   getPodcastByAudience,
+  getPodcastByAllFilter,
 } from "@/services/api/podcastAPI";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -28,6 +29,18 @@ export const fetchPodcastsByAudience = createAsyncThunk(
   async (langSelected) => {
     const { data, hasEndCursor, hasNextPage } = await getPodcastByAudience(
       langSelected
+    );
+    return data;
+  }
+);
+
+export const fetchPodcastByAllFilter = createAsyncThunk(
+  "podcasts/getPodcastByAllFilter",
+  async ({ langSelected, audienceSelected, tagSelected }) => {
+    const { data, hasEndCursor, hasNextPage } = await getPodcastByAllFilter(
+      langSelected,
+      audienceSelected,
+      tagSelected
     );
     return data;
   }

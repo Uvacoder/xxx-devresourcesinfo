@@ -9,6 +9,7 @@ const DropdownWrapper = ({ title }) => {
   const [showModal, setShowModal] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
   const conferences = useSelector(({ conferences }) => conferences);
+  const podcasts = useSelector(({ podcasts }) => podcasts);
   const handleClick = () => {
     setShowModal(() => !showModal);
   };
@@ -33,7 +34,9 @@ const DropdownWrapper = ({ title }) => {
       >
         <p className="text-[13px] font-[500]">{title}</p>
         <p className="text-[#3129E7] text-[14px] font-[700] ml-[4px]">
-          {conferences[categorySelected?.attrSelected]}
+          {categorySelected.page === "conferences"
+            ? conferences[categorySelected?.attrSelected]
+            : podcasts[categorySelected?.attrSelected]}
         </p>
         <IoChevronDownSharp className="p-[1px]" />
       </button>
@@ -42,6 +45,7 @@ const DropdownWrapper = ({ title }) => {
           title={title}
           setShowModal={setShowModal}
           categoryData={categoryData}
+          page={categorySelected.page}
         />
       )}
     </div>

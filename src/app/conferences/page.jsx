@@ -4,10 +4,7 @@ import ConferenceTable from "@/components/conferenceTable";
 import ConferenceFilterBar from "@/components/conferenceFilterBar";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchUpcomingConferences,
-  fetchConferencesByAllFilter,
-} from "@/redux/features/conference/action";
+import { fetchUpcomingConferences } from "@/redux/features/conference/action";
 import { setTodayDate } from "@/redux/features/conference/conferenceSlice";
 
 const Conferences = () => {
@@ -24,21 +21,10 @@ const Conferences = () => {
     dispatch(fetchUpcomingConferences(convertedDate));
   }, []);
 
-  useEffect(() => {
-    dispatch(
-      fetchConferencesByAllFilter({
-        areaSelected: "continent",
-        areaValue: `"Europe"`,
-        techSelected: `"JavaScript"`,
-        convertedDate,
-      })
-    );
-  }, []);
-
   const currentYear = currentDate.split("-")[0];
 
   return (
-    <main className="min-h-[600px]">
+    <main className="min-h-[600px] pt-[46px] sm:pt-[64px] lg:pt-[84px]">
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] mt-[30px] lg:mt-[40px]">
         Developers Conferences
       </h1>

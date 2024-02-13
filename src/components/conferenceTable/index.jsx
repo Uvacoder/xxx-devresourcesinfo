@@ -30,9 +30,18 @@ const ConferenceTable = ({ data }) => {
                   <p className="tableRowTitle text-xl sm:text-2xl text-neutrals-900 font-[700]">
                     {node.name}
                   </p>
-                  <p className="text-neutrals-500 text-[12px] sm:text-sm">
-                    {node?.city?.name}, {node?.country[0]?.name},{" "}
-                    {node?.continent[0]?.name}
+                  <p className="flex gap-[2px] text-neutrals-500 text-[12px] sm:text-sm">
+                    <span className="hover:font-[700] hover:underline hover:text-[#3129E7]">
+                      {node?.city?.name}
+                    </span>
+                    ,
+                    <span className="hover:font-[700] hover:underline hover:text-[#3129E7]">
+                      {node?.country[0]?.name}
+                    </span>
+                    ,
+                    <span className="hover:font-[700] hover:underline hover:text-[#3129E7]">
+                      {node?.continent[0]?.name}
+                    </span>
                   </p>
                 </div>
 
