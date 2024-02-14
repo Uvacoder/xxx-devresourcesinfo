@@ -20,16 +20,16 @@ const MobileNavbar = ({ menu, pathname }) => {
       </div>
 
       {showMenu && (
-        <ul class="fixed w-full top-[40px] left-0 flex flex-col items-end gap-[10px] p-5 bg-neutral-base text-white">
+        <ul className="fixed w-full top-[40px] left-0 flex flex-col items-end gap-[10px] p-5 bg-neutral-base text-white">
           {menu.map((item) => {
             const isActive =
               pathname === item.url
                 ? "border-b-4 gradient-border-bottom font-[700]"
                 : "text-neutral-200 font-[400]";
             return (
-              <li>
+              <li key={item.text}>
                 <a
-                  class={`inline-block text-[14px] sm:text-[15px] xl:text-[16px] no-underline hover:text-white ${isActive}`}
+                  className={`inline-block text-[14px] sm:text-[15px] xl:text-[16px] no-underline hover:text-white ${isActive}`}
                   href={item.url}
                 >
                   {item.text}
