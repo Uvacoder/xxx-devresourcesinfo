@@ -83,6 +83,16 @@ const ConferenceTable = ({ data }) => {
           convertedDate,
         })
       );
+    } else if (menuTitle === "Technology") {
+      dispatch(
+        fetchConferencesByAllFilter({
+          citySelected: convertCity,
+          countrySelected: convertCountry,
+          continentSelected: convertContinent,
+          techSelected: textSelected,
+          convertedDate,
+        })
+      );
     } else {
       return;
     }
