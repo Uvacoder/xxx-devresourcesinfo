@@ -6,6 +6,7 @@ import { getCurrentDate, addQuotesToString } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUpcomingConferences } from "@/redux/features/conference/action";
 import { setTodayDate } from "@/redux/features/conference/conferenceSlice";
+import PageContainer from "@/components/pageContainer";
 
 const Conferences = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const Conferences = () => {
   const currentYear = currentDate.split("-")[0];
 
   return (
-    <main className="min-h-[750px] pt-[46px] sm:pt-[64px] lg:pt-[84px]">
+    <PageContainer>
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] mt-[30px] lg:mt-[40px]">
         Developers Conferences
       </h1>
@@ -42,7 +43,7 @@ const Conferences = () => {
       ) : (
         status === "success" && <p>No conferences found!</p>
       )}
-    </main>
+    </PageContainer>
   );
 };
 

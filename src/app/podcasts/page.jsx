@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PodcastTable from "@/components/podcastTable";
 import { fetchAllPodcasts } from "@/redux/features/podcast/action";
 import PodcastFilterBar from "@/components/podcastFilterBar";
+import PageContainer from "@/components/pageContainer";
 
 const Podcasts = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const Podcasts = () => {
   }, []);
 
   return (
-    <main className="min-h-[750px] pt-[46px] sm:pt-[64px] lg:pt-[84px]">
+    <PageContainer>
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] mt-[30px] lg:mt-[40px]">
         Podcasts
       </h1>
@@ -28,7 +29,7 @@ const Podcasts = () => {
       ) : (
         status === "success" && <p>No podcasts found!</p>
       )}
-    </main>
+    </PageContainer>
   );
 };
 

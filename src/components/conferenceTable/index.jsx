@@ -30,7 +30,7 @@ const ConferenceTable = ({ data }) => {
                   <p className="tableRowTitle text-xl sm:text-2xl text-neutrals-900 font-[700]">
                     {node.name}
                   </p>
-                  <p className="flex gap-[2px] text-neutrals-500 text-[12px] sm:text-sm">
+                  <p className="flex flex-wrap gap-[2px] text-neutrals-500 text-[12px] sm:text-sm">
                     <span className="hover:font-[700] hover:underline hover:text-[#3129E7]">
                       {node?.city?.name}
                     </span>
@@ -45,7 +45,7 @@ const ConferenceTable = ({ data }) => {
                   </p>
                 </div>
 
-                <div className="min-w-[100px] sm:min-w-[200px] pl-3 sm:pl-[40px] lg:min-w-[360px] flex flex-wrap py-[16px] gap-[5px] sm:gap-[10px] items-center self-stretch text-neutrals-500 text-lg">
+                <div className="min-w-[100px] sm:min-w-[200px] pl-3 sm:pl-[40px] lg:min-w-[360px] flex flex-wrap py-[16px] gap-[5px] sm:gap-[10px] items-center md:self-stretch text-neutrals-500 text-lg">
                   {node.technologies.map((tech, index) => (
                     <div key={tech + index}>
                       <TechnologiesRow tech={tech} />

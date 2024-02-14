@@ -3,6 +3,7 @@ import { techColors } from "@/data/commonData";
 
 const TechnologiesRow = ({ name }) => {
   const findTech = techColors.find((obj) => obj.name === name);
+
   const { lightBg, darkBg, textColor } = findTech ?? {
     lightBg: "bg-[#FDE6EB]",
     darkBg: "hover:bg-[#B72461]",

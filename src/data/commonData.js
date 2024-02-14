@@ -1,4 +1,4 @@
-import la_angular from "@/assets/la_angular.svg"
+import la_angular from "@/assets/la_angular.svg";
 import la_js_square from "@/assets/la_js_square.svg";
 import basil_apple_outline from "@/assets/basil_apple_outline.svg";
 import simple_icons_react from "@/assets/simple_icons_react.svg";

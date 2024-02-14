@@ -15,12 +15,12 @@ const Navbar = () => {
     <header className="fixed w-full z-20 bg-neutral-base text-white">
       <nav className="px-[10px] xl:px-[80px] flex justify-between sm:items-center">
         <div className="flex gap-[10px] sm:items-center">
-          <div className="w-[30px] h-[30px] m-2 sm:m-0 md:w-[40px] md:h-[40px] lg:w-[48px] lg:h-[48px]">
+          <div className="w-[30px] h-[30px] sm:w-[35px] sm:h-[35px] m-2 sm:m-0 lg:w-[40px] lg:h-[40px] xl:w-[48px] xl:h-[48px]">
             <Link href="/conferences">
               <Image src={logo_sign} alt="logo sign" />
             </Link>
           </div>
-          <h1 className="text-[28px] hidden lg:block">
+          <h1 className="text-[16px] lg:text-[23px] xl:text-[28px] hidden lg:block">
             <a href="/conferences" className="text-[#ffffffb8]">
               Dev<span className="font-bold text-white">Resources</span>
             </a>
