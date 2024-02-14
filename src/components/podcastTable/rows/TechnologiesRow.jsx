@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 const techColors = [
@@ -51,8 +52,8 @@ const techColors = [
   },
 ];
 
-const TechnologiesRow = ({ name }) => {
-  const findTech = techColors.find((obj) => obj.name === name);
+const TechnologiesRow = ({ obj, clickHandler }) => {
+  const findTech = techColors.find((tech) => tech.name === obj?.name);
 
   const { lightBg, darkBg, textColor } = findTech ?? {
     lightBg: "bg-[#FDE6EB]",
@@ -64,8 +65,9 @@ const TechnologiesRow = ({ name }) => {
     <p
       className={`text-[12px] font-[600] text-center leading-[12px] py-[5px] px-[8px] rounded-[4px] ${lightBg} ${textColor} ${darkBg}
        hover:text-white`}
+      onClick={() => clickHandler(obj?.name, "Tags")}
     >
-      {name}
+      {obj?.name}
     </p>
   );
 };
