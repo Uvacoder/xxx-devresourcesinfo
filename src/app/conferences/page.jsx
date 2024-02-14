@@ -24,7 +24,7 @@ const Conferences = () => {
   const currentYear = currentDate.split("-")[0];
 
   return (
-    <main className="min-h-[600px] pt-[46px] sm:pt-[64px] lg:pt-[84px]">
+    <main className="min-h-[750px] pt-[46px] sm:pt-[64px] lg:pt-[84px]">
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] mt-[30px] lg:mt-[40px]">
         Developers Conferences
       </h1>
