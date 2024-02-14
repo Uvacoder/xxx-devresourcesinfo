@@ -10,9 +10,15 @@ import PageContainer from "@/components/pageContainer";
 
 const Conferences = () => {
   const dispatch = useDispatch();
-  const { allConferences, status, pastConf } = useSelector(
-    ({ conferences }) => conferences
-  );
+  const {
+    allConferences,
+    status,
+    pastConf,
+    citySelected,
+    countrySelected,
+    continentSelected,
+    techSelected,
+  } = useSelector(({ conferences }) => conferences);
 
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
@@ -35,7 +41,18 @@ const Conferences = () => {
         </p>
       )}
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
-        A curated list of the developer conferences for {currentYear} and beyond
+        <span>
+          A curated list of the {techSelected && <span>{techSelected}</span>}{" "}
+          developer conferences
+        </span>
+        {citySelected && (
+          <span>
+            <span> in {citySelected}</span>
+            {countrySelected && <span>, {countrySelected}</span>}
+            {continentSelected && <span>, {continentSelected}</span>}
+          </span>
+        )}
+        {!pastConf && <span> for {currentYear} and beyond</span>}
       </p>
       <ConferenceFilterBar />
       {status === "loading" ? (
