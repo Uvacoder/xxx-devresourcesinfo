@@ -10,7 +10,7 @@ import PageContainer from "@/components/pageContainer";
 
 const Conferences = () => {
   const dispatch = useDispatch();
-  const { allConferences, status } = useSelector(
+  const { allConferences, status, pastConf } = useSelector(
     ({ conferences }) => conferences
   );
 
@@ -29,9 +29,11 @@ const Conferences = () => {
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] mt-[30px] lg:mt-[40px]">
         Developers Conferences
       </h1>
-      <p className="text-neutrals-800 font-[500] text-[25px] sm:text-[30px] lg:text-[40px]">
-        for {currentYear}
-      </p>
+      {!pastConf && (
+        <p className="text-neutrals-800 font-[500] text-[25px] sm:text-[30px] lg:text-[40px]">
+          for {currentYear}
+        </p>
+      )}
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
         A curated list of the developer conferences for {currentYear} and beyond
       </p>
