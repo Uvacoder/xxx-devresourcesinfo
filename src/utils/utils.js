@@ -28,7 +28,7 @@ export const parseDate = (dateString) => {
   ];
   const [year, month, date] = dateString.split("-");
   return {
-    mon: months[parseInt(month, 10) - 1], // Get month abbreviation from the array
+    mon: months[parseInt(month, 10) - 1],
     year: parseInt(year, 10),
     date: parseInt(date, 10),
   };
