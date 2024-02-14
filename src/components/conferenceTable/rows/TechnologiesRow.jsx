@@ -1,10 +1,11 @@
+"use client";
 import Image from "next/image";
 import { iconsData } from "@/data/commonData";
 
-const TechnologiesRow = ({ tech }) => {
+const TechnologiesRow = ({ tech, clickHandler }) => {
   const findIcon = iconsData.find((obj) => obj.name === tech.name);
   return (
-    <div>
+    <div onClick={() => clickHandler(tech?.name, "Technology", tech?.id)}>
       <Image
         src={findIcon.image}
         alt="javascript logo"
