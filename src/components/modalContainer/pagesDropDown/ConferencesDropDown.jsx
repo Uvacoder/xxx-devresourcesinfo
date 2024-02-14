@@ -110,7 +110,6 @@ const ConferencesDropDown = ({
       dispatch(setOtherByCountry(data?.continent?.name));
       getData(convertStr, data?.continent?.name);
     }
-    // getData(convertStr);
   };
 
   const clickHandler = (e) => {
