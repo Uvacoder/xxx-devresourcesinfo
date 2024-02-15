@@ -5,7 +5,7 @@ import { iconsData } from "@/data/commonData";
 const TechnologiesRow = ({ tech, clickHandler }) => {
   const findIcon = iconsData.find((obj) => obj.name === tech.name);
   return (
-    <div onClick={() => clickHandler(tech?.name, "Technology",tech?.id)}>
+    <div onClick={() => clickHandler(tech?.name, "Technology", tech?.id)}>
       <Image
         src={findIcon.image}
         alt="javascript logo"
