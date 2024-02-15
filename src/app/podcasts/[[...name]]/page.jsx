@@ -9,6 +9,7 @@ import {
   setPodcastDataByUrl,
   setPodcastStorageData,
 } from "@/redux/features/podcast/podcastSlice";
+import { addQuotesToString } from "@/utils/utils";
 
 const Podcasts = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -16,11 +17,14 @@ const Podcasts = ({ params: { name } }) => {
     useSelector(({ podcasts }) => podcasts);
 
   useEffect(() => {
-    const convertLang = langSelected
-      ? addQuotesToString(langSelected)
+    const localStorageResources =
+      JSON.parse(localStorage.getItem("devResources")) ?? {};
+
+    const convertLang = localStorageResources?.podcasts?.langSelected
+      ? addQuotesToString(localStorageResources?.podcasts?.langSelected)
       : undefined;
-    const convertAudience = audienceSelected
-      ? addQuotesToString(audienceSelected)
+    const convertAudience = localStorageResources?.podcasts?.audienceSelected
+      ? addQuotesToString(localStorageResources?.podcasts?.audienceSelected)
       : undefined;
     const convertTag = tagSelected ? addQuotesToString(tagSelected) : undefined;
 
@@ -31,9 +35,6 @@ const Podcasts = ({ params: { name } }) => {
         tagSelected: convertTag,
       })
     );
-
-    const localStorageResources =
-      JSON.parse(localStorage.getItem("devResources")) ?? {};
 
     dispatch(setPodcastStorageData(localStorageResources?.podcasts));
   }, []);

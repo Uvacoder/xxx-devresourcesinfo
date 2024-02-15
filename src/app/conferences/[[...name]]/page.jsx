@@ -28,22 +28,37 @@ const Conferences = ({ params: { name } }) => {
   const currentDate = getCurrentDate();
 
   useEffect(() => {
+    const localStorageResources =
+      JSON.parse(localStorage.getItem("devResources")) ?? {};
+
+    dispatch(setStorageData(localStorageResources?.conferences));
+
     const convertedDate = addQuotesToString(currentDate);
 
-    const convertCity = citySelected
-      ? addQuotesToString(citySelected)
+    const convertCity = localStorageResources?.conferences?.citySelected
+      ? addQuotesToString(localStorageResources?.conferences?.citySelected)
       : undefined;
-    const convertCountry = countrySelected
-      ? addQuotesToString(countrySelected)
+    const convertCountry = localStorageResources?.conferences?.countrySelected
+      ? addQuotesToString(localStorageResources?.conferences?.countrySelected)
       : undefined;
-    const convertContinent = continentSelected
-      ? addQuotesToString(continentSelected)
+    const convertContinent = localStorageResources?.conferences
+      ?.continentSelected
+      ? addQuotesToString(localStorageResources?.conferences?.continentSelected)
       : undefined;
-    const convertTech = techSelected
-      ? addQuotesToString(techSelected)
+    const convertTech = localStorageResources?.conferences?.techSelected
+      ? addQuotesToString(localStorageResources?.conferences?.techSelected)
       : undefined;
     const convertedDateStr = pastConf ? undefined : convertedDate;
 
+    dispatch(setTodayDate(convertedDateStr));
+
+    console.log({
+      citySelected: convertCity,
+      countrySelected: convertCountry,
+      continentSelected: convertContinent,
+      techSelected: convertTech,
+      convertedDate: convertedDateStr,
+    });
     dispatch(
       fetchConferencesByAllFilter({
         citySelected: convertCity,
@@ -53,12 +68,6 @@ const Conferences = ({ params: { name } }) => {
         convertedDate: convertedDateStr,
       })
     );
-
-    const localStorageResources =
-      JSON.parse(localStorage.getItem("devResources")) ?? {};
-
-    dispatch(setTodayDate(convertedDateStr));
-    dispatch(setStorageData(localStorageResources?.conferences));
   }, []);
 
   useEffect(() => {
