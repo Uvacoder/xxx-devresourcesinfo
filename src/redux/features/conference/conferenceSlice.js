@@ -5,6 +5,9 @@ import {
   fetchConferencesByAllFilter,
 } from "./action";
 
+const localStorageResources =
+  JSON.parse(localStorage.getItem("devResources")) ?? {};
+
 const initialState = {
   allConferences: [],
   citySelected: "",
@@ -23,6 +26,13 @@ export const conferenceSlice = createSlice({
   name: "conferences",
   initialState,
   reducers: {
+    setStorageData: (state, action) => {
+      state.citySelected = action.payload?.citySelected ?? "";
+      state.countrySelected = action.payload?.countrySelected ?? "";
+      state.continentSelected = action.payload?.continentSelected ?? "";
+      state.techSelected = action.payload?.techSelected ?? "";
+      state.pastConf = action.payload?.pastConf ?? false;
+    },
     setCityFilter: (state, action) => {
       state.citySelected = action.payload.value;
       state.cityId = action.payload.id;
@@ -49,9 +59,38 @@ export const conferenceSlice = createSlice({
     },
     pastConfUpdate: (state, action) => {
       state.pastConf = !state.pastConf;
+      const newData = {
+        pastConf: !state.pastConf,
+      };
+      const updateResources = {
+        ...localStorageResources,
+        conferences: { ...localStorageResources.conferences, ...newData },
+      };
+      localStorage.setItem("devResources", JSON.stringify(updateResources));
     },
     setTodayDate: (state, action) => {
       state.todayDate = action.payload;
+    },
+    clearFilters: (state, action) => {
+      state.citySelected = "";
+      state.countrySelected = "";
+      state.continentSelected = "";
+      state.techSelected = "";
+      state.pastConf = false;
+
+      const updateResources = {
+        ...localStorageResources,
+        conferences: {},
+      };
+      localStorage.setItem("devResources", JSON.stringify(updateResources));
+    },
+    setConferenceDataByUrl: (state, action) => {
+      const newData = action.payload;
+      const updateResources = {
+        ...localStorageResources,
+        conferences: newData.payload,
+      };
+      localStorage.setItem("devResources", JSON.stringify(updateResources));
     },
   },
   extraReducers: (builder) => {
@@ -98,14 +137,16 @@ export const conferenceSlice = createSlice({
 });
 
 export const {
+  setStorageData,
   setCityFilter,
   setCountryFilter,
   setContinentFilter,
   setTechFilter,
   setOtherByCity,
-setOtherByCountry,
+  setOtherByCountry,
   pastConfUpdate,
   setTodayDate,
+  setConferenceDataByUrl,
 } = conferenceSlice.actions;
 
 export default conferenceSlice.reducer;

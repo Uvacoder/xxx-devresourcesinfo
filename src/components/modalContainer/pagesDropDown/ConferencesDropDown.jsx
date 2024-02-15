@@ -82,8 +82,8 @@ const ConferencesDropDown = ({
     } else if (menuTitle === "continent") {
       dispatch(
         fetchConferencesByAllFilter({
-          citySelected: convertCity,
-          countrySelected: convertCountry,
+          citySelected: undefined,
+          countrySelected: undefined,
           continentSelected: dropDownSelected,
           techSelected: convertTech,
           convertedDate,
