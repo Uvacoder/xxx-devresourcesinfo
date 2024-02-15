@@ -10,7 +10,7 @@ import {
   setPodcastStorageData,
 } from "@/redux/features/podcast/podcastSlice";
 
-const Podcasts = () => {
+const Podcasts = ({ params: { name } }) => {
   const dispatch = useDispatch();
   const { allPodcasts, status, langSelected, audienceSelected, tagSelected } =
     useSelector(({ podcasts }) => podcasts);
