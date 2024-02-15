@@ -1,4 +1,3 @@
-"use client";
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchAllPodcasts, fetchPodcastByAllFilter } from "./action";
 
