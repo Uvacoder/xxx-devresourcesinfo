@@ -5,6 +5,7 @@ import PodcastTable from "@/components/podcastTable";
 import { fetchAllPodcasts } from "@/redux/features/podcast/action";
 import PodcastFilterBar from "@/components/podcastFilterBar";
 import PageContainer from "@/components/pageContainer";
+import Loader from "@/components/reusable/Loader";
 
 const Podcasts = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const Podcasts = () => {
       </p>
       <PodcastFilterBar />
       {status === "loading" ? (
-        <p className="text-neutrals-800">Loading data...</p>
+        <Loader />
       ) : allPodcasts.length > 0 ? (
         <PodcastTable data={allPodcasts} />
       ) : (

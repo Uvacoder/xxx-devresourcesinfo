@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUpcomingConferences } from "@/redux/features/conference/action";
 import { setTodayDate } from "@/redux/features/conference/conferenceSlice";
 import PageContainer from "@/components/pageContainer";
+import Loader from "@/components/reusable/Loader";
 
 const Conferences = () => {
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const Conferences = () => {
       </p>
       <ConferenceFilterBar />
       {status === "loading" ? (
-        <p className="text-neutrals-800">Loading data...</p>
+        <Loader />
       ) : allConferences.length > 0 ? (
         <ConferenceTable data={allConferences} />
       ) : (
