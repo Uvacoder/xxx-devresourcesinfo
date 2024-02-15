@@ -1,3 +1,4 @@
+"use client";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchAllConferences,
@@ -5,8 +6,14 @@ import {
   fetchConferencesByAllFilter,
 } from "./action";
 
-const localStorageResources =
-  JSON.parse(localStorage.getItem("devResources")) ?? {};
+const isBrowser = typeof window !== "undefined";
+
+let localStorageResources;
+
+if (isBrowser) {
+  localStorageResources =
+    JSON.parse(localStorage.getItem("devResources")) ?? {};
+}
 
 const initialState = {
   allConferences: [],

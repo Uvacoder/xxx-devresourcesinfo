@@ -1,8 +1,15 @@
+"use client";
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchAllPodcasts, fetchPodcastByAllFilter } from "./action";
 
-const localStorageResources =
-  JSON.parse(localStorage.getItem("devResources")) ?? {};
+const isBrowser = typeof window !== "undefined";
+
+let localStorageResources = {};
+
+if (isBrowser) {
+  localStorageResources =
+    JSON.parse(localStorage.getItem("devResources")) ?? {};
+}
 
 const initialState = {
   allPodcasts: [],
