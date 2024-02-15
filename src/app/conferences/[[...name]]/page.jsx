@@ -4,21 +4,17 @@ import ConferenceTable from "@/components/conferenceTable";
 import ConferenceFilterBar from "@/components/conferenceFilterBar";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchConferencesByAllFilter,
-  fetchUpcomingConferences,
-} from "@/redux/features/conference/action";
+import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
 import {
   setConferenceDataByUrl,
   setStorageData,
   setTodayDate,
 } from "@/redux/features/conference/conferenceSlice";
 import PageContainer from "@/components/pageContainer";
-import { usePathname } from "next/navigation";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
-  const pathname = usePathname();
+
   const {
     allConferences,
     status,
@@ -63,10 +59,7 @@ const Conferences = ({ params: { name } }) => {
 
     dispatch(setTodayDate(convertedDateStr));
     dispatch(setStorageData(localStorageResources?.conferences));
-    // dispatch(fetchUpcomingConferences(convertedDateStr));
   }, []);
-
-  const parts = pathname.split("/").map((part) => decodeURIComponent(part));
 
   useEffect(() => {
     if (citySelected && techSelected) {
@@ -94,7 +87,6 @@ const Conferences = ({ params: { name } }) => {
       dispatch(
         setConferenceDataByUrl({
           payload: {
-            citySelected,
             countrySelected,
             continentSelected,
             techSelected,
@@ -110,8 +102,6 @@ const Conferences = ({ params: { name } }) => {
       dispatch(
         setConferenceDataByUrl({
           payload: {
-            citySelected,
-            countrySelected,
             continentSelected,
             techSelected,
           },
@@ -122,9 +112,6 @@ const Conferences = ({ params: { name } }) => {
       dispatch(
         setConferenceDataByUrl({
           payload: {
-            citySelected,
-            countrySelected,
-            continentSelected,
             techSelected,
           },
         })
@@ -141,7 +128,6 @@ const Conferences = ({ params: { name } }) => {
             citySelected,
             countrySelected,
             continentSelected,
-            techSelected,
           },
         })
       );
@@ -154,10 +140,8 @@ const Conferences = ({ params: { name } }) => {
       dispatch(
         setConferenceDataByUrl({
           payload: {
-            citySelected,
             countrySelected,
             continentSelected,
-            techSelected,
           },
         })
       );
@@ -165,10 +149,7 @@ const Conferences = ({ params: { name } }) => {
       window.history.pushState(null, "", `/conferences/${continentSelected}`);
       dispatch(
         setConferenceDataByUrl({
-          citySelected,
-          countrySelected,
           continentSelected,
-          techSelected,
         })
       );
     } else {
