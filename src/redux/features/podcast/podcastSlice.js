@@ -28,7 +28,7 @@ export const podcastSlice = createSlice({
       state.audienceSelected = action.payload?.audienceSelected ?? "";
       state.tagSelected = action.payload?.tagSelected ?? "";
     },
-    clearFilters: (state, action) => {
+    clearPodcastFilters: (state, action) => {
       state.langSelected = "";
       state.audienceSelected = "";
       state.tagSelected = "";
@@ -92,7 +92,7 @@ export const {
   setAudienceFilter,
   setTagFilter,
   setPodcastStorageData,
-  clearFilters,
+  clearPodcastFilters,
   setPodcastDataByUrl,
 } = podcastSlice.actions;
 

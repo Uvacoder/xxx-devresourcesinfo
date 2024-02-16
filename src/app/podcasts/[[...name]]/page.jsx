@@ -2,7 +2,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PodcastTable from "@/components/podcastTable";
-import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
+import {
+  fetchAllPodcasts,
+  fetchPodcastByAllFilter,
+} from "@/redux/features/podcast/action";
 import PodcastFilterBar from "@/components/podcastFilterBar";
 import PageContainer from "@/components/pageContainer";
 import {
@@ -67,9 +70,13 @@ const Podcasts = ({ params: { name } }) => {
         })
       );
     } else {
-      return;
+      const pathname = window.location.pathname;
+      if (pathname.startsWith("/podcasts/") && pathname !== "/podcasts") {
+        window.history.replaceState(null, "", "/podcasts");
+      }
+      dispatch(fetchAllPodcasts());
     }
-  }, [langSelected, audienceSelected]);
+  }, [langSelected, audienceSelected, tagSelected]);
 
   return (
     <PageContainer>

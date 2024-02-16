@@ -4,7 +4,10 @@ import ConferenceTable from "@/components/conferenceTable";
 import ConferenceFilterBar from "@/components/conferenceFilterBar";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
+import {
+  fetchConferencesByAllFilter,
+  fetchUpcomingConferences,
+} from "@/redux/features/conference/action";
 import {
   setConferenceDataByUrl,
   setStorageData,
@@ -26,14 +29,13 @@ const Conferences = ({ params: { name } }) => {
   } = useSelector(({ conferences }) => conferences);
 
   const currentDate = getCurrentDate();
+  const convertedDate = addQuotesToString(currentDate);
 
   useEffect(() => {
     const localStorageResources =
       JSON.parse(localStorage.getItem("devResources")) ?? {};
 
     dispatch(setStorageData(localStorageResources?.conferences));
-
-    const convertedDate = addQuotesToString(currentDate);
 
     const convertCity = localStorageResources?.conferences?.citySelected
       ? addQuotesToString(localStorageResources?.conferences?.citySelected)
@@ -162,7 +164,11 @@ const Conferences = ({ params: { name } }) => {
         })
       );
     } else {
-      return;
+      const pathname = window.location.pathname;
+      if (pathname.startsWith("/conferences/") && pathname !== "/conferences") {
+        window.history.replaceState(null, "", "/conferences");
+      }
+      dispatch(fetchUpcomingConferences(convertedDate));
     }
   }, [citySelected, countrySelected, continentSelected, techSelected]);
 

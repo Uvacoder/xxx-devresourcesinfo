@@ -77,7 +77,7 @@ export const conferenceSlice = createSlice({
     setTodayDate: (state, action) => {
       state.todayDate = action.payload;
     },
-    clearFilters: (state, action) => {
+    clearConfFilters: (state, action) => {
       state.citySelected = "";
       state.countrySelected = "";
       state.continentSelected = "";
@@ -153,6 +153,7 @@ export const {
   pastConfUpdate,
   setTodayDate,
   setConferenceDataByUrl,
+  clearConfFilters,
 } = conferenceSlice.actions;
 
 export default conferenceSlice.reducer;
