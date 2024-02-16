@@ -12,7 +12,7 @@ const Navbar = () => {
   let pathname = usePathname();
 
   return (
-    <header className="fixed w-full z-20 bg-neutral-base text-white">
+    <header className="fixed w-full 4xl:w-[2000px] m-auto z-20 bg-neutral-base text-white">
       <nav className="px-[10px] xl:px-[80px] flex justify-between sm:items-center">
         <div className="flex gap-[10px] sm:items-center">
           <div className="w-[30px] h-[30px] sm:w-[35px] sm:h-[35px] m-2 sm:m-0 lg:w-[40px] lg:h-[40px] xl:w-[48px] xl:h-[48px]">
