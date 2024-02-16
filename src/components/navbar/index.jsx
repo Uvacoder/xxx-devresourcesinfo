@@ -21,7 +21,7 @@ const Navbar = () => {
             </Link>
           </div>
           <h1 className="text-[16px] lg:text-[23px] xl:text-[28px] hidden lg:block">
-            <a href="/conferences" className="text-[#ffffffb8]">
+            <a href="/conferences" className="text-whites-op-500">
               Dev<span className="font-bold text-white">Resources</span>
             </a>
           </h1>

@@ -133,9 +133,9 @@ const ConferencesDropDown = ({
 
   return (
     <div
-      className={`text-[14px] font-[700] hover:bg-[#3129e714] hover:text-[#3129E7] p-[10px] ${
+      className={`text-[14px] font-[700] hover:bg-indigos-op-100 hover:text-primary-end p-[10px] ${
         conferences[categorySelected?.isActiveValue] === obj?.name
-          ? "text-[#3129E7] bg-[#3129e714]"
+          ? "text-primary-end bg-indigos-op-100"
           : "text-neutrals-600"
       }`}
       onClick={(e) => clickHandler(e)}

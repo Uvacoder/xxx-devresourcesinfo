@@ -19,7 +19,7 @@ const DateRow = ({ node }) => {
         </span>
       </div>
       {node?.endDate && (
-        <span className="m-1 sm:m-0 text-[10px] sm:text-[16px] text-[#B1B3C8]">
+        <span className="m-1 sm:m-0 text-[10px] sm:text-[16px] text-neutrals-300">
           <FaChevronRight />
         </span>
       )}

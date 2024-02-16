@@ -18,6 +18,12 @@ module.exports = {
         "neutrals-600": "#535576",
         "neutrals-800": "#3B3C51",
         "neutrals-900": "#2C2C3B",
+        "indigos-op-100": "#3129e714",
+        "indigos-op-200": "#3129e729",
+        "indigos-op-300": "#3129e73d",
+        "grays-op-200": "#f6f6f980",
+        "whites-800": "#f7f6fe",
+        "whites-op-500": "#ffffffb8",
       },
       screens: {
         xs: "375px",

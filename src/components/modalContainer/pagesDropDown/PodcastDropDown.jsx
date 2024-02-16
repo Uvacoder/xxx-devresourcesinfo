@@ -62,9 +62,9 @@ const PodcastDropDown = ({
 
   return (
     <div
-      className={`text-[14px] font-[700] hover:bg-[#3129e714] hover:text-[#3129E7] p-[10px] ${
+      className={`text-[14px] font-[700] hover:bg-indigos-100 hover:text-primary-end p-[10px] ${
         podcasts[categorySelected?.isActiveValue] === obj?.name
-          ? "text-[#3129E7] bg-[#3129e714]"
+          ? "text-primary-end bg-indigos-100"
           : "text-neutrals-600"
       }`}
       onClick={(e) => clickHandler(e)}

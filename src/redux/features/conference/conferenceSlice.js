@@ -5,14 +5,14 @@ import {
   fetchConferencesByAllFilter,
 } from "./action";
 import { clearFiltersFromURL } from "@/utils/utils";
+import { CONFERENCES_URL, DEV_RESOURCES } from "@/utils/constants";
 
 const isBrowser = typeof window !== "undefined";
 
 let localStorageResources;
 
 if (isBrowser) {
-  localStorageResources =
-    JSON.parse(localStorage.getItem("devResources")) ?? {};
+  localStorageResources = JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
 }
 
 const initialState = {
@@ -73,7 +73,7 @@ export const conferenceSlice = createSlice({
         ...localStorageResources,
         conferences: { ...localStorageResources.conferences, ...newData },
       };
-      localStorage.setItem("devResources", JSON.stringify(updateResources));
+      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
     },
     setTodayDate: (state, action) => {
       state.todayDate = action.payload;
@@ -89,9 +89,9 @@ export const conferenceSlice = createSlice({
         ...localStorageResources,
         conferences: {},
       };
-      localStorage.setItem("devResources", JSON.stringify(updateResources));
+      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
 
-      clearFiltersFromURL("/conferences");
+      clearFiltersFromURL(CONFERENCES_URL);
     },
     setConferenceDataByUrl: (state, action) => {
       const newData = action.payload;
@@ -99,7 +99,7 @@ export const conferenceSlice = createSlice({
         ...localStorageResources,
         conferences: newData.payload,
       };
-      localStorage.setItem("devResources", JSON.stringify(updateResources));
+      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
     },
   },
   extraReducers: (builder) => {

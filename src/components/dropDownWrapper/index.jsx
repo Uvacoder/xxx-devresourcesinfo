@@ -33,7 +33,7 @@ const DropdownWrapper = ({ title }) => {
         onClick={() => handleClick()}
       >
         <p className="text-[13px] font-[500]">{title}</p>
-        <p className="text-[#3129E7] text-[14px] font-[700] ml-[4px]">
+        <p className="text-primary-end text-[14px] font-[700] ml-[4px]">
           {categorySelected.page === "conferences"
             ? conferences[categorySelected?.attrSelected]
             : podcasts[categorySelected?.attrSelected]}

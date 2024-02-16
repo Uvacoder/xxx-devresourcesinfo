@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchAllPodcasts, fetchPodcastByAllFilter } from "./action";
 import { clearFiltersFromURL } from "@/utils/utils";
+import { DEV_RESOURCES, PODCASTS_URL } from "@/utils/constants";
 
 const isBrowser = typeof window !== "undefined";
 
 let localStorageResources = {};
 
 if (isBrowser) {
-  localStorageResources =
-    JSON.parse(localStorage.getItem("devResources")) ?? {};
+  localStorageResources = JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
 }
 
 const initialState = {
@@ -38,9 +38,9 @@ export const podcastSlice = createSlice({
         ...localStorageResources,
         podcasts: {},
       };
-      localStorage.setItem("devResources", JSON.stringify(updateResources));
+      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
 
-      clearFiltersFromURL("/podcasts");
+      clearFiltersFromURL(PODCASTS_URL);
     },
     setPodcastDataByUrl: (state, action) => {
       const newData = action.payload;
@@ -48,7 +48,7 @@ export const podcastSlice = createSlice({
         ...localStorageResources,
         podcasts: newData,
       };
-      localStorage.setItem("devResources", JSON.stringify(updateResources));
+      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
     },
     setLangFilter: (state, action) => {
       state.langSelected = action.payload;
