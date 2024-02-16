@@ -11,6 +11,7 @@ import {
   setTodayDate,
 } from "@/redux/features/conference/conferenceSlice";
 import PageContainer from "@/components/pageContainer";
+import { CONFERENCES_URL, DEV_RESOURCES } from "@/utils/constants";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -26,14 +27,13 @@ const Conferences = ({ params: { name } }) => {
   } = useSelector(({ conferences }) => conferences);
 
   const currentDate = getCurrentDate();
+  const convertedDate = addQuotesToString(currentDate);
 
-  useEffect(() => {
+  const fetchData = () => {
     const localStorageResources =
-      JSON.parse(localStorage.getItem("devResources")) ?? {};
+      JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
 
     dispatch(setStorageData(localStorageResources?.conferences));
-
-    const convertedDate = addQuotesToString(currentDate);
 
     const convertCity = localStorageResources?.conferences?.citySelected
       ? addQuotesToString(localStorageResources?.conferences?.citySelected)
@@ -52,13 +52,6 @@ const Conferences = ({ params: { name } }) => {
 
     dispatch(setTodayDate(convertedDateStr));
 
-    console.log({
-      citySelected: convertCity,
-      countrySelected: convertCountry,
-      continentSelected: convertContinent,
-      techSelected: convertTech,
-      convertedDate: convertedDateStr,
-    });
     dispatch(
       fetchConferencesByAllFilter({
         citySelected: convertCity,
@@ -68,6 +61,10 @@ const Conferences = ({ params: { name } }) => {
         convertedDate: convertedDateStr,
       })
     );
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -75,7 +72,7 @@ const Conferences = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `/conferences/${techSelected}/${continentSelected}/${countrySelected}/${citySelected}`
+        `${CONFERENCES_URL}/${techSelected}/${continentSelected}/${countrySelected}/${citySelected}`
       );
       dispatch(
         setConferenceDataByUrl({
@@ -91,7 +88,7 @@ const Conferences = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `/conferences/${techSelected}/${continentSelected}/${countrySelected}`
+        `${CONFERENCES_URL}/${techSelected}/${continentSelected}/${countrySelected}`
       );
       dispatch(
         setConferenceDataByUrl({
@@ -106,7 +103,7 @@ const Conferences = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `/conferences/${techSelected}/${continentSelected}`
+        `${CONFERENCES_URL}/${techSelected}/${continentSelected}`
       );
       dispatch(
         setConferenceDataByUrl({
@@ -117,7 +114,7 @@ const Conferences = ({ params: { name } }) => {
         })
       );
     } else if (techSelected) {
-      window.history.pushState(null, "", `/conferences/${techSelected}`);
+      window.history.pushState(null, "", `${CONFERENCES_URL}/${techSelected}`);
       dispatch(
         setConferenceDataByUrl({
           payload: {
@@ -129,7 +126,7 @@ const Conferences = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `/conferences/${continentSelected}/${countrySelected}/${citySelected}`
+        `${CONFERENCES_URL}/${continentSelected}/${countrySelected}/${citySelected}`
       );
       dispatch(
         setConferenceDataByUrl({
@@ -144,7 +141,7 @@ const Conferences = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `/conferences/${continentSelected}/${countrySelected}`
+        `${CONFERENCES_URL}/${continentSelected}/${countrySelected}`
       );
       dispatch(
         setConferenceDataByUrl({
@@ -155,13 +152,14 @@ const Conferences = ({ params: { name } }) => {
         })
       );
     } else if (continentSelected) {
-      window.history.pushState(null, "", `/conferences/${continentSelected}`);
+      window.history.pushState(null, "", `${CONFERENCES_URL}/${continentSelected}`);
       dispatch(
         setConferenceDataByUrl({
           continentSelected,
         })
       );
     } else {
+      fetchData();
       return;
     }
   }, [citySelected, countrySelected, continentSelected, techSelected]);

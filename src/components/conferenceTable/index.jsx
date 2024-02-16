@@ -145,14 +145,14 @@ const ConferenceTable = ({ data }) => {
     <div className="border border-neutrals-100 rounded-[8px] overflow-hidden">
       {Object.entries(groupedObjects).map(([monthYear, arrays], index) => (
         <div key={monthYear + index}>
-          <h2 className="uppercase text-[12px] tracking-[1.2px] font-[700] text-neutrals-300 py-[8px] px-[24px] bg-[#f6f6f980] border-b border-neutrals-100">
+          <h2 className="uppercase text-[12px] tracking-[1.2px] font-[700] text-neutrals-300 py-[8px] px-[24px] bg-grays-op-200 border-b border-neutrals-100">
             {monthYear}
           </h2>
           <ul>
             {arrays?.map(({ node }, index) => (
               <li
                 key={node?.id + index}
-                className="confTable flex items-center border-b border-neutrals-100 bg-white hover:bg-[#f7f6fe] text-neutrals-400 hover:text-neutrals-600 cursor-pointer"
+                className="confTable flex items-center border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600 cursor-pointer"
               >
                 <DateRow node={node} />
                 <div className="w-full flex flex-col items-start py-[16px] pl-3 sm:pl-[40px] lg:pl-[64px]">
@@ -166,7 +166,7 @@ const ConferenceTable = ({ data }) => {
                   </a>
                   <p className="flex flex-wrap gap-[2px] text-neutrals-500 text-[12px] sm:text-sm">
                     <span
-                      className="hover:font-[700] hover:underline hover:text-[#3129E7]"
+                      className="hover:font-[700] hover:underline hover:text-primary-end"
                       onClick={() =>
                         clickHandler(node?.city?.name, "City", node?.city?.id)
                       }
@@ -175,7 +175,7 @@ const ConferenceTable = ({ data }) => {
                     </span>
                     ,
                     <span
-                      className="hover:font-[700] hover:underline hover:text-[#3129E7]"
+                      className="hover:font-[700] hover:underline hover:text-primary-end"
                       onClick={() =>
                         clickHandler(
                           node?.country[0]?.name,
@@ -188,7 +188,7 @@ const ConferenceTable = ({ data }) => {
                     </span>
                     ,
                     <span
-                      className="hover:font-[700] hover:underline hover:text-[#3129E7]"
+                      className="hover:font-[700] hover:underline hover:text-primary-end"
                       onClick={() =>
                         clickHandler(
                           node?.continent[0]?.name,

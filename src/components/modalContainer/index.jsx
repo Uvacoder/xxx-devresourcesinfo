@@ -9,7 +9,6 @@ import PodcastDropDown from "./pagesDropDown/PodcastDropDown";
 const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [dropDownSelected, setDropDownSelected] = useState("");
 
   const categorySelected = findCategoryData.find(({ name }) => name === title);
 
@@ -28,10 +27,6 @@ const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleDropDownSelected = (e) => {
-    setDropDownSelected(e.target.textContent);
-  };
-
   const filteredDropDownData =
     searchTerm.length > 0
       ? categoryData?.data.filter((obj) =>
@@ -41,7 +36,7 @@ const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
 
   return (
     <Modal onClose={closeModal}>
-      <div className="absolute top-0 left-0 z-10 md:w-[300px] md:top-10 p-[24px] flex flex-col gap-[16px] self-stretch bg-white border border-[##3129e73d] modalShadow rounded-[4px]">
+      <div className="absolute top-0 left-0 z-10 md:w-[300px] md:top-10 p-[24px] flex flex-col gap-[16px] self-stretch bg-white border border-indigos-op-300 modalShadow rounded-[4px]">
         <div className="w-full flex flex-col items-start gap-[8px] self-stretch">
           <p className="text-neutral-base text-[16px] font-[700] self-stretch">
             {title}
@@ -67,7 +62,6 @@ const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
                       {page === "conferences" ? (
                         <ConferencesDropDown
                           obj={obj.node}
-                          handleDropDownSelected={handleDropDownSelected}
                           categorySelected={categorySelected}
                           menuTitle={menuTitle}
                           setShowModal={setShowModal}
@@ -75,7 +69,6 @@ const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
                       ) : (
                         <PodcastDropDown
                           obj={obj.node}
-                          handleDropDownSelected={handleDropDownSelected}
                           categorySelected={categorySelected}
                           menuTitle={menuTitle}
                           setShowModal={setShowModal}

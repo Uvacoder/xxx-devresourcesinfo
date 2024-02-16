@@ -7,7 +7,7 @@ const MobileNavbar = ({ menu, pathname }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <div className="block sm:hidden">
+    <div className="block lg:hidden">
       <div
         className="m-[10px] mx-[8px]"
         onClick={() => setShowMenu((prev) => !prev)}
@@ -20,7 +20,7 @@ const MobileNavbar = ({ menu, pathname }) => {
       </div>
 
       {showMenu && (
-        <ul className="fixed w-full top-[40px] left-0 flex flex-col items-end gap-[10px] p-5 bg-neutral-base text-white">
+        <ul className="fixed w-full top-[43px] left-0 flex flex-col items-start gap-[10px] py-4 px-7 sm:p-5 bg-neutral-base text-white">
           {menu.map((item) => {
             const isActive =
               pathname === item.url
@@ -29,7 +29,7 @@ const MobileNavbar = ({ menu, pathname }) => {
             return (
               <li key={item.text}>
                 <a
-                  className={`inline-block text-[14px] sm:text-[15px] xl:text-[16px] no-underline hover:text-white ${isActive}`}
+                  className={`inline-block text-[18px] no-underline hover:text-white ${isActive}`}
                   href={item.url}
                 >
                   {item.text}

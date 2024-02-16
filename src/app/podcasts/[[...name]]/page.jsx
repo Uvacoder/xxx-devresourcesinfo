@@ -10,15 +10,18 @@ import {
   setPodcastStorageData,
 } from "@/redux/features/podcast/podcastSlice";
 import { addQuotesToString } from "@/utils/utils";
+import { DEV_RESOURCES, PODCASTS_URL } from "@/utils/constants";
 
 const Podcasts = ({ params: { name } }) => {
   const dispatch = useDispatch();
   const { allPodcasts, status, langSelected, audienceSelected, tagSelected } =
     useSelector(({ podcasts }) => podcasts);
 
-  useEffect(() => {
+  const fetchData = () => {
     const localStorageResources =
-      JSON.parse(localStorage.getItem("devResources")) ?? {};
+      JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
+
+    dispatch(setPodcastStorageData(localStorageResources?.podcasts));
 
     const convertLang = localStorageResources?.podcasts?.langSelected
       ? addQuotesToString(localStorageResources?.podcasts?.langSelected)
@@ -35,8 +38,10 @@ const Podcasts = ({ params: { name } }) => {
         tagSelected: convertTag,
       })
     );
+  };
 
-    dispatch(setPodcastStorageData(localStorageResources?.podcasts));
+  useEffect(() => {
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -44,7 +49,7 @@ const Podcasts = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `/podcasts/${audienceSelected}/${langSelected}`
+        `${PODCASTS_URL}/${audienceSelected}/${langSelected}`
       );
       dispatch(
         setPodcastDataByUrl({
@@ -53,23 +58,23 @@ const Podcasts = ({ params: { name } }) => {
         })
       );
     } else if (langSelected) {
-      window.history.pushState(null, "", `/podcasts/${langSelected}`);
+      window.history.pushState(null, "", `${PODCASTS_URL}/${langSelected}`);
       dispatch(
         setPodcastDataByUrl({
           langSelected,
         })
       );
     } else if (audienceSelected) {
-      window.history.pushState(null, "", `/podcasts/${audienceSelected}`);
+      window.history.pushState(null, "", `${PODCASTS_URL}/${audienceSelected}`);
       dispatch(
         setPodcastDataByUrl({
           audienceSelected,
         })
       );
     } else {
-      return;
+      fetchData();
     }
-  }, [langSelected, audienceSelected]);
+  }, [langSelected, audienceSelected, tagSelected]);
 
   return (
     <PageContainer>

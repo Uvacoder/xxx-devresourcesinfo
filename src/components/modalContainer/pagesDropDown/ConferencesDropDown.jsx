@@ -11,7 +11,6 @@ import {
 
 const ConferencesDropDown = ({
   obj,
-  handleDropDownSelected,
   categorySelected,
   menuTitle,
   setShowModal,
@@ -112,14 +111,9 @@ const ConferencesDropDown = ({
     }
   };
 
-  const clickHandler = (e) => {
-    const valueSelected = e.target.textContent;
-    const convertStr = addQuotesToString(valueSelected);
-    handleDropDownSelected(e);
-
-    dispatch(
-      categorySelected.toChangeAtt({ value: valueSelected, id: obj?.id })
-    );
+  const clickHandler = (name) => {
+    const convertStr = addQuotesToString(name);
+    dispatch(categorySelected.toChangeAtt({ value: name, id: obj?.id }));
 
     if (
       categorySelected?.name === "City" ||
@@ -133,12 +127,12 @@ const ConferencesDropDown = ({
 
   return (
     <div
-      className={`text-[14px] font-[700] hover:bg-[#3129e714] hover:text-[#3129E7] p-[10px] ${
+      className={`text-[14px] font-[700] hover:bg-indigos-op-100 hover:text-primary-end p-[10px] cursor-pointer ${
         conferences[categorySelected?.isActiveValue] === obj?.name
-          ? "text-[#3129E7] bg-[#3129e714]"
+          ? "text-primary-end bg-indigos-op-100"
           : "text-neutrals-600"
       }`}
-      onClick={(e) => clickHandler(e)}
+      onClick={() => clickHandler(obj?.name)}
     >
       {obj?.name}
     </div>

@@ -64,7 +64,7 @@ const PodcastTable = ({ data }) => {
         {data?.map(({ node }, index) => (
           <li
             key={node?.id + index}
-            className="confTable flex justify-between items-center gap-2 border-b border-neutrals-100 bg-white hover:bg-[#f7f6fe] text-neutrals-400 hover:text-neutrals-600 cursor-pointer py-[16px] px-[16px] md:px-[24px]"
+            className="confTable flex justify-between items-center gap-2 border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600 cursor-pointer py-[16px] px-[16px] md:px-[24px]"
           >
             <div className="w-full flex flex-col items-start">
               <a
