@@ -12,21 +12,21 @@ const Navbar = () => {
   let pathname = usePathname();
 
   return (
-    <header className="fixed w-full z-20 bg-neutral-base text-white px-[10px] xl:px-[80px]">
+    <header className="fixed w-full z-20 bg-neutral-base text-white px-[15px] lg:px-[75px] xl:px-[80px]">
       <nav className="max-w-[1400px] m-auto flex justify-between sm:items-center">
-        <div className="flex gap-[10px] sm:items-center">
+        <div className="flex sm:gap-[10px] items-center sm:py-2">
           <div className="w-[30px] h-[30px] sm:w-[35px] sm:h-[35px] m-2 sm:m-0 lg:w-[40px] lg:h-[40px] xl:w-[48px] xl:h-[48px]">
             <Link href="/conferences">
               <Image src={logo_sign} alt="logo sign" />
             </Link>
           </div>
-          <h1 className="text-[16px] lg:text-[23px] xl:text-[28px] hidden lg:block">
+          <h1 className="text-[19px] lg:text-[24px] xl:text-[28px]">
             <a href="/conferences" className="text-whites-op-500">
               Dev<span className="font-bold text-white">Resources</span>
             </a>
           </h1>
         </div>
-        <div className="hidden sm:flex gap-[10px] lg:gap-[20px] xl:gap-[32px] items-center py-[7px] sm:py-0">
+        <div className="hidden lg:flex gap-[10px] lg:gap-[20px] xl:gap-[32px] items-center py-[7px] sm:py-0">
           <ul className="hidden sm:flex gap-[10px] lg:gap-[20px] xl:gap-[32px]">
             {menu?.map((item) => {
               const isActive =
@@ -37,7 +37,7 @@ const Navbar = () => {
               return (
                 <Link
                   key={item.text}
-                  className={`inline-block text-[12px] sm:text-[13px] xl:text-[16px] leading-[60px] lg:leading-[80px] no-underline hover:text-white ${isActive}`}
+                  className={`inline-block text-[14px] xl:text-[16px] leading-[60px] lg:leading-[80px] no-underline hover:text-white ${isActive}`}
                   href={item.url}
                 >
                   {item.text}
