@@ -49,7 +49,12 @@ const PodcastFilterBar = () => {
           />
           <DropdownWrapper title="Tags" />
         </div>
-        {isFilter && <ClearBtn clickHandler={clearFilterHandler} />}
+        {isFilter && (
+          <div className="flex items-center">
+            <span className="w-[1px] h-[24px] mx-[8px] bg-[#D6D6E1]"></span>
+            <ClearBtn clickHandler={clearFilterHandler} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -32,10 +32,10 @@ const ConferenceFilterBar = () => {
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between items-center md:h-[48px] border border-[#3129e714] rounded-[8px] mb-[10px]">
       <div className="flex items-center p-1 pl-[12px]">
-        <span className="text-neutrals-300">
+        <span className="text-neutrals-300 pl-[8px]">
           <RiMapPin2Line className="w-[18px] h-[18px]" />
         </span>
-        <div className="flex gap-[4px] items-center">
+        <div className="flex gap-[8px] items-center">
           <DropdownWrapper title="City" />
           <span className="w-[1px] h-[18px] bg-[#ECECF2]"></span>
           <DropdownWrapper title="Country" />
@@ -43,13 +43,18 @@ const ConferenceFilterBar = () => {
           <DropdownWrapper title="Continent" />
         </div>
         <span className="w-[1px] h-[24px] mx-[8px] bg-[#D6D6E1]"></span>
-        <div className="flex items-center px-[4px]">
+        <div className="flex items-center px-[8px]">
           <MdOutlineHandyman className="text-neutrals-300 w-[18px] h-[18px]" />
           <DropdownWrapper title="Technology" />
         </div>
-        {isFilter && <ClearBtn clickHandler={clearFilterHandler} />}
+        {isFilter && (
+          <div className="flex items-center">
+            <span className="w-[1px] h-[24px] mx-[8px] bg-[#D6D6E1]"></span>
+            <ClearBtn clickHandler={clearFilterHandler} />
+          </div>
+        )}
       </div>
-      <div className="flex items-center gap-[8px] mx-[16px]">
+      <div className="flex items-center gap-[8px] mx-[16px] pr-[8px]">
         <Switch />
         <span className="text-[14px] text-neutrals-600 leading-[21px]">
           Show past conferences
