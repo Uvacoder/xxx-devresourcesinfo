@@ -4,10 +4,7 @@ import ConferenceTable from "@/components/conferenceTable";
 import ConferenceFilterBar from "@/components/conferenceFilterBar";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchConferencesByAllFilter,
-  fetchUpcomingConferences,
-} from "@/redux/features/conference/action";
+import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
 import {
   setConferenceDataByUrl,
   setStorageData,
@@ -31,7 +28,7 @@ const Conferences = ({ params: { name } }) => {
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
 
-  useEffect(() => {
+  const fetchData = () => {
     const localStorageResources =
       JSON.parse(localStorage.getItem("devResources")) ?? {};
 
@@ -54,13 +51,6 @@ const Conferences = ({ params: { name } }) => {
 
     dispatch(setTodayDate(convertedDateStr));
 
-    console.log({
-      citySelected: convertCity,
-      countrySelected: convertCountry,
-      continentSelected: convertContinent,
-      techSelected: convertTech,
-      convertedDate: convertedDateStr,
-    });
     dispatch(
       fetchConferencesByAllFilter({
         citySelected: convertCity,
@@ -70,6 +60,10 @@ const Conferences = ({ params: { name } }) => {
         convertedDate: convertedDateStr,
       })
     );
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -164,11 +158,8 @@ const Conferences = ({ params: { name } }) => {
         })
       );
     } else {
-      const pathname = window.location.pathname;
-      if (pathname.startsWith("/conferences/") && pathname !== "/conferences") {
-        window.history.replaceState(null, "", "/conferences");
-      }
-      dispatch(fetchUpcomingConferences(convertedDate));
+      fetchData();
+      return;
     }
   }, [citySelected, countrySelected, continentSelected, techSelected]);
 

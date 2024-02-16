@@ -4,6 +4,7 @@ import {
   fetchUpcomingConferences,
   fetchConferencesByAllFilter,
 } from "./action";
+import { clearFiltersFromURL } from "@/utils/utils";
 
 const isBrowser = typeof window !== "undefined";
 
@@ -89,6 +90,8 @@ export const conferenceSlice = createSlice({
         conferences: {},
       };
       localStorage.setItem("devResources", JSON.stringify(updateResources));
+
+      clearFiltersFromURL("/conferences");
     },
     setConferenceDataByUrl: (state, action) => {
       const newData = action.payload;

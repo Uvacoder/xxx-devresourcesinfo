@@ -19,7 +19,7 @@ const Podcasts = ({ params: { name } }) => {
   const { allPodcasts, status, langSelected, audienceSelected, tagSelected } =
     useSelector(({ podcasts }) => podcasts);
 
-  useEffect(() => {
+  const fetchData = () => {
     const localStorageResources =
       JSON.parse(localStorage.getItem("devResources")) ?? {};
 
@@ -38,7 +38,12 @@ const Podcasts = ({ params: { name } }) => {
         tagSelected: convertTag,
       })
     );
+  };
 
+  useEffect(() => {
+    const localStorageResources =
+      JSON.parse(localStorage.getItem("devResources")) ?? {};
+    fetchData();
     dispatch(setPodcastStorageData(localStorageResources?.podcasts));
   }, []);
 
@@ -70,11 +75,7 @@ const Podcasts = ({ params: { name } }) => {
         })
       );
     } else {
-      const pathname = window.location.pathname;
-      if (pathname.startsWith("/podcasts/") && pathname !== "/podcasts") {
-        window.history.replaceState(null, "", "/podcasts");
-      }
-      dispatch(fetchAllPodcasts());
+      fetchData();
     }
   }, [langSelected, audienceSelected, tagSelected]);
 

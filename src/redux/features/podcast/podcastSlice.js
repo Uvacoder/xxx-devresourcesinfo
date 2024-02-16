@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchAllPodcasts, fetchPodcastByAllFilter } from "./action";
+import { clearFiltersFromURL } from "@/utils/utils";
 
 const isBrowser = typeof window !== "undefined";
 
@@ -38,6 +39,8 @@ export const podcastSlice = createSlice({
         podcasts: {},
       };
       localStorage.setItem("devResources", JSON.stringify(updateResources));
+
+      clearFiltersFromURL("/podcasts");
     },
     setPodcastDataByUrl: (state, action) => {
       const newData = action.payload;
