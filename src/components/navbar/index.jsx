@@ -37,7 +37,7 @@ const Navbar = () => {
               return (
                 <Link
                   key={item.text}
-                  className={`inline-block text-[14px] xl:text-[16px] leading-[60px] lg:leading-[80px] no-underline hover:text-white ${isActive}`}
+                  className={`inline-block h-[80px] text-[14px] xl:text-[16px] leading-[60px] lg:leading-[80px] no-underline hover:text-white ${isActive}`}
                   href={item.url}
                 >
                   {item.text}
