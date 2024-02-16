@@ -2,10 +2,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PodcastTable from "@/components/podcastTable";
-import {
-  fetchAllPodcasts,
-  fetchPodcastByAllFilter,
-} from "@/redux/features/podcast/action";
+import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
 import PodcastFilterBar from "@/components/podcastFilterBar";
 import PageContainer from "@/components/pageContainer";
 import {
@@ -13,6 +10,7 @@ import {
   setPodcastStorageData,
 } from "@/redux/features/podcast/podcastSlice";
 import { addQuotesToString } from "@/utils/utils";
+import { DEV_RESOURCES, PODCASTS_URL } from "@/utils/constants";
 
 const Podcasts = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -21,7 +19,9 @@ const Podcasts = ({ params: { name } }) => {
 
   const fetchData = () => {
     const localStorageResources =
-      JSON.parse(localStorage.getItem("devResources")) ?? {};
+      JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
+
+    dispatch(setPodcastStorageData(localStorageResources?.podcasts));
 
     const convertLang = localStorageResources?.podcasts?.langSelected
       ? addQuotesToString(localStorageResources?.podcasts?.langSelected)
@@ -41,10 +41,7 @@ const Podcasts = ({ params: { name } }) => {
   };
 
   useEffect(() => {
-    const localStorageResources =
-      JSON.parse(localStorage.getItem("devResources")) ?? {};
     fetchData();
-    dispatch(setPodcastStorageData(localStorageResources?.podcasts));
   }, []);
 
   useEffect(() => {
@@ -52,7 +49,7 @@ const Podcasts = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `/podcasts/${audienceSelected}/${langSelected}`
+        `${PODCASTS_URL}/${audienceSelected}/${langSelected}`
       );
       dispatch(
         setPodcastDataByUrl({
@@ -61,14 +58,14 @@ const Podcasts = ({ params: { name } }) => {
         })
       );
     } else if (langSelected) {
-      window.history.pushState(null, "", `/podcasts/${langSelected}`);
+      window.history.pushState(null, "", `${PODCASTS_URL}/${langSelected}`);
       dispatch(
         setPodcastDataByUrl({
           langSelected,
         })
       );
     } else if (audienceSelected) {
-      window.history.pushState(null, "", `/podcasts/${audienceSelected}`);
+      window.history.pushState(null, "", `${PODCASTS_URL}/${audienceSelected}`);
       dispatch(
         setPodcastDataByUrl({
           audienceSelected,
