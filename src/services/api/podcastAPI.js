@@ -58,7 +58,7 @@ export const getAllTags = async () => {
       data: gqlResponse?.allTechnology?.edges || [],
     };
   } catch (error) {
-    console.error("Error fetching technologies data:", error);
+    console.error("Error fetching all technologies data:", error);
     return { data: [] };
   }
 };
@@ -83,7 +83,7 @@ export const getPodcastByAllFilter = async (
     };
   } catch (error) {
     console.error(
-      "Error fetching all Podcast data by applying filters:",
+      "Error fetching all Podcast data:",
       error
     );
     return { data: [] };
