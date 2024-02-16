@@ -50,13 +50,13 @@ export const blogSlice = createSlice({
       };
       localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
     },
-    setLangFilter: (state, action) => {
+    setBlogLangFilter: (state, action) => {
       state.langSelected = action.payload;
     },
-    setAudienceFilter: (state, action) => {
+    setBlogAudienceFilter: (state, action) => {
       state.audienceSelected = action.payload;
     },
-    setTagFilter: (state, action) => {
+    setBlogTagFilter: (state, action) => {
       state.tagSelected = action.payload;
     },
   },

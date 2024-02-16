@@ -20,7 +20,7 @@ const initialState = {
   error: "",
 };
 
-export const YoutubeSlice = createSlice({
+export const youtubeSlice = createSlice({
   name: "youtube",
   initialState,
   reducers: {
@@ -69,7 +69,7 @@ export const YoutubeSlice = createSlice({
       })
       .addCase(fetchYoutubeByAllFilter.fulfilled, (state, action) => {
         state.status = "success";
-        state.allYoutubes = action.payload;
+        state.allYoutube = action.payload;
       })
       .addCase(fetchYoutubeByAllFilter.rejected, (state, action) => {
         state.status = "error";
