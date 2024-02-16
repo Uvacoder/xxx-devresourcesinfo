@@ -1,6 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchAllPodcasts, fetchPodcastByAllFilter } from "./action";
 
+const isBrowser = typeof window !== "undefined";
+
+let localStorageResources = {};
+
+if (isBrowser) {
+  localStorageResources =
+    JSON.parse(localStorage.getItem("devResources")) ?? {};
+}
+
 const initialState = {
   allPodcasts: [],
   langSelected: "",
@@ -14,6 +23,30 @@ export const podcastSlice = createSlice({
   name: "podcasts",
   initialState,
   reducers: {
+    setPodcastStorageData: (state, action) => {
+      state.langSelected = action.payload?.langSelected ?? "";
+      state.audienceSelected = action.payload?.audienceSelected ?? "";
+      state.tagSelected = action.payload?.tagSelected ?? "";
+    },
+    clearFilters: (state, action) => {
+      state.langSelected = "";
+      state.audienceSelected = "";
+      state.tagSelected = "";
+
+      const updateResources = {
+        ...localStorageResources,
+        podcasts: {},
+      };
+      localStorage.setItem("devResources", JSON.stringify(updateResources));
+    },
+    setPodcastDataByUrl: (state, action) => {
+      const newData = action.payload;
+      const updateResources = {
+        ...localStorageResources,
+        podcasts: newData,
+      };
+      localStorage.setItem("devResources", JSON.stringify(updateResources));
+    },
     setLangFilter: (state, action) => {
       state.langSelected = action.payload;
     },
@@ -54,7 +87,13 @@ export const podcastSlice = createSlice({
   },
 });
 
-export const { setLangFilter, setAudienceFilter, setTagFilter } =
-  podcastSlice.actions;
+export const {
+  setLangFilter,
+  setAudienceFilter,
+  setTagFilter,
+  setPodcastStorageData,
+  clearFilters,
+  setPodcastDataByUrl,
+} = podcastSlice.actions;
 
 export default podcastSlice.reducer;

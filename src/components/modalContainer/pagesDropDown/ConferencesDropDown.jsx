@@ -82,8 +82,8 @@ const ConferencesDropDown = ({
     } else if (menuTitle === "continent") {
       dispatch(
         fetchConferencesByAllFilter({
-          citySelected: convertCity,
-          countrySelected: convertCountry,
+          citySelected: undefined,
+          countrySelected: undefined,
           continentSelected: dropDownSelected,
           techSelected: convertTech,
           convertedDate,
@@ -110,7 +110,6 @@ const ConferencesDropDown = ({
       dispatch(setOtherByCountry(data?.continent?.name));
       getData(convertStr, data?.continent?.name);
     }
-    // getData(convertStr);
   };
 
   const clickHandler = (e) => {

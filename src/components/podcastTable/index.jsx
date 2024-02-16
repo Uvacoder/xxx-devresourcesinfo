@@ -67,9 +67,14 @@ const PodcastTable = ({ data }) => {
             className="confTable flex justify-between items-center gap-2 border-b border-neutrals-100 bg-white hover:bg-[#f7f6fe] text-neutrals-400 hover:text-neutrals-600 cursor-pointer py-[16px] px-[16px] md:px-[24px]"
           >
             <div className="w-full flex flex-col items-start">
-              <p className="tableRowTitle text-xl sm:text-2xl text-neutrals-900 font-[700]">
+              <a
+                className="inline-block tableRowTitle text-xl sm:text-2xl text-neutrals-900 font-[700]"
+                href={node.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {node.name}
-              </p>
+              </a>
               <div className="flex gap-[10px] sm:gap-[16px] flex-wrap mt-[6.5px] text-neutrals-600 text-[12px] sm:text-sm">
                 <p
                   className="flex items-center gap-[4px]"
