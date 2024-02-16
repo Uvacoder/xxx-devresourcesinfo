@@ -9,7 +9,6 @@ import PodcastDropDown from "./pagesDropDown/PodcastDropDown";
 const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [dropDownSelected, setDropDownSelected] = useState("");
 
   const categorySelected = findCategoryData.find(({ name }) => name === title);
 
@@ -26,10 +25,6 @@ const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
   const handleSearch = (e) => {
     setShowDropDown(true);
     setSearchTerm(e.target.value);
-  };
-
-  const handleDropDownSelected = (e) => {
-    setDropDownSelected(e.target.textContent);
   };
 
   const filteredDropDownData =
@@ -67,7 +62,6 @@ const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
                       {page === "conferences" ? (
                         <ConferencesDropDown
                           obj={obj.node}
-                          handleDropDownSelected={handleDropDownSelected}
                           categorySelected={categorySelected}
                           menuTitle={menuTitle}
                           setShowModal={setShowModal}
@@ -75,7 +69,6 @@ const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
                       ) : (
                         <PodcastDropDown
                           obj={obj.node}
-                          handleDropDownSelected={handleDropDownSelected}
                           categorySelected={categorySelected}
                           menuTitle={menuTitle}
                           setShowModal={setShowModal}

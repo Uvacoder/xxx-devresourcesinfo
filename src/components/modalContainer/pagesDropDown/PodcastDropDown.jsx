@@ -6,7 +6,6 @@ import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
 
 const PodcastDropDown = ({
   obj,
-  handleDropDownSelected,
   categorySelected,
   menuTitle,
   setShowModal,
@@ -53,21 +52,20 @@ const PodcastDropDown = ({
     }
   };
 
-  const clickHandler = (e) => {
-    const convertStr = addQuotesToString(e.target.textContent);
-    handleDropDownSelected(e);
+  const clickHandler = (name) => {
+    const convertStr = addQuotesToString(name);
     getData(convertStr);
-    dispatch(categorySelected.toChangeAtt(e.target.textContent));
+    dispatch(categorySelected.toChangeAtt(name));
   };
 
   return (
     <div
-      className={`text-[14px] font-[700] hover:bg-indigos-100 hover:text-primary-end p-[10px] ${
+      className={`text-[14px] font-[700] hover:bg-indigos-op-100 hover:text-primary-end p-[10px] cursor-pointer ${
         podcasts[categorySelected?.isActiveValue] === obj?.name
           ? "text-primary-end bg-indigos-100"
           : "text-neutrals-600"
       }`}
-      onClick={(e) => clickHandler(e)}
+      onClick={() => clickHandler(obj?.name)}
     >
       {obj?.name}
     </div>
