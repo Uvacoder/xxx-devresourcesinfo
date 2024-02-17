@@ -1,22 +1,23 @@
 "use client";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PodcastTable from "@/components/podcastTable";
 import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
-import PodcastFilterBar from "@/components/podcastFilterBar";
 import PageContainer from "@/components/pageContainer";
 import {
+  clearPodcastFilters,
   setPodcastDataByUrl,
   setPodcastStorageData,
 } from "@/redux/features/podcast/podcastSlice";
 import { addQuotesToString } from "@/utils/utils";
 import { DEV_RESOURCES, PODCASTS_URL } from "@/utils/constants";
+import AudienceFilterBar from "@/components/audienceFilterBar";
+import AudienceTable from "@/components/audienceTable";
 
 const Podcasts = ({ params: { name } }) => {
   const dispatch = useDispatch();
+  const podcasts = useSelector(({ podcasts }) => podcasts);
   const { allPodcasts, status, langSelected, audienceSelected, tagSelected } =
-    useSelector(({ podcasts }) => podcasts);
-
+    podcasts;
   const fetchData = () => {
     const localStorageResources =
       JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
@@ -95,11 +96,20 @@ const Podcasts = ({ params: { name } }) => {
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
         A curated list of the Podcasts
       </p>
-      <PodcastFilterBar />
+      <AudienceFilterBar
+        page="podcasts"
+        pageState={podcasts}
+        clearFunc={clearPodcastFilters}
+      />
       {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>
       ) : allPodcasts.length > 0 ? (
-        <PodcastTable data={allPodcasts} />
+        <AudienceTable
+          data={allPodcasts}
+          page="podcasts"
+          pageState={podcasts}
+          filterFunc={fetchPodcastByAllFilter}
+        />
       ) : (
         status === "success" && <p>No podcasts found!</p>
       )}
