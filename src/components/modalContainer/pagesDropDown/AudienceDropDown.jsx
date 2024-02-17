@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { addQuotesToString } from "@/utils/utils";
 
 const AudienceDropDown = ({
@@ -10,6 +10,7 @@ const AudienceDropDown = ({
   setShowModal,
   allFilterFunc,
   pageState,
+  page,
 }) => {
   const { langSelected, audienceSelected, tagSelected } = pageState;
 
@@ -54,13 +55,24 @@ const AudienceDropDown = ({
   const clickHandler = (name) => {
     const convertStr = addQuotesToString(name);
     getData(convertStr);
-    dispatch(categorySelected.toChangeAtt(name));
+    if (page === "podcasts") {
+      dispatch(categorySelected.toChangeAtt(name));
+    } else if (page === "blogs") {
+      dispatch(categorySelected.toChangeBlogAtt(name));
+    } else if (page === "newsletters") {
+      dispatch(categorySelected.toChangeNewsAtt(name));
+    } else if (page === "youtube") {
+      dispatch(categorySelected.toChangeYoutubeAtt(name));
+    } else {
+      return;
+    }
   };
+
   return (
     <div
       className={`text-[14px] font-[700] hover:bg-indigos-op-100 hover:text-primary-end p-[10px] cursor-pointer ${
         pageState[categorySelected?.isActiveValue] === obj?.name
-          ? "text-primary-end bg-indigos-100"
+          ? "text-primary-end bg-indigos-op-100"
           : "text-neutrals-600"
       }`}
       onClick={() => clickHandler(obj?.name)}

@@ -5,11 +5,10 @@ import ModalContainer from "../modalContainer";
 import { findDropDownCategory } from "@/data/dropDownData";
 import { useSelector } from "react-redux";
 
-const DropdownWrapper = ({ title }) => {
+const DropdownWrapper = ({ page, title, pageState }) => {
   const [showModal, setShowModal] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
   const conferences = useSelector(({ conferences }) => conferences);
-  const podcasts = useSelector(({ podcasts }) => podcasts);
   const handleClick = () => {
     setShowModal(() => !showModal);
   };
@@ -36,7 +35,7 @@ const DropdownWrapper = ({ title }) => {
         <p className="text-primary-end text-[14px] font-[700] ml-[4px]">
           {categorySelected.page === "conferences"
             ? conferences[categorySelected?.attrSelected]
-            : podcasts[categorySelected?.attrSelected]}
+            : pageState[categorySelected?.attrSelected]}
         </p>
         <IoChevronDownSharp className="p-[1px]" />
       </button>
@@ -45,7 +44,8 @@ const DropdownWrapper = ({ title }) => {
           title={title}
           setShowModal={setShowModal}
           categoryData={categoryData}
-          page={categorySelected.page}
+          page={page}
+          pageState={pageState}
         />
       )}
     </div>

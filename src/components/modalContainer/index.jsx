@@ -6,12 +6,17 @@ import { findCategoryData } from "@/data/modalContainerData";
 import ConferencesDropDown from "./pagesDropDown/ConferencesDropDown";
 import AudienceDropDown from "./pagesDropDown/AudienceDropDown";
 import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
-import { useSelector } from "react-redux";
+import { fetchNewsletterByAllFilter } from "@/redux/features/newsletter/action";
+import { fetchBlogByAllFilter } from "@/redux/features/blog/action";
+import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
 
-const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
-  const conferences = useSelector(({ conferences }) => conferences);
-  const podcasts = useSelector(({ podcasts }) => podcasts);
-
+const ModalContainer = ({
+  title,
+  setShowModal,
+  categoryData,
+  page,
+  pageState,
+}) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -71,14 +76,45 @@ const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
                           menuTitle={menuTitle}
                           setShowModal={setShowModal}
                         />
-                      ) : (
+                      ) : page === "podcasts" ? (
                         <AudienceDropDown
                           obj={obj.node}
                           categorySelected={categorySelected}
                           menuTitle={menuTitle}
                           setShowModal={setShowModal}
                           allFilterFunc={fetchPodcastByAllFilter}
-                          pageState={podcasts}
+                          pageState={pageState}
+                          page={page}
+                        />
+                      ) : page === "newsletters" ? (
+                        <AudienceDropDown
+                          obj={obj.node}
+                          categorySelected={categorySelected}
+                          menuTitle={menuTitle}
+                          setShowModal={setShowModal}
+                          allFilterFunc={fetchNewsletterByAllFilter}
+                          pageState={pageState}
+                          page={page}
+                        />
+                      ) : page === "blogs" ? (
+                        <AudienceDropDown
+                          obj={obj.node}
+                          categorySelected={categorySelected}
+                          menuTitle={menuTitle}
+                          setShowModal={setShowModal}
+                          allFilterFunc={fetchBlogByAllFilter}
+                          pageState={pageState}
+                          page={page}
+                        />
+                      ) : (
+                        <AudienceDropDown
+                          obj={obj.node}
+                          categorySelected={categorySelected}
+                          menuTitle={menuTitle}
+                          setShowModal={setShowModal}
+                          allFilterFunc={fetchYoutubeByAllFilter}
+                          pageState={pageState}
+                          page={page}
                         />
                       )}
                     </li>

@@ -1,14 +1,29 @@
 import {
+  setBlogAudienceFilter,
+  setBlogLangFilter,
+  setBlogTagFilter,
+} from "@/redux/features/blog/blogSlice";
+import {
   setCityFilter,
   setCountryFilter,
   setContinentFilter,
   setTechFilter,
 } from "@/redux/features/conference/conferenceSlice";
 import {
+  setNewsletterAudienceFilter,
+  setNewsletterLangFilter,
+  setNewsletterTagFilter,
+} from "@/redux/features/newsletter/newsletterSlice";
+import {
   setLangFilter,
   setAudienceFilter,
   setTagFilter,
 } from "@/redux/features/podcast/podcastSlice";
+import {
+  setYoutubeAudienceFilter,
+  setYoutubeLangFilter,
+  setYoutubeTagFilter,
+} from "@/redux/features/youtube/youtubeSlice";
 
 export const findCategoryData = [
   {
@@ -34,16 +49,25 @@ export const findCategoryData = [
   {
     name: "Language",
     toChangeAtt: setLangFilter,
-    isActiveValue: "techSelected",
+    toChangeBlogAtt: setBlogLangFilter,
+    toChangeNewsAtt: setNewsletterLangFilter,
+    toChangeYoutubeAtt: setYoutubeLangFilter,
+    isActiveValue: "langSelected",
   },
   {
     name: "Audience",
     toChangeAtt: setAudienceFilter,
-    isActiveValue: "techSelected",
+    toChangeBlogAtt: setBlogAudienceFilter,
+    toChangeNewsAtt: setNewsletterAudienceFilter,
+    toChangeYoutubeAtt: setYoutubeAudienceFilter,
+    isActiveValue: "audienceSelected",
   },
   {
     name: "Tags",
     toChangeAtt: setTagFilter,
-    isActiveValue: "techSelected",
+    toChangeBlogAtt: setBlogTagFilter,
+    toChangeNewsAtt: setNewsletterTagFilter,
+    toChangeYoutubeAtt: setYoutubeTagFilter,
+    isActiveValue: "tagSelected",
   },
 ];

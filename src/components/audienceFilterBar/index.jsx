@@ -1,24 +1,21 @@
 "use client";
+import { useDispatch } from "react-redux";
 import DropdownWrapper from "../dropDownWrapper";
 import tag from "@/assets/tag.svg";
 import globe from "@/assets/globe.svg";
 import group from "@/assets/group.svg";
 import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
-import { clearPodcastFilters } from "@/redux/features/podcast/podcastSlice";
 import ClearBtn from "../clearBtn";
 
-const PodcastFilterBar = () => {
-  const { langSelected, audienceSelected, tagSelected } = useSelector(
-    ({ podcasts }) => podcasts
-  );
+const AudienceFilterBar = ({ page, pageState, clearFunc }) => {
+  const { langSelected, audienceSelected, tagSelected } = pageState;
   const dispatch = useDispatch();
 
   const isFilter =
     langSelected || audienceSelected || tagSelected ? true : false;
 
   const clearFilterHandler = () => {
-    dispatch(clearPodcastFilters());
+    dispatch(clearFunc());
   };
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between items-center md:h-[48px] border border-indigos-op-100 rounded-[8px] mb-[10px]">
@@ -29,7 +26,7 @@ const PodcastFilterBar = () => {
             alt="tag icon"
             className="text-neutrals-300 w-[18px] h-[18px]"
           />
-          <DropdownWrapper title="Language" />
+          <DropdownWrapper page={page} title="Language" pageState={pageState} />
         </div>
         <span className="w-[1px] h-[24px] mx-[8px] bg-neutrals-100"></span>
         <div className="flex items-center px-[8px]">
@@ -38,7 +35,7 @@ const PodcastFilterBar = () => {
             alt="tag icon"
             className="text-neutrals-300 w-[18px] h-[18px]"
           />
-          <DropdownWrapper title="Audience" />
+          <DropdownWrapper page={page} title="Audience" pageState={pageState} />
         </div>
         <span className="w-[1px] h-[24px] mx-[8px] bg-neutrals-100"></span>
         <div className="flex items-center px-[8px]">
@@ -47,7 +44,7 @@ const PodcastFilterBar = () => {
             alt="tag icon"
             className="text-neutrals-300 w-[16px] h-[16px]"
           />
-          <DropdownWrapper title="Tags" />
+          <DropdownWrapper page={page} title="Tags" pageState={pageState} />
         </div>
         {isFilter && (
           <div className="flex items-center">
@@ -60,4 +57,4 @@ const PodcastFilterBar = () => {
   );
 };
 
-export default PodcastFilterBar;
+export default AudienceFilterBar;
