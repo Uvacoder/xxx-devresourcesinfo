@@ -1,19 +1,18 @@
 "use client";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { addQuotesToString } from "@/utils/utils";
-import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
 
-const PodcastDropDown = ({
+const AudienceDropDown = ({
   obj,
   categorySelected,
   menuTitle,
   setShowModal,
+  allFilterFunc,
+  pageState,
 }) => {
-  const podcasts = useSelector(({ podcasts }) => podcasts);
-  const { langSelected, audienceSelected, tagSelected } = useSelector(
-    ({ podcasts }) => podcasts
-  );
+  const { langSelected, audienceSelected, tagSelected } = pageState;
+
   const dispatch = useDispatch();
 
   const getData = (dropDownSelected) => {
@@ -27,7 +26,7 @@ const PodcastDropDown = ({
     setShowModal((prev) => !prev);
     if (menuTitle === "language") {
       dispatch(
-        fetchPodcastByAllFilter({
+        allFilterFunc({
           langSelected: dropDownSelected,
           audienceSelected: convertAudience,
           tagSelected: convertTag,
@@ -35,7 +34,7 @@ const PodcastDropDown = ({
       );
     } else if (menuTitle === "audience") {
       dispatch(
-        fetchPodcastByAllFilter({
+        allFilterFunc({
           langSelected: convertLang,
           audienceSelected: dropDownSelected,
           tagSelected: convertTag,
@@ -43,7 +42,7 @@ const PodcastDropDown = ({
       );
     } else {
       dispatch(
-        fetchPodcastByAllFilter({
+        allFilterFunc({
           langSelected: convertLang,
           audienceSelected: convertAudience,
           tagSelected: dropDownSelected,
@@ -57,11 +56,10 @@ const PodcastDropDown = ({
     getData(convertStr);
     dispatch(categorySelected.toChangeAtt(name));
   };
-
   return (
     <div
       className={`text-[14px] font-[700] hover:bg-indigos-op-100 hover:text-primary-end p-[10px] cursor-pointer ${
-        podcasts[categorySelected?.isActiveValue] === obj?.name
+        pageState[categorySelected?.isActiveValue] === obj?.name
           ? "text-primary-end bg-indigos-100"
           : "text-neutrals-600"
       }`}
@@ -72,4 +70,4 @@ const PodcastDropDown = ({
   );
 };
 
-export default PodcastDropDown;
+export default AudienceDropDown;
