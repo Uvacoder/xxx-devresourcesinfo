@@ -10,6 +10,7 @@ import MobileNavbar from "../mobileNavbar";
 
 const Navbar = () => {
   let pathname = usePathname();
+  const parts = "/" + pathname.split("/")[1];
 
   return (
     <header className="fixed w-full z-20 bg-neutral-base text-white px-[15px] lg:px-[75px] xl:px-[80px]">
@@ -30,7 +31,7 @@ const Navbar = () => {
           <ul className="hidden sm:flex gap-[10px] lg:gap-[20px] xl:gap-[32px]">
             {menu?.map((item) => {
               const isActive =
-                pathname === item.url
+                parts === item.url
                   ? "border-b-4 gradient-border-bottom font-[700]"
                   : "text-neutral-200 font-[400]";
 
@@ -47,7 +48,7 @@ const Navbar = () => {
           </ul>
           <PrimaryBtn text="Submit New" />
         </div>
-        <MobileNavbar menu={menu} pathname={pathname} />
+        <MobileNavbar menu={menu} pathname={parts} />
       </nav>
     </header>
   );
