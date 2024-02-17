@@ -4,9 +4,14 @@ import { IoChevronDownSharp } from "react-icons/io5";
 import Modal from "../modal";
 import { findCategoryData } from "@/data/modalContainerData";
 import ConferencesDropDown from "./pagesDropDown/ConferencesDropDown";
-import PodcastDropDown from "./pagesDropDown/PodcastDropDown";
+import AudienceDropDown from "./pagesDropDown/AudienceDropDown";
+import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
+import { useSelector } from "react-redux";
 
 const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
+  const conferences = useSelector(({ conferences }) => conferences);
+  const podcasts = useSelector(({ podcasts }) => podcasts);
+
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -67,11 +72,13 @@ const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
                           setShowModal={setShowModal}
                         />
                       ) : (
-                        <PodcastDropDown
+                        <AudienceDropDown
                           obj={obj.node}
                           categorySelected={categorySelected}
                           menuTitle={menuTitle}
                           setShowModal={setShowModal}
+                          allFilterFunc={fetchPodcastByAllFilter}
+                          pageState={podcasts}
                         />
                       )}
                     </li>

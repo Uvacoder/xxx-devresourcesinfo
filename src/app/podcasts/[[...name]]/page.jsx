@@ -29,7 +29,9 @@ const Podcasts = ({ params: { name } }) => {
     const convertAudience = localStorageResources?.podcasts?.audienceSelected
       ? addQuotesToString(localStorageResources?.podcasts?.audienceSelected)
       : undefined;
-    const convertTag = tagSelected ? addQuotesToString(tagSelected) : undefined;
+    const convertTag = localStorageResources?.podcasts?.tagSelected
+      ? addQuotesToString(localStorageResources?.podcasts?.tagSelected)
+      : undefined;
 
     dispatch(
       fetchPodcastByAllFilter({
@@ -55,6 +57,7 @@ const Podcasts = ({ params: { name } }) => {
         setPodcastDataByUrl({
           langSelected,
           audienceSelected,
+          tagSelected,
         })
       );
     } else if (langSelected) {
@@ -62,6 +65,7 @@ const Podcasts = ({ params: { name } }) => {
       dispatch(
         setPodcastDataByUrl({
           langSelected,
+          tagSelected,
         })
       );
     } else if (audienceSelected) {
@@ -69,6 +73,13 @@ const Podcasts = ({ params: { name } }) => {
       dispatch(
         setPodcastDataByUrl({
           audienceSelected,
+          tagSelected,
+        })
+      );
+    } else if (tagSelected) {
+      dispatch(
+        setPodcastDataByUrl({
+          tagSelected,
         })
       );
     } else {
