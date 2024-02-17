@@ -1,3 +1,5 @@
+import { gql } from "graphql-request";
+
 const commonQueries = `edges {
       node {
         id
