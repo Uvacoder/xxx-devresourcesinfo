@@ -12,6 +12,7 @@ import {
 } from "@/redux/features/conference/conferenceSlice";
 import PageContainer from "@/components/pageContainer";
 import { CONFERENCES_URL, DEV_RESOURCES } from "@/utils/constants";
+import Breadcrumb from "@/components/breadcrumb";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -152,7 +153,11 @@ const Conferences = ({ params: { name } }) => {
         })
       );
     } else if (continentSelected) {
-      window.history.pushState(null, "", `${CONFERENCES_URL}/${continentSelected}`);
+      window.history.pushState(
+        null,
+        "",
+        `${CONFERENCES_URL}/${continentSelected}`
+      );
       dispatch(
         setConferenceDataByUrl({
           continentSelected,
@@ -168,7 +173,8 @@ const Conferences = ({ params: { name } }) => {
 
   return (
     <PageContainer>
-      <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] mt-[30px] lg:mt-[40px]">
+      <Breadcrumb />
+      <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Developers Conferences
       </h1>
       {!pastConf && (
