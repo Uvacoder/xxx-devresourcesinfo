@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect } from "react";
 import ConferenceTable from "@/components/conferenceTable";
-import ConferenceFilterBar from "@/components/conferenceFilterBar";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
 import {
+  clearConfFilters,
   setConferenceDataByUrl,
   setStorageData,
   setTodayDate,
@@ -13,10 +13,11 @@ import {
 import PageContainer from "@/components/pageContainer";
 import { CONFERENCES_URL, DEV_RESOURCES } from "@/utils/constants";
 import Breadcrumb from "@/components/breadcrumb";
+import AreaFilterBar from "@/components/areaFilterBar";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
-
+  const conferences = useSelector(({ conferences }) => conferences);
   const {
     allConferences,
     status,
@@ -25,7 +26,7 @@ const Conferences = ({ params: { name } }) => {
     countrySelected,
     continentSelected,
     techSelected,
-  } = useSelector(({ conferences }) => conferences);
+  } = conferences;
 
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
@@ -196,7 +197,12 @@ const Conferences = ({ params: { name } }) => {
         )}
         {!pastConf && <span> for {currentYear} and beyond</span>}
       </p>
-      <ConferenceFilterBar />
+      <AreaFilterBar
+        page="conferences"
+        pageState={conferences}
+        clearFunc={clearConfFilters}
+        showPastDate
+      />
       {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>
       ) : allConferences.length > 0 ? (
