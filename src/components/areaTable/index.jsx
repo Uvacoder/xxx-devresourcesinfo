@@ -152,9 +152,7 @@ const AreaTable = ({ data, page, pageState, filterFunc }) => {
     if (page === "conferences") {
       dispatch(categorySelected.toChangeAtt({ value: name, id: id }));
     } else if (page === "hackathons") {
-      dispatch(
-        categorySelected.toChangeHackathonAtt({ value: name, id: id })
-      );
+      dispatch(categorySelected.toChangeHackathonAtt({ value: name, id: id }));
     } else {
       return;
     }
@@ -231,7 +229,15 @@ const AreaTable = ({ data, page, pageState, filterFunc }) => {
                 </div>
 
                 <div className="min-w-[100px] sm:min-w-[200px] pl-3 sm:pl-[40px] lg:min-w-[360px] flex flex-wrap py-[16px] gap-[5px] sm:gap-[10px] items-center md:self-stretch text-neutrals-500 text-lg">
-                  {node.technologies.map((tech, index) => (
+                  {node?.technologies?.map((tech, index) => (
+                    <div key={tech + index}>
+                      <TechnologiesRow
+                        tech={tech}
+                        clickHandler={clickHandler}
+                      />
+                    </div>
+                  ))}
+                  {node?.technology?.map((tech, index) => (
                     <div key={tech + index}>
                       <TechnologiesRow
                         tech={tech}

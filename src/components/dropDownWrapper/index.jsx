@@ -33,9 +33,7 @@ const DropdownWrapper = ({ page, title, pageState }) => {
       >
         <p className="text-[13px] font-[500]">{title}</p>
         <p className="text-primary-end text-[14px] font-[700] ml-[4px]">
-          {categorySelected.page === "conferences"
-            ? conferences[categorySelected?.attrSelected]
-            : pageState[categorySelected?.attrSelected]}
+          {pageState[categorySelected?.attrSelected]}
         </p>
         <IoChevronDownSharp className="p-[1px]" />
       </button>
