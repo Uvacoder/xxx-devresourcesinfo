@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect } from "react";
-import ConferenceTable from "@/components/conferenceTable";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
@@ -14,6 +13,7 @@ import PageContainer from "@/components/pageContainer";
 import { CONFERENCES_URL, DEV_RESOURCES } from "@/utils/constants";
 import Breadcrumb from "@/components/breadcrumb";
 import AreaFilterBar from "@/components/areaFilterBar";
+import AreaTable from "@/components/areaTable";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -206,7 +206,12 @@ const Conferences = ({ params: { name } }) => {
       {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>
       ) : allConferences.length > 0 ? (
-        <ConferenceTable data={allConferences} />
+        <AreaTable
+          data={allConferences}
+          page="conferences"
+          pageState={conferences}
+          filterFunc={fetchConferencesByAllFilter}
+        />
       ) : (
         status === "success" && <p>No conferences found!</p>
       )}
