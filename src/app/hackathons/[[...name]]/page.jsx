@@ -13,6 +13,7 @@ import {
   setHackathonStorageData,
   setHackathonTodayDate,
 } from "@/redux/features/hackathon/hackathonSlice";
+import Breadcrumb from "@/components/breadcrumb";
 
 const Hackathons = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -168,8 +169,11 @@ const Hackathons = ({ params: { name } }) => {
     }
   }, [citySelected, countrySelected, continentSelected, techSelected]);
 
+  console.log(allHackathons);
+
   return (
     <PageContainer>
+      <Breadcrumb />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Hackathons
       </h1>

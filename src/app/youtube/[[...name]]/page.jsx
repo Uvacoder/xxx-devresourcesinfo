@@ -12,6 +12,7 @@ import {
   setYoutubeStorageData,
 } from "@/redux/features/youtube/youtubeSlice";
 import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
+import Breadcrumb from "@/components/breadcrumb";
 
 const Youtube = ({ name }) => {
   const dispatch = useDispatch();
@@ -49,8 +50,12 @@ const Youtube = ({ name }) => {
   }, []);
 
   useEffect(() => {
-    if (langSelected && audienceSelected) {
-      window.history.pushState(null, "", `${YOUTUBE_URL}/${audienceSelected}`);
+    if (langSelected && audienceSelected && tagSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${YOUTUBE_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
+      );
       dispatch(
         setYoutubeDataByUrl({
           langSelected,
@@ -58,7 +63,44 @@ const Youtube = ({ name }) => {
           tagSelected,
         })
       );
+    } else if (langSelected && audienceSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${YOUTUBE_URL}/${audienceSelected}/${langSelected}`
+      );
+      dispatch(
+        setYoutubeDataByUrl({
+          langSelected,
+          audienceSelected,
+        })
+      );
+    } else if (audienceSelected && tagSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${YOUTUBE_URL}/${tagSelected}/${audienceSelected}`
+      );
+      dispatch(
+        setYoutubeDataByUrl({
+          audienceSelected,
+          tagSelected,
+        })
+      );
+    } else if (langSelected && tagSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${YOUTUBE_URL}/${tagSelected}/${langSelected}`
+      );
+      dispatch(
+        setYoutubeDataByUrl({
+          langSelected,
+          tagSelected,
+        })
+      );
     } else if (langSelected) {
+      window.history.pushState(null, "", `${YOUTUBE_URL}/${langSelected}`);
       dispatch(
         setYoutubeDataByUrl({
           langSelected,
@@ -74,6 +116,7 @@ const Youtube = ({ name }) => {
         })
       );
     } else if (tagSelected) {
+      window.history.pushState(null, "", `${YOUTUBE_URL}/${tagSelected}`);
       dispatch(
         setYoutubeDataByUrl({
           tagSelected,
@@ -85,6 +128,7 @@ const Youtube = ({ name }) => {
   }, [langSelected, audienceSelected, tagSelected]);
   return (
     <PageContainer>
+      <Breadcrumb />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Youtube
       </h1>

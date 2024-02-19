@@ -12,6 +12,7 @@ import { addQuotesToString } from "@/utils/utils";
 import { DEV_RESOURCES, PODCASTS_URL } from "@/utils/constants";
 import AudienceFilterBar from "@/components/audienceFilterBar";
 import AudienceTable from "@/components/audienceTable";
+import Breadcrumb from "@/components/breadcrumb";
 
 const Podcasts = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -48,7 +49,20 @@ const Podcasts = ({ params: { name } }) => {
   }, []);
 
   useEffect(() => {
-    if (langSelected && audienceSelected) {
+    if (langSelected && audienceSelected && tagSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${PODCASTS_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
+      );
+      dispatch(
+        setPodcastDataByUrl({
+          langSelected,
+          audienceSelected,
+          tagSelected,
+        })
+      );
+    } else if (langSelected && audienceSelected) {
       window.history.pushState(
         null,
         "",
@@ -58,6 +72,29 @@ const Podcasts = ({ params: { name } }) => {
         setPodcastDataByUrl({
           langSelected,
           audienceSelected,
+        })
+      );
+    } else if (tagSelected && audienceSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${PODCASTS_URL}/${tagSelected}/${audienceSelected}`
+      );
+      dispatch(
+        setPodcastDataByUrl({
+          audienceSelected,
+          tagSelected,
+        })
+      );
+    } else if (tagSelected && langSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${PODCASTS_URL}/${tagSelected}/${langSelected}`
+      );
+      dispatch(
+        setPodcastDataByUrl({
+          langSelected,
           tagSelected,
         })
       );
@@ -66,7 +103,6 @@ const Podcasts = ({ params: { name } }) => {
       dispatch(
         setPodcastDataByUrl({
           langSelected,
-          tagSelected,
         })
       );
     } else if (audienceSelected) {
@@ -74,10 +110,10 @@ const Podcasts = ({ params: { name } }) => {
       dispatch(
         setPodcastDataByUrl({
           audienceSelected,
-          tagSelected,
         })
       );
     } else if (tagSelected) {
+      window.history.pushState(null, "", `${PODCASTS_URL}/${tagSelected}`);
       dispatch(
         setPodcastDataByUrl({
           tagSelected,
@@ -90,6 +126,7 @@ const Podcasts = ({ params: { name } }) => {
 
   return (
     <PageContainer>
+      <Breadcrumb />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Podcasts
       </h1>

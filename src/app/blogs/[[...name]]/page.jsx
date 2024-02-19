@@ -12,6 +12,7 @@ import {
   setBlogStorageData,
 } from "@/redux/features/blog/blogSlice";
 import { fetchBlogByAllFilter } from "@/redux/features/blog/action";
+import Breadcrumb from "@/components/breadcrumb";
 
 const Blogs = ({ name }) => {
   const dispatch = useDispatch();
@@ -49,7 +50,20 @@ const Blogs = ({ name }) => {
   }, []);
 
   useEffect(() => {
-    if (langSelected && tagSelected) {
+    if (langSelected && tagSelected && audienceSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${BLOGS_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
+      );
+      dispatch(
+        setBlogDataByUrl({
+          langSelected,
+          audienceSelected,
+          tagSelected,
+        })
+      );
+    } else if (langSelected && tagSelected) {
       window.history.pushState(
         null,
         "",
@@ -58,8 +72,31 @@ const Blogs = ({ name }) => {
       dispatch(
         setBlogDataByUrl({
           langSelected,
+          tagSelected,
+        })
+      );
+    } else if (tagSelected && audienceSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${BLOGS_URL}/${tagSelected}/${audienceSelected}`
+      );
+      dispatch(
+        setBlogDataByUrl({
           audienceSelected,
           tagSelected,
+        })
+      );
+    } else if (langSelected && audienceSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${BLOGS_URL}/${audienceSelected}/${langSelected}`
+      );
+      dispatch(
+        setBlogDataByUrl({
+          langSelected,
+          audienceSelected,
         })
       );
     } else if (langSelected) {
@@ -71,6 +108,7 @@ const Blogs = ({ name }) => {
         })
       );
     } else if (audienceSelected) {
+      window.history.pushState(null, "", `${BLOGS_URL}/${audienceSelected}`);
       dispatch(
         setBlogDataByUrl({
           audienceSelected,
@@ -90,6 +128,7 @@ const Blogs = ({ name }) => {
   }, [langSelected, audienceSelected, tagSelected]);
   return (
     <PageContainer>
+      <Breadcrumb />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Blogs
       </h1>

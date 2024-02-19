@@ -12,6 +12,7 @@ import {
 import { fetchNewsletterByAllFilter } from "@/redux/features/newsletter/action";
 import AudienceFilterBar from "@/components/audienceFilterBar";
 import AudienceTable from "@/components/audienceTable";
+import Breadcrumb from "@/components/breadcrumb";
 
 const NewsLetters = ({ name }) => {
   const dispatch = useDispatch();
@@ -54,7 +55,20 @@ const NewsLetters = ({ name }) => {
   }, []);
 
   useEffect(() => {
-    if (langSelected && audienceSelected) {
+    if (langSelected && audienceSelected && tagSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${NEWSLETTERS_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
+      );
+      dispatch(
+        setNewsletterDataByUrl({
+          langSelected,
+          audienceSelected,
+          tagSelected,
+        })
+      );
+    } else if (langSelected && audienceSelected) {
       window.history.pushState(
         null,
         "",
@@ -64,6 +78,29 @@ const NewsLetters = ({ name }) => {
         setNewsletterDataByUrl({
           langSelected,
           audienceSelected,
+        })
+      );
+    } else if (audienceSelected && tagSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${NEWSLETTERS_URL}/${tagSelected}/${audienceSelected}`
+      );
+      dispatch(
+        setNewsletterDataByUrl({
+          audienceSelected,
+          tagSelected,
+        })
+      );
+    } else if (langSelected && tagSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${NEWSLETTERS_URL}/${tagSelected}/${langSelected}`
+      );
+      dispatch(
+        setNewsletterDataByUrl({
+          langSelected,
           tagSelected,
         })
       );
@@ -88,6 +125,7 @@ const NewsLetters = ({ name }) => {
         })
       );
     } else if (tagSelected) {
+       window.history.pushState(null, "", `${NEWSLETTERS_URL}/${tagSelected}`);
       dispatch(
         setNewsletterDataByUrl({
           tagSelected,
@@ -99,6 +137,7 @@ const NewsLetters = ({ name }) => {
   }, [langSelected, audienceSelected, tagSelected]);
   return (
     <PageContainer>
+      <Breadcrumb />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Newsletters
       </h1>
