@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <ReduxProvider>
           <Navbar />
-          <div className="p-5 sm:p-10 lg:px-[80px] lg:py-[32px] overflow-hidden">
+          <div className="p-5 sm:p-10 pt-[46px] sm:pt-[51px] lg:p-[80px] overflow-hidden">
             {children}
           </div>
         </ReduxProvider>

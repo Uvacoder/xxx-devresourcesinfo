@@ -3,18 +3,17 @@ import { RiMapPin2Line } from "react-icons/ri";
 import { MdOutlineHandyman } from "react-icons/md";
 import DropdownWrapper from "../dropDownWrapper";
 import Switch from "../switch";
-import { useDispatch, useSelector } from "react-redux";
-import { clearConfFilters } from "@/redux/features/conference/conferenceSlice";
+import { useDispatch } from "react-redux";
 import ClearBtn from "../clearBtn";
 
-const ConferenceFilterBar = () => {
+const AreaFilterBar = ({ page, pageState, clearFunc, showPastDate }) => {
   const {
     pastConf,
     citySelected,
     countrySelected,
     continentSelected,
     techSelected,
-  } = useSelector(({ conferences }) => conferences);
+  } = pageState;
   const dispatch = useDispatch();
 
   const isFilter =
@@ -27,7 +26,7 @@ const ConferenceFilterBar = () => {
       : false;
 
   const clearFilterHandler = () => {
-    dispatch(clearConfFilters());
+    dispatch(clearFunc());
   };
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between items-center md:h-[48px] border border-indigos-op-100 rounded-[8px] mb-[10px]">
@@ -36,16 +35,24 @@ const ConferenceFilterBar = () => {
           <RiMapPin2Line className="w-[18px] h-[18px]" />
         </span>
         <div className="flex gap-[8px] items-center">
-          <DropdownWrapper title="City" />
+          <DropdownWrapper title="City" page={page} pageState={pageState} />
           <span className="w-[1px] h-[18px] bg-neutrals-100"></span>
-          <DropdownWrapper title="Country" />
+          <DropdownWrapper title="Country" page={page} pageState={pageState} />
           <span className="w-[1px] h-[18px] bg-neutrals-100"></span>
-          <DropdownWrapper title="Continent" />
+          <DropdownWrapper
+            title="Continent"
+            page={page}
+            pageState={pageState}
+          />
         </div>
         <span className="w-[1px] h-[24px] mx-[8px] bg-neutrals-200"></span>
         <div className="flex items-center px-[8px]">
           <MdOutlineHandyman className="text-neutrals-300 w-[18px] h-[18px]" />
-          <DropdownWrapper title="Technology" />
+          <DropdownWrapper
+            title="Technology"
+            page={page}
+            pageState={pageState}
+          />
         </div>
         {isFilter && (
           <div className="flex items-center">
@@ -54,14 +61,16 @@ const ConferenceFilterBar = () => {
           </div>
         )}
       </div>
-      <div className="flex items-center gap-[8px] mx-[16px] pr-[8px]">
-        <Switch />
-        <span className="text-[14px] text-neutrals-600 leading-[21px]">
-          Show past conferences
-        </span>
-      </div>
+      {showPastDate && (
+        <div className="flex items-center gap-[8px] mx-[16px] pr-[8px]">
+          <Switch />
+          <span className="text-[14px] text-neutrals-600 leading-[21px]">
+            Show past {page}
+          </span>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ConferenceFilterBar;
+export default AreaFilterBar;

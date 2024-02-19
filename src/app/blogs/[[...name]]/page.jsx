@@ -1,42 +1,43 @@
 "use client";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
-import PageContainer from "@/components/pageContainer";
-import {
-  clearPodcastFilters,
-  setPodcastDataByUrl,
-  setPodcastStorageData,
-} from "@/redux/features/podcast/podcastSlice";
+import { DEV_RESOURCES, BLOGS_URL } from "@/utils/constants";
 import { addQuotesToString } from "@/utils/utils";
-import { DEV_RESOURCES, PODCASTS_URL } from "@/utils/constants";
+import PageContainer from "@/components/pageContainer";
 import AudienceFilterBar from "@/components/audienceFilterBar";
 import AudienceTable from "@/components/audienceTable";
+import {
+  clearBlogFilters,
+  setBlogDataByUrl,
+  setBlogStorageData,
+} from "@/redux/features/blog/blogSlice";
+import { fetchBlogByAllFilter } from "@/redux/features/blog/action";
 import Breadcrumb from "@/components/breadcrumb";
 
-const Podcasts = ({ params: { name } }) => {
+const Blogs = ({ name }) => {
   const dispatch = useDispatch();
-  const podcasts = useSelector(({ podcasts }) => podcasts);
-  const { allPodcasts, status, langSelected, audienceSelected, tagSelected } =
-    podcasts;
+  const blogs = useSelector(({ blogs }) => blogs);
+  const { allBlogs, status, langSelected, audienceSelected, tagSelected } =
+    blogs;
+
   const fetchData = () => {
     const localStorageResources =
       JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
 
-    dispatch(setPodcastStorageData(localStorageResources?.podcasts));
+    dispatch(setBlogStorageData(localStorageResources?.blogs));
 
-    const convertLang = localStorageResources?.podcasts?.langSelected
-      ? addQuotesToString(localStorageResources?.podcasts?.langSelected)
+    const convertLang = localStorageResources?.blogs?.langSelected
+      ? addQuotesToString(localStorageResources?.blogs?.langSelected)
       : undefined;
-    const convertAudience = localStorageResources?.podcasts?.audienceSelected
-      ? addQuotesToString(localStorageResources?.podcasts?.audienceSelected)
+    const convertAudience = localStorageResources?.blogs?.audienceSelected
+      ? addQuotesToString(localStorageResources?.blogs?.audienceSelected)
       : undefined;
-    const convertTag = localStorageResources?.podcasts?.tagSelected
-      ? addQuotesToString(localStorageResources?.podcasts?.tagSelected)
+    const convertTag = localStorageResources?.blogs?.tagSelected
+      ? addQuotesToString(localStorageResources?.blogs?.tagSelected)
       : undefined;
 
     dispatch(
-      fetchPodcastByAllFilter({
+      fetchBlogByAllFilter({
         langSelected: convertLang,
         audienceSelected: convertAudience,
         tagSelected: convertTag,
@@ -49,15 +50,39 @@ const Podcasts = ({ params: { name } }) => {
   }, []);
 
   useEffect(() => {
-    if (langSelected && audienceSelected && tagSelected) {
+    if (langSelected && tagSelected && audienceSelected) {
       window.history.pushState(
         null,
         "",
-        `${PODCASTS_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
+        `${BLOGS_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
       );
       dispatch(
-        setPodcastDataByUrl({
+        setBlogDataByUrl({
           langSelected,
+          audienceSelected,
+          tagSelected,
+        })
+      );
+    } else if (langSelected && tagSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${BLOGS_URL}/${tagSelected}/${langSelected}`
+      );
+      dispatch(
+        setBlogDataByUrl({
+          langSelected,
+          tagSelected,
+        })
+      );
+    } else if (tagSelected && audienceSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${BLOGS_URL}/${tagSelected}/${audienceSelected}`
+      );
+      dispatch(
+        setBlogDataByUrl({
           audienceSelected,
           tagSelected,
         })
@@ -66,56 +91,34 @@ const Podcasts = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${PODCASTS_URL}/${audienceSelected}/${langSelected}`
+        `${BLOGS_URL}/${audienceSelected}/${langSelected}`
       );
       dispatch(
-        setPodcastDataByUrl({
+        setBlogDataByUrl({
           langSelected,
           audienceSelected,
-        })
-      );
-    } else if (tagSelected && audienceSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${PODCASTS_URL}/${tagSelected}/${audienceSelected}`
-      );
-      dispatch(
-        setPodcastDataByUrl({
-          audienceSelected,
-          tagSelected,
-        })
-      );
-    } else if (tagSelected && langSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${PODCASTS_URL}/${tagSelected}/${langSelected}`
-      );
-      dispatch(
-        setPodcastDataByUrl({
-          langSelected,
-          tagSelected,
         })
       );
     } else if (langSelected) {
-      window.history.pushState(null, "", `${PODCASTS_URL}/${langSelected}`);
+      window.history.pushState(null, "", `${BLOGS_URL}/${langSelected}`);
       dispatch(
-        setPodcastDataByUrl({
+        setBlogDataByUrl({
           langSelected,
+          tagSelected,
         })
       );
     } else if (audienceSelected) {
-      window.history.pushState(null, "", `${PODCASTS_URL}/${audienceSelected}`);
+      window.history.pushState(null, "", `${BLOGS_URL}/${audienceSelected}`);
       dispatch(
-        setPodcastDataByUrl({
+        setBlogDataByUrl({
           audienceSelected,
+          tagSelected,
         })
       );
     } else if (tagSelected) {
-      window.history.pushState(null, "", `${PODCASTS_URL}/${tagSelected}`);
+      window.history.pushState(null, "", `${BLOGS_URL}/${tagSelected}`);
       dispatch(
-        setPodcastDataByUrl({
+        setBlogDataByUrl({
           tagSelected,
         })
       );
@@ -123,38 +126,37 @@ const Podcasts = ({ params: { name } }) => {
       fetchData();
     }
   }, [langSelected, audienceSelected, tagSelected]);
-
   return (
     <PageContainer>
       <Breadcrumb />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
-        Podcasts
+        Blogs
       </h1>
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
         A curated list of
         {langSelected && <span> {langSelected}</span>}
-        {tagSelected && <span> {tagSelected}</span>} podcasts
+        {tagSelected && <span> {tagSelected}</span>} blogs
         {audienceSelected && <span> targeted towards {audienceSelected}</span>}
       </p>
       <AudienceFilterBar
-        page="podcasts"
-        pageState={podcasts}
-        clearFunc={clearPodcastFilters}
+        page="blogs"
+        pageState={blogs}
+        clearFunc={clearBlogFilters}
       />
       {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>
-      ) : allPodcasts.length > 0 ? (
+      ) : allBlogs.length > 0 ? (
         <AudienceTable
-          data={allPodcasts}
-          page="podcasts"
-          pageState={podcasts}
-          filterFunc={fetchPodcastByAllFilter}
+          data={allBlogs}
+          page="blogs"
+          pageState={blogs}
+          filterFunc={fetchBlogByAllFilter}
         />
       ) : (
-        status === "success" && <p>No podcasts found!</p>
+        status === "success" && <p>No blogs found!</p>
       )}
     </PageContainer>
   );
 };
 
-export default Podcasts;
+export default Blogs;

@@ -3,10 +3,22 @@ import React, { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import Modal from "../modal";
 import { findCategoryData } from "@/data/modalContainerData";
-import ConferencesDropDown from "./pagesDropDown/ConferencesDropDown";
-import PodcastDropDown from "./pagesDropDown/PodcastDropDown";
+import AudienceDropDown from "./pagesDropDown/AudienceDropDown";
+import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
+import { fetchNewsletterByAllFilter } from "@/redux/features/newsletter/action";
+import { fetchBlogByAllFilter } from "@/redux/features/blog/action";
+import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
+import AreaDropDown from "./pagesDropDown/AreaDropDown";
+import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
+import { fetchHackathonsByAllFilter } from "@/redux/features/hackathon/action";
 
-const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
+const ModalContainer = ({
+  title,
+  setShowModal,
+  categoryData,
+  page,
+  pageState,
+}) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -60,18 +72,64 @@ const ModalContainer = ({ title, setShowModal, categoryData, page }) => {
                   {filteredDropDownData?.map((obj) => (
                     <li key={obj.node.id}>
                       {page === "conferences" ? (
-                        <ConferencesDropDown
+                        <AreaDropDown
                           obj={obj.node}
                           categorySelected={categorySelected}
                           menuTitle={menuTitle}
                           setShowModal={setShowModal}
+                          allFilterFunc={fetchConferencesByAllFilter}
+                          pageState={pageState}
+                          page={page}
+                        />
+                      ) : page === "hackathons" ? (
+                        <AreaDropDown
+                          obj={obj.node}
+                          categorySelected={categorySelected}
+                          menuTitle={menuTitle}
+                          setShowModal={setShowModal}
+                          allFilterFunc={fetchHackathonsByAllFilter}
+                          pageState={pageState}
+                          page={page}
+                        />
+                      ) : page === "podcasts" ? (
+                        <AudienceDropDown
+                          obj={obj.node}
+                          categorySelected={categorySelected}
+                          menuTitle={menuTitle}
+                          setShowModal={setShowModal}
+                          allFilterFunc={fetchPodcastByAllFilter}
+                          pageState={pageState}
+                          page={page}
+                        />
+                      ) : page === "newsletters" ? (
+                        <AudienceDropDown
+                          obj={obj.node}
+                          categorySelected={categorySelected}
+                          menuTitle={menuTitle}
+                          setShowModal={setShowModal}
+                          allFilterFunc={fetchNewsletterByAllFilter}
+                          pageState={pageState}
+                          page={page}
+                        />
+                      ) : page === "blogs" ? (
+                        <AudienceDropDown
+                          obj={obj.node}
+                          categorySelected={categorySelected}
+                          menuTitle={menuTitle}
+                          setShowModal={setShowModal}
+                          allFilterFunc={fetchBlogByAllFilter}
+                          pageState={pageState}
+                          page={page}
                         />
                       ) : (
-                        <PodcastDropDown
+                        <AudienceDropDown
                           obj={obj.node}
                           categorySelected={categorySelected}
                           menuTitle={menuTitle}
                           setShowModal={setShowModal}
+                          allFilterFunc={fetchYoutubeByAllFilter}
+                          pageState={pageState}
+                          page={page}
                         />
                       )}
                     </li>

@@ -9,9 +9,12 @@ import {
   setOtherByCountry,
 } from "@/redux/features/conference/conferenceSlice";
 import { getAreaByCity, getAreaByCountry } from "@/services/api/conferenceAPI";
-import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
+import {
+  setHackathonOtherByCity,
+  setHackathonOtherByCountry,
+} from "@/redux/features/hackathon/hackathonSlice";
 
-const ConferenceTable = ({ data }) => {
+const AreaTable = ({ data, page, pageState, filterFunc }) => {
   const {
     citySelected,
     countrySelected,
@@ -19,7 +22,7 @@ const ConferenceTable = ({ data }) => {
     techSelected,
     pastConf,
     todayDate,
-  } = useSelector(({ conferences }) => conferences);
+  } = pageState;
   const dispatch = useDispatch();
   const groupedObjects = data?.reduce((acc, obj) => {
     const startDate = new Date(obj.node.startDate);
@@ -55,7 +58,7 @@ const ConferenceTable = ({ data }) => {
 
     if (menuTitle === "City") {
       dispatch(
-        fetchConferencesByAllFilter({
+        filterFunc({
           citySelected: textSelected,
           countrySelected: convertCountry,
           continentSelected: convertContinent,
@@ -65,7 +68,7 @@ const ConferenceTable = ({ data }) => {
       );
     } else if (menuTitle === "Country") {
       dispatch(
-        fetchConferencesByAllFilter({
+        filterFunc({
           citySelected: convertCity,
           countrySelected: textSelected,
           continentSelected: convertContinent,
@@ -75,7 +78,7 @@ const ConferenceTable = ({ data }) => {
       );
     } else if (menuTitle === "Continent") {
       dispatch(
-        fetchConferencesByAllFilter({
+        filterFunc({
           citySelected: convertCity,
           countrySelected: convertCountry,
           continentSelected: textSelected,
@@ -85,7 +88,7 @@ const ConferenceTable = ({ data }) => {
       );
     } else if (menuTitle === "Technology") {
       dispatch(
-        fetchConferencesByAllFilter({
+        filterFunc({
           citySelected: convertCity,
           countrySelected: convertCountry,
           continentSelected: convertContinent,
@@ -103,12 +106,23 @@ const ConferenceTable = ({ data }) => {
 
     if (categorySelected?.name === "City") {
       const { data } = await getAreaByCity(convertId);
-      dispatch(
-        setOtherByCity({
-          country: data?.country?.name,
-          continent: data?.country?.continent?.name,
-        })
-      );
+      if (page === "conferences") {
+        dispatch(
+          setOtherByCity({
+            country: data?.country?.name,
+            continent: data?.country?.continent?.name,
+          })
+        );
+      } else if (page === "hackathons") {
+        dispatch(
+          setHackathonOtherByCity({
+            country: data?.country?.name,
+            continent: data?.country?.continent?.name,
+          })
+        );
+      } else {
+        return;
+      }
       getData(
         menuTitle,
         convertStr,
@@ -117,7 +131,13 @@ const ConferenceTable = ({ data }) => {
       );
     } else {
       const { data } = await getAreaByCountry(convertId);
-      dispatch(setOtherByCountry(data?.continent?.name));
+      if (page === "conferences") {
+        dispatch(setOtherByCountry(data?.continent?.name));
+      } else if (page === "hackathons") {
+        dispatch(setHackathonOtherByCountry(data?.continent?.name));
+      } else {
+        return;
+      }
       getData(menuTitle, convertStr, data?.continent?.name);
     }
   };
@@ -129,7 +149,13 @@ const ConferenceTable = ({ data }) => {
       ({ name }) => name === menuTitle
     );
 
-    dispatch(categorySelected.toChangeAtt({ value: name, id: id }));
+    if (page === "conferences") {
+      dispatch(categorySelected.toChangeAtt({ value: name, id: id }));
+    } else if (page === "hackathons") {
+      dispatch(categorySelected.toChangeHackathonAtt({ value: name, id: id }));
+    } else {
+      return;
+    }
 
     if (
       categorySelected?.name === "City" ||
@@ -203,11 +229,21 @@ const ConferenceTable = ({ data }) => {
                 </div>
 
                 <div className="min-w-[100px] sm:min-w-[200px] pl-3 sm:pl-[40px] lg:min-w-[360px] flex flex-wrap py-[16px] gap-[5px] sm:gap-[10px] items-center md:self-stretch text-neutrals-500 text-lg">
-                  {node.technologies.map((tech, index) => (
+                  {node?.technologies?.map((tech, index) => (
                     <div key={tech + index}>
                       <TechnologiesRow
                         tech={tech}
                         clickHandler={clickHandler}
+                        techSelected={techSelected}
+                      />
+                    </div>
+                  ))}
+                  {node?.technology?.map((tech, index) => (
+                    <div key={tech + index}>
+                      <TechnologiesRow
+                        tech={tech}
+                        clickHandler={clickHandler}
+                        techSelected={techSelected}
                       />
                     </div>
                   ))}
@@ -221,4 +257,4 @@ const ConferenceTable = ({ data }) => {
   );
 };
 
-export default ConferenceTable;
+export default AreaTable;

@@ -1,19 +1,19 @@
 "use client";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addQuotesToString } from "@/utils/utils";
-import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
 
-const PodcastDropDown = ({
+const AudienceDropDown = ({
   obj,
   categorySelected,
   menuTitle,
   setShowModal,
+  allFilterFunc,
+  pageState,
+  page,
 }) => {
-  const podcasts = useSelector(({ podcasts }) => podcasts);
-  const { langSelected, audienceSelected, tagSelected } = useSelector(
-    ({ podcasts }) => podcasts
-  );
+  const { langSelected, audienceSelected, tagSelected } = pageState;
+
   const dispatch = useDispatch();
 
   const getData = (dropDownSelected) => {
@@ -27,7 +27,7 @@ const PodcastDropDown = ({
     setShowModal((prev) => !prev);
     if (menuTitle === "language") {
       dispatch(
-        fetchPodcastByAllFilter({
+        allFilterFunc({
           langSelected: dropDownSelected,
           audienceSelected: convertAudience,
           tagSelected: convertTag,
@@ -35,7 +35,7 @@ const PodcastDropDown = ({
       );
     } else if (menuTitle === "audience") {
       dispatch(
-        fetchPodcastByAllFilter({
+        allFilterFunc({
           langSelected: convertLang,
           audienceSelected: dropDownSelected,
           tagSelected: convertTag,
@@ -43,7 +43,7 @@ const PodcastDropDown = ({
       );
     } else {
       dispatch(
-        fetchPodcastByAllFilter({
+        allFilterFunc({
           langSelected: convertLang,
           audienceSelected: convertAudience,
           tagSelected: dropDownSelected,
@@ -55,14 +55,24 @@ const PodcastDropDown = ({
   const clickHandler = (name) => {
     const convertStr = addQuotesToString(name);
     getData(convertStr);
-    dispatch(categorySelected.toChangeAtt(name));
+    if (page === "podcasts") {
+      dispatch(categorySelected.toChangeAtt(name));
+    } else if (page === "blogs") {
+      dispatch(categorySelected.toChangeBlogAtt(name));
+    } else if (page === "newsletters") {
+      dispatch(categorySelected.toChangeNewsAtt(name));
+    } else if (page === "youtube") {
+      dispatch(categorySelected.toChangeYoutubeAtt(name));
+    } else {
+      return;
+    }
   };
 
   return (
     <div
       className={`text-[14px] font-[700] hover:bg-indigos-op-100 hover:text-primary-end p-[10px] cursor-pointer ${
-        podcasts[categorySelected?.isActiveValue] === obj?.name
-          ? "text-primary-end bg-indigos-100"
+        pageState[categorySelected?.isActiveValue] === obj?.name
+          ? "text-primary-end bg-indigos-op-100"
           : "text-neutrals-600"
       }`}
       onClick={() => clickHandler(obj?.name)}
@@ -72,4 +82,4 @@ const PodcastDropDown = ({
   );
 };
 
-export default PodcastDropDown;
+export default AudienceDropDown;

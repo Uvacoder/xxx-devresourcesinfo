@@ -1,42 +1,43 @@
 "use client";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
-import PageContainer from "@/components/pageContainer";
-import {
-  clearPodcastFilters,
-  setPodcastDataByUrl,
-  setPodcastStorageData,
-} from "@/redux/features/podcast/podcastSlice";
+import { DEV_RESOURCES, YOUTUBE_URL } from "@/utils/constants";
 import { addQuotesToString } from "@/utils/utils";
-import { DEV_RESOURCES, PODCASTS_URL } from "@/utils/constants";
+import PageContainer from "@/components/pageContainer";
 import AudienceFilterBar from "@/components/audienceFilterBar";
 import AudienceTable from "@/components/audienceTable";
+import {
+  clearYoutubeFilters,
+  setYoutubeDataByUrl,
+  setYoutubeStorageData,
+} from "@/redux/features/youtube/youtubeSlice";
+import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
 import Breadcrumb from "@/components/breadcrumb";
 
-const Podcasts = ({ params: { name } }) => {
+const Youtube = ({ name }) => {
   const dispatch = useDispatch();
-  const podcasts = useSelector(({ podcasts }) => podcasts);
-  const { allPodcasts, status, langSelected, audienceSelected, tagSelected } =
-    podcasts;
+  const youtube = useSelector(({ youtube }) => youtube);
+  const { allYoutube, status, langSelected, audienceSelected, tagSelected } =
+    youtube;
+
   const fetchData = () => {
     const localStorageResources =
       JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
 
-    dispatch(setPodcastStorageData(localStorageResources?.podcasts));
+    dispatch(setYoutubeStorageData(localStorageResources?.youtube));
 
-    const convertLang = localStorageResources?.podcasts?.langSelected
-      ? addQuotesToString(localStorageResources?.podcasts?.langSelected)
+    const convertLang = localStorageResources?.youtube?.langSelected
+      ? addQuotesToString(localStorageResources?.youtube?.langSelected)
       : undefined;
-    const convertAudience = localStorageResources?.podcasts?.audienceSelected
-      ? addQuotesToString(localStorageResources?.podcasts?.audienceSelected)
+    const convertAudience = localStorageResources?.youtube?.audienceSelected
+      ? addQuotesToString(localStorageResources?.youtube?.audienceSelected)
       : undefined;
-    const convertTag = localStorageResources?.podcasts?.tagSelected
-      ? addQuotesToString(localStorageResources?.podcasts?.tagSelected)
+    const convertTag = localStorageResources?.youtube?.tagSelected
+      ? addQuotesToString(localStorageResources?.youtube?.tagSelected)
       : undefined;
 
     dispatch(
-      fetchPodcastByAllFilter({
+      fetchYoutubeByAllFilter({
         langSelected: convertLang,
         audienceSelected: convertAudience,
         tagSelected: convertTag,
@@ -53,10 +54,10 @@ const Podcasts = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${PODCASTS_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
+        `${YOUTUBE_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
       );
       dispatch(
-        setPodcastDataByUrl({
+        setYoutubeDataByUrl({
           langSelected,
           audienceSelected,
           tagSelected,
@@ -66,56 +67,58 @@ const Podcasts = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${PODCASTS_URL}/${audienceSelected}/${langSelected}`
+        `${YOUTUBE_URL}/${audienceSelected}/${langSelected}`
       );
       dispatch(
-        setPodcastDataByUrl({
+        setYoutubeDataByUrl({
           langSelected,
           audienceSelected,
         })
       );
-    } else if (tagSelected && audienceSelected) {
+    } else if (audienceSelected && tagSelected) {
       window.history.pushState(
         null,
         "",
-        `${PODCASTS_URL}/${tagSelected}/${audienceSelected}`
+        `${YOUTUBE_URL}/${tagSelected}/${audienceSelected}`
       );
       dispatch(
-        setPodcastDataByUrl({
+        setYoutubeDataByUrl({
           audienceSelected,
           tagSelected,
         })
       );
-    } else if (tagSelected && langSelected) {
+    } else if (langSelected && tagSelected) {
       window.history.pushState(
         null,
         "",
-        `${PODCASTS_URL}/${tagSelected}/${langSelected}`
+        `${YOUTUBE_URL}/${tagSelected}/${langSelected}`
       );
       dispatch(
-        setPodcastDataByUrl({
+        setYoutubeDataByUrl({
           langSelected,
           tagSelected,
         })
       );
     } else if (langSelected) {
-      window.history.pushState(null, "", `${PODCASTS_URL}/${langSelected}`);
+      window.history.pushState(null, "", `${YOUTUBE_URL}/${langSelected}`);
       dispatch(
-        setPodcastDataByUrl({
+        setYoutubeDataByUrl({
           langSelected,
+          tagSelected,
         })
       );
     } else if (audienceSelected) {
-      window.history.pushState(null, "", `${PODCASTS_URL}/${audienceSelected}`);
+      window.history.pushState(null, "", `${YOUTUBE_URL}/${audienceSelected}`);
       dispatch(
-        setPodcastDataByUrl({
+        setYoutubeDataByUrl({
           audienceSelected,
+          tagSelected,
         })
       );
     } else if (tagSelected) {
-      window.history.pushState(null, "", `${PODCASTS_URL}/${tagSelected}`);
+      window.history.pushState(null, "", `${YOUTUBE_URL}/${tagSelected}`);
       dispatch(
-        setPodcastDataByUrl({
+        setYoutubeDataByUrl({
           tagSelected,
         })
       );
@@ -123,38 +126,37 @@ const Podcasts = ({ params: { name } }) => {
       fetchData();
     }
   }, [langSelected, audienceSelected, tagSelected]);
-
   return (
     <PageContainer>
       <Breadcrumb />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
-        Podcasts
+        Youtube
       </h1>
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
         A curated list of
         {langSelected && <span> {langSelected}</span>}
-        {tagSelected && <span> {tagSelected}</span>} podcasts
+        {tagSelected && <span> {tagSelected}</span>} youtube videos
         {audienceSelected && <span> targeted towards {audienceSelected}</span>}
       </p>
       <AudienceFilterBar
-        page="podcasts"
-        pageState={podcasts}
-        clearFunc={clearPodcastFilters}
+        page="youtube"
+        pageState={youtube}
+        clearFunc={clearYoutubeFilters}
       />
       {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>
-      ) : allPodcasts.length > 0 ? (
+      ) : allYoutube.length > 0 ? (
         <AudienceTable
-          data={allPodcasts}
-          page="podcasts"
-          pageState={podcasts}
-          filterFunc={fetchPodcastByAllFilter}
+          data={allYoutube}
+          page="youtube"
+          pageState={youtube}
+          filterFunc={fetchYoutubeByAllFilter}
         />
       ) : (
-        status === "success" && <p>No podcasts found!</p>
+        status === "success" && <p>No youtube data found!</p>
       )}
     </PageContainer>
   );
 };
 
-export default Podcasts;
+export default Youtube;

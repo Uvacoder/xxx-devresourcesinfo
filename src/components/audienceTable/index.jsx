@@ -3,15 +3,12 @@ import globe from "@/assets/globe.svg";
 import group from "@/assets/group.svg";
 import Image from "next/image";
 import TechnologiesRow from "./rows/TechnologiesRow";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addQuotesToString } from "@/utils/utils";
-import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
 import { findCategoryData } from "@/data/modalContainerData";
 
-const PodcastTable = ({ data }) => {
-  const { langSelected, audienceSelected, tagSelected } = useSelector(
-    ({ podcasts }) => podcasts
-  );
+const AudienceTable = ({ data, page, pageState, filterFunc }) => {
+  const { langSelected, audienceSelected, tagSelected } = pageState;
   const dispatch = useDispatch();
 
   const getData = (textSelected, title) => {
@@ -25,7 +22,7 @@ const PodcastTable = ({ data }) => {
 
     if (title === "Language") {
       dispatch(
-        fetchPodcastByAllFilter({
+        filterFunc({
           langSelected: textSelected,
           audienceSelected: convertAudience,
           tagSelected: convertTag,
@@ -33,7 +30,7 @@ const PodcastTable = ({ data }) => {
       );
     } else if (title === "Audience") {
       dispatch(
-        fetchPodcastByAllFilter({
+        filterFunc({
           langSelected: convertLang,
           audienceSelected: textSelected,
           tagSelected: convertTag,
@@ -41,7 +38,7 @@ const PodcastTable = ({ data }) => {
       );
     } else {
       dispatch(
-        fetchPodcastByAllFilter({
+        filterFunc({
           langSelected: convertLang,
           audienceSelected: convertAudience,
           tagSelected: textSelected,
@@ -56,7 +53,17 @@ const PodcastTable = ({ data }) => {
     );
     const convertStr = addQuotesToString(name);
     getData(convertStr, title);
-    dispatch(categorySelected.toChangeAtt(name));
+    if (page === "podcasts") {
+      dispatch(categorySelected.toChangeAtt(name));
+    } else if (page === "blogs") {
+      dispatch(categorySelected.toChangeBlogAtt(name));
+    } else if (page === "newsletters") {
+      dispatch(categorySelected.toChangeNewsAtt(name));
+    } else if (page === "youtube") {
+      dispatch(categorySelected.toChangeYoutubeAtt(name));
+    } else {
+      return;
+    }
   };
   return (
     <div className="border border-neutrals-100 rounded-[8px] overflow-hidden">
@@ -112,7 +119,11 @@ const PodcastTable = ({ data }) => {
             <ul className="flex items-center justify-end md:justify-normal flex-wrap gap-[10px] min-w-[120px] sm:min-w-[200px] md:min-w-[320px] sm:self-stretch">
               {node?.technology?.map((obj) => (
                 <li key={obj?.id}>
-                  <TechnologiesRow obj={obj} clickHandler={clickHandler} />
+                  <TechnologiesRow
+                    obj={obj}
+                    clickHandler={clickHandler}
+                    tagSelected={tagSelected}
+                  />
                 </li>
               ))}
             </ul>
@@ -123,4 +134,4 @@ const PodcastTable = ({ data }) => {
   );
 };
 
-export default PodcastTable;
+export default AudienceTable;

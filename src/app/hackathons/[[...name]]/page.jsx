@@ -2,31 +2,31 @@
 import React, { useEffect } from "react";
 import { getCurrentDate, addQuotesToString } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
-import {
-  clearConfFilters,
-  setConferenceDataByUrl,
-  setStorageData,
-  setTodayDate,
-} from "@/redux/features/conference/conferenceSlice";
 import PageContainer from "@/components/pageContainer";
-import { CONFERENCES_URL, DEV_RESOURCES } from "@/utils/constants";
-import Breadcrumb from "@/components/breadcrumb";
+import { HACKATHONS_URL, DEV_RESOURCES } from "@/utils/constants";
 import AreaFilterBar from "@/components/areaFilterBar";
 import AreaTable from "@/components/areaTable";
+import { fetchHackathonsByAllFilter } from "@/redux/features/hackathon/action";
+import {
+  clearHackathonFilters,
+  setHackathonDataByUrl,
+  setHackathonStorageData,
+  setHackathonTodayDate,
+} from "@/redux/features/hackathon/hackathonSlice";
+import Breadcrumb from "@/components/breadcrumb";
 
-const Conferences = ({ params: { name } }) => {
+const Hackathons = ({ params: { name } }) => {
   const dispatch = useDispatch();
-  const conferences = useSelector(({ conferences }) => conferences);
+  const hackathons = useSelector(({ hackathons }) => hackathons);
   const {
-    allConferences,
+    allHackathons,
     status,
     pastConf,
     citySelected,
     countrySelected,
     continentSelected,
     techSelected,
-  } = conferences;
+  } = hackathons;
 
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
@@ -35,29 +35,27 @@ const Conferences = ({ params: { name } }) => {
     const localStorageResources =
       JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
 
-    dispatch(setStorageData(localStorageResources?.conferences));
+    dispatch(setHackathonStorageData(localStorageResources?.hackathons));
 
-    const convertCity = localStorageResources?.conferences?.citySelected
-      ? addQuotesToString(localStorageResources?.conferences?.citySelected)
+    const convertCity = localStorageResources?.hackathons?.citySelected
+      ? addQuotesToString(localStorageResources?.hackathons?.citySelected)
       : undefined;
-    const convertCountry = localStorageResources?.conferences?.countrySelected
-      ? addQuotesToString(localStorageResources?.conferences?.countrySelected)
+    const convertCountry = localStorageResources?.hackathons?.countrySelected
+      ? addQuotesToString(localStorageResources?.hackathons?.countrySelected)
       : undefined;
-    const convertContinent = localStorageResources?.conferences
+    const convertContinent = localStorageResources?.hackathons
       ?.continentSelected
-      ? addQuotesToString(localStorageResources?.conferences?.continentSelected)
+      ? addQuotesToString(localStorageResources?.hackathons?.continentSelected)
       : undefined;
-    const convertTech = localStorageResources?.conferences?.techSelected
-      ? addQuotesToString(localStorageResources?.conferences?.techSelected)
+    const convertTech = localStorageResources?.hackathons?.techSelected
+      ? addQuotesToString(localStorageResources?.hackathons?.techSelected)
       : undefined;
-    const convertedDateStr = localStorageResources?.conferences?.pastConf
-      ? undefined
-      : convertedDate;
+    const convertedDateStr = pastConf ? undefined : convertedDate;
 
-    dispatch(setTodayDate(convertedDateStr));
+    dispatch(setHackathonTodayDate(convertedDateStr));
 
     dispatch(
-      fetchConferencesByAllFilter({
+      fetchHackathonsByAllFilter({
         citySelected: convertCity,
         countrySelected: convertCountry,
         continentSelected: convertContinent,
@@ -72,18 +70,14 @@ const Conferences = ({ params: { name } }) => {
   }, []);
 
   useEffect(() => {
-    fetchData();
-  }, [pastConf]);
-
-  useEffect(() => {
     if (citySelected && techSelected) {
       window.history.pushState(
         null,
         "",
-        `${CONFERENCES_URL}/${techSelected}/${continentSelected}/${countrySelected}/${citySelected}`
+        `${HACKATHONS_URL}/${techSelected}/${continentSelected}/${countrySelected}/${citySelected}`
       );
       dispatch(
-        setConferenceDataByUrl({
+        setHackathonDataByUrl({
           payload: {
             citySelected,
             countrySelected,
@@ -96,10 +90,10 @@ const Conferences = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${CONFERENCES_URL}/${techSelected}/${continentSelected}/${countrySelected}`
+        `${HACKATHONS_URL}/${techSelected}/${continentSelected}/${countrySelected}`
       );
       dispatch(
-        setConferenceDataByUrl({
+        setHackathonDataByUrl({
           payload: {
             countrySelected,
             continentSelected,
@@ -111,10 +105,10 @@ const Conferences = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${CONFERENCES_URL}/${techSelected}/${continentSelected}`
+        `${HACKATHONS_URL}/${techSelected}/${continentSelected}`
       );
       dispatch(
-        setConferenceDataByUrl({
+        setHackathonDataByUrl({
           payload: {
             continentSelected,
             techSelected,
@@ -122,9 +116,13 @@ const Conferences = ({ params: { name } }) => {
         })
       );
     } else if (techSelected) {
-      window.history.pushState(null, "", `${CONFERENCES_URL}/${techSelected}`);
+      window.history.pushState(
+        null,
+        "",
+        `${HACKATHONS_URL}/${techSelected}`
+      );
       dispatch(
-        setConferenceDataByUrl({
+        setHackathonDataByUrl({
           payload: {
             techSelected,
           },
@@ -134,10 +132,10 @@ const Conferences = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${CONFERENCES_URL}/${continentSelected}/${countrySelected}/${citySelected}`
+        `${HACKATHONS_URL}/${continentSelected}/${countrySelected}/${citySelected}`
       );
       dispatch(
-        setConferenceDataByUrl({
+        setHackathonDataByUrl({
           payload: {
             citySelected,
             countrySelected,
@@ -149,10 +147,10 @@ const Conferences = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${CONFERENCES_URL}/${continentSelected}/${countrySelected}`
+        `${HACKATHONS_URL}/${continentSelected}/${countrySelected}`
       );
       dispatch(
-        setConferenceDataByUrl({
+        setHackathonDataByUrl({
           payload: {
             countrySelected,
             continentSelected,
@@ -163,10 +161,10 @@ const Conferences = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${CONFERENCES_URL}/${continentSelected}`
+        `${HACKATHONS_URL}/${continentSelected}`
       );
       dispatch(
-        setConferenceDataByUrl({
+        setHackathonDataByUrl({
           continentSelected,
         })
       );
@@ -176,23 +174,16 @@ const Conferences = ({ params: { name } }) => {
     }
   }, [citySelected, countrySelected, continentSelected, techSelected]);
 
-  const currentYear = currentDate.split("-")[0];
- 
   return (
     <PageContainer>
       <Breadcrumb />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
-        Developers Conferences
+        Hackathons
       </h1>
-      {!pastConf && (
-        <p className="text-neutrals-800 font-[500] text-[25px] sm:text-[30px] lg:text-[40px]">
-          for {currentYear}
-        </p>
-      )}
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
         <span>
           A curated list of the {techSelected && <span>{techSelected}</span>}{" "}
-          developer conferences
+          hackathons
         </span>
         {citySelected && (
           <span>
@@ -201,28 +192,26 @@ const Conferences = ({ params: { name } }) => {
             {continentSelected && <span>, {continentSelected}</span>}
           </span>
         )}
-        {!pastConf && <span> for {currentYear} and beyond</span>}
       </p>
       <AreaFilterBar
-        page="conferences"
-        pageState={conferences}
-        clearFunc={clearConfFilters}
-        showPastDate
+        page="hackathons"
+        pageState={hackathons}
+        clearFunc={clearHackathonFilters}
       />
       {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>
-      ) : allConferences.length > 0 ? (
+      ) : allHackathons.length > 0 ? (
         <AreaTable
-          data={allConferences}
-          page="conferences"
-          pageState={conferences}
-          filterFunc={fetchConferencesByAllFilter}
+          data={allHackathons}
+          page="hackathons"
+          pageState={hackathons}
+          filterFunc={fetchHackathonsByAllFilter}
         />
       ) : (
-        status === "success" && <p>No conferences found!</p>
+        status === "success" && <p>No hackathons found!</p>
       )}
     </PageContainer>
   );
 };
 
-export default Conferences;
+export default Hackathons;

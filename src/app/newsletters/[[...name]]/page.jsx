@@ -1,42 +1,48 @@
 "use client";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
+import { DEV_RESOURCES, NEWSLETTERS_URL } from "@/utils/constants";
+import { addQuotesToString } from "@/utils/utils";
 import PageContainer from "@/components/pageContainer";
 import {
-  clearPodcastFilters,
-  setPodcastDataByUrl,
-  setPodcastStorageData,
-} from "@/redux/features/podcast/podcastSlice";
-import { addQuotesToString } from "@/utils/utils";
-import { DEV_RESOURCES, PODCASTS_URL } from "@/utils/constants";
+  clearNewsletterFilters,
+  setNewsletterDataByUrl,
+  setNewsletterStorageData,
+} from "@/redux/features/newsletter/newsletterSlice";
+import { fetchNewsletterByAllFilter } from "@/redux/features/newsletter/action";
 import AudienceFilterBar from "@/components/audienceFilterBar";
 import AudienceTable from "@/components/audienceTable";
 import Breadcrumb from "@/components/breadcrumb";
 
-const Podcasts = ({ params: { name } }) => {
+const NewsLetters = ({ name }) => {
   const dispatch = useDispatch();
-  const podcasts = useSelector(({ podcasts }) => podcasts);
-  const { allPodcasts, status, langSelected, audienceSelected, tagSelected } =
-    podcasts;
+  const newsletters = useSelector(({ newsletters }) => newsletters);
+  const {
+    allNewsletters,
+    status,
+    langSelected,
+    audienceSelected,
+    tagSelected,
+  } = newsletters;
+
   const fetchData = () => {
     const localStorageResources =
       JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
 
-    dispatch(setPodcastStorageData(localStorageResources?.podcasts));
+    dispatch(setNewsletterStorageData(localStorageResources?.newsletters));
 
-    const convertLang = localStorageResources?.podcasts?.langSelected
-      ? addQuotesToString(localStorageResources?.podcasts?.langSelected)
+    const convertLang = localStorageResources?.newsletters?.langSelected
+      ? addQuotesToString(localStorageResources?.newsletters?.langSelected)
       : undefined;
-    const convertAudience = localStorageResources?.podcasts?.audienceSelected
-      ? addQuotesToString(localStorageResources?.podcasts?.audienceSelected)
+    const convertAudience = localStorageResources?.newsletters?.audienceSelected
+      ? addQuotesToString(localStorageResources?.newsletters?.audienceSelected)
       : undefined;
-    const convertTag = localStorageResources?.podcasts?.tagSelected
-      ? addQuotesToString(localStorageResources?.podcasts?.tagSelected)
+    const convertTag = localStorageResources?.newsletters?.tagSelected
+      ? addQuotesToString(localStorageResources?.newsletters?.tagSelected)
       : undefined;
 
     dispatch(
-      fetchPodcastByAllFilter({
+      fetchNewsletterByAllFilter({
         langSelected: convertLang,
         audienceSelected: convertAudience,
         tagSelected: convertTag,
@@ -53,10 +59,10 @@ const Podcasts = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${PODCASTS_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
+        `${NEWSLETTERS_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
       );
       dispatch(
-        setPodcastDataByUrl({
+        setNewsletterDataByUrl({
           langSelected,
           audienceSelected,
           tagSelected,
@@ -66,56 +72,62 @@ const Podcasts = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${PODCASTS_URL}/${audienceSelected}/${langSelected}`
+        `${NEWSLETTERS_URL}/${audienceSelected}/${langSelected}`
       );
       dispatch(
-        setPodcastDataByUrl({
+        setNewsletterDataByUrl({
           langSelected,
           audienceSelected,
         })
       );
-    } else if (tagSelected && audienceSelected) {
+    } else if (audienceSelected && tagSelected) {
       window.history.pushState(
         null,
         "",
-        `${PODCASTS_URL}/${tagSelected}/${audienceSelected}`
+        `${NEWSLETTERS_URL}/${tagSelected}/${audienceSelected}`
       );
       dispatch(
-        setPodcastDataByUrl({
+        setNewsletterDataByUrl({
           audienceSelected,
           tagSelected,
         })
       );
-    } else if (tagSelected && langSelected) {
+    } else if (langSelected && tagSelected) {
       window.history.pushState(
         null,
         "",
-        `${PODCASTS_URL}/${tagSelected}/${langSelected}`
+        `${NEWSLETTERS_URL}/${tagSelected}/${langSelected}`
       );
       dispatch(
-        setPodcastDataByUrl({
+        setNewsletterDataByUrl({
           langSelected,
           tagSelected,
         })
       );
     } else if (langSelected) {
-      window.history.pushState(null, "", `${PODCASTS_URL}/${langSelected}`);
+      window.history.pushState(null, "", `${NEWSLETTERS_URL}/${langSelected}`);
       dispatch(
-        setPodcastDataByUrl({
+        setNewsletterDataByUrl({
           langSelected,
+          tagSelected,
         })
       );
     } else if (audienceSelected) {
-      window.history.pushState(null, "", `${PODCASTS_URL}/${audienceSelected}`);
+      window.history.pushState(
+        null,
+        "",
+        `${NEWSLETTERS_URL}/${audienceSelected}`
+      );
       dispatch(
-        setPodcastDataByUrl({
+        setNewsletterDataByUrl({
           audienceSelected,
+          tagSelected,
         })
       );
     } else if (tagSelected) {
-      window.history.pushState(null, "", `${PODCASTS_URL}/${tagSelected}`);
+       window.history.pushState(null, "", `${NEWSLETTERS_URL}/${tagSelected}`);
       dispatch(
-        setPodcastDataByUrl({
+        setNewsletterDataByUrl({
           tagSelected,
         })
       );
@@ -123,38 +135,37 @@ const Podcasts = ({ params: { name } }) => {
       fetchData();
     }
   }, [langSelected, audienceSelected, tagSelected]);
-
   return (
     <PageContainer>
       <Breadcrumb />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
-        Podcasts
+        Newsletters
       </h1>
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
         A curated list of
         {langSelected && <span> {langSelected}</span>}
-        {tagSelected && <span> {tagSelected}</span>} podcasts
+        {tagSelected && <span> {tagSelected}</span>} newsletters
         {audienceSelected && <span> targeted towards {audienceSelected}</span>}
       </p>
       <AudienceFilterBar
-        page="podcasts"
-        pageState={podcasts}
-        clearFunc={clearPodcastFilters}
+        page="newsletters"
+        pageState={newsletters}
+        clearFunc={clearNewsletterFilters}
       />
       {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>
-      ) : allPodcasts.length > 0 ? (
+      ) : allNewsletters.length > 0 ? (
         <AudienceTable
-          data={allPodcasts}
-          page="podcasts"
-          pageState={podcasts}
-          filterFunc={fetchPodcastByAllFilter}
+          data={allNewsletters}
+          page="newsletters"
+          pageState={newsletters}
+          filterFunc={fetchNewsletterByAllFilter}
         />
       ) : (
-        status === "success" && <p>No podcasts found!</p>
+        status === "success" && <p>No newsletters found!</p>
       )}
     </PageContainer>
   );
 };
 
-export default Podcasts;
+export default NewsLetters;

@@ -17,6 +17,10 @@ const Switch = () => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(pastConf);
 
+  useEffect(() => {
+    setChecked(pastConf);
+  }, [pastConf]);
+
   const changeHandler = () => {
     let newCheckedValue = checked ? false : true;
     setChecked(newCheckedValue);
@@ -54,7 +58,7 @@ const Switch = () => {
       <input
         type="checkbox"
         onChange={() => changeHandler()}
-        checked={pastConf}
+        checked={checked}
       />
       <span className="slider round"></span>
     </label>

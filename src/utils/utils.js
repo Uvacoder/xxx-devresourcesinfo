@@ -34,9 +34,13 @@ export const parseDate = (dateString) => {
   };
 };
 
-export const clearFiltersFromURL = (path) =>{
-   const pathname = window.location.pathname;
-   if (pathname.startsWith(path + "/") && pathname !== path) {
-     window.history.replaceState(null, "", path);
-   }
-}
+export const clearFiltersFromURL = (path) => {
+  const pathname = window.location.pathname;
+  if (pathname.startsWith(path + "/") && pathname !== path) {
+    window.history.replaceState(null, "", path);
+  }
+};
+
+export const clearLocalStorage = () => {
+  localStorage.clear();
+};
