@@ -169,7 +169,7 @@ const Hackathons = ({ params: { name } }) => {
     }
   }, [citySelected, countrySelected, continentSelected, techSelected]);
 
-  console.log(allHackathons);
+
 
   return (
     <PageContainer>
@@ -178,7 +178,17 @@ const Hackathons = ({ params: { name } }) => {
         Hackathons
       </h1>
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
-        A curated list of the Hackathons
+        <span>
+          A curated list of the {techSelected && <span>{techSelected}</span>}{" "}
+           hackathons
+        </span>
+        {citySelected && (
+          <span>
+            <span> in {citySelected}</span>
+            {countrySelected && <span>, {countrySelected}</span>}
+            {continentSelected && <span>, {continentSelected}</span>}
+          </span>
+        )}
       </p>
       <AreaFilterBar
         page="hackathons"

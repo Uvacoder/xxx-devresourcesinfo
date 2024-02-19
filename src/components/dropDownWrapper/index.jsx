@@ -3,12 +3,10 @@ import { useEffect, useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import ModalContainer from "../modalContainer";
 import { findDropDownCategory } from "@/data/dropDownData";
-import { useSelector } from "react-redux";
 
 const DropdownWrapper = ({ page, title, pageState }) => {
   const [showModal, setShowModal] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
-  const conferences = useSelector(({ conferences }) => conferences);
   const handleClick = () => {
     setShowModal(() => !showModal);
   };
@@ -25,6 +23,7 @@ const DropdownWrapper = ({ page, title, pageState }) => {
     getData();
   }, [title]);
 
+ 
   return (
     <div className="relative">
       <button
