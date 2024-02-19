@@ -74,7 +74,7 @@ const Hackathons = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${HACKATHONS_URL}/${continentSelected}/${countrySelected}/${citySelected}`
+        `${HACKATHONS_URL}/${techSelected}/${continentSelected}/${countrySelected}/${citySelected}`
       );
       dispatch(
         setHackathonDataByUrl({
@@ -90,7 +90,7 @@ const Hackathons = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${HACKATHONS_URL}/${continentSelected}/${countrySelected}`
+        `${HACKATHONS_URL}/${techSelected}/${continentSelected}/${countrySelected}`
       );
       dispatch(
         setHackathonDataByUrl({
@@ -105,7 +105,7 @@ const Hackathons = ({ params: { name } }) => {
       window.history.pushState(
         null,
         "",
-        `${HACKATHONS_URL}/${continentSelected}`
+        `${HACKATHONS_URL}/${techSelected}/${continentSelected}`
       );
       dispatch(
         setHackathonDataByUrl({
@@ -116,6 +116,11 @@ const Hackathons = ({ params: { name } }) => {
         })
       );
     } else if (techSelected) {
+      window.history.pushState(
+        null,
+        "",
+        `${HACKATHONS_URL}/${techSelected}`
+      );
       dispatch(
         setHackathonDataByUrl({
           payload: {
@@ -169,8 +174,6 @@ const Hackathons = ({ params: { name } }) => {
     }
   }, [citySelected, countrySelected, continentSelected, techSelected]);
 
-
-
   return (
     <PageContainer>
       <Breadcrumb />
@@ -180,7 +183,7 @@ const Hackathons = ({ params: { name } }) => {
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
         <span>
           A curated list of the {techSelected && <span>{techSelected}</span>}{" "}
-           hackathons
+          hackathons
         </span>
         {citySelected && (
           <span>
