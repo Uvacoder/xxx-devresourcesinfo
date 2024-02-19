@@ -50,7 +50,9 @@ const Conferences = ({ params: { name } }) => {
     const convertTech = localStorageResources?.conferences?.techSelected
       ? addQuotesToString(localStorageResources?.conferences?.techSelected)
       : undefined;
-    const convertedDateStr = pastConf ? undefined : convertedDate;
+    const convertedDateStr = localStorageResources?.conferences?.pastConf
+      ? undefined
+      : convertedDate;
 
     dispatch(setTodayDate(convertedDateStr));
 
@@ -68,6 +70,10 @@ const Conferences = ({ params: { name } }) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [pastConf]);
 
   useEffect(() => {
     if (citySelected && techSelected) {
@@ -171,7 +177,7 @@ const Conferences = ({ params: { name } }) => {
   }, [citySelected, countrySelected, continentSelected, techSelected]);
 
   const currentYear = currentDate.split("-")[0];
-
+ 
   return (
     <PageContainer>
       <Breadcrumb />

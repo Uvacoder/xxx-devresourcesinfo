@@ -65,9 +65,9 @@ export const conferenceSlice = createSlice({
       state.continentSelected = action.payload;
     },
     pastConfUpdate: (state, action) => {
-      state.pastConf = !state.pastConf;
+      state.pastConf = action.payload;
       const newData = {
-        pastConf: !state.pastConf,
+        pastConf: action.payload,
       };
       const updateResources = {
         ...localStorageResources,
