@@ -234,6 +234,7 @@ const AreaTable = ({ data, page, pageState, filterFunc }) => {
                       <TechnologiesRow
                         tech={tech}
                         clickHandler={clickHandler}
+                        techSelected={techSelected}
                       />
                     </div>
                   ))}
@@ -242,6 +243,7 @@ const AreaTable = ({ data, page, pageState, filterFunc }) => {
                       <TechnologiesRow
                         tech={tech}
                         clickHandler={clickHandler}
+                        techSelected={techSelected}
                       />
                     </div>
                   ))}

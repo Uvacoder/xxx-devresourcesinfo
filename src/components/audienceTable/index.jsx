@@ -119,7 +119,11 @@ const AudienceTable = ({ data, page, pageState, filterFunc }) => {
             <ul className="flex items-center justify-end md:justify-normal flex-wrap gap-[10px] min-w-[120px] sm:min-w-[200px] md:min-w-[320px] sm:self-stretch">
               {node?.technology?.map((obj) => (
                 <li key={obj?.id}>
-                  <TechnologiesRow obj={obj} clickHandler={clickHandler} />
+                  <TechnologiesRow
+                    obj={obj}
+                    clickHandler={clickHandler}
+                    tagSelected={tagSelected}
+                  />
                 </li>
               ))}
             </ul>
