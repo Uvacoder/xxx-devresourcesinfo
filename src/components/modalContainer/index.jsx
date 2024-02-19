@@ -10,6 +10,7 @@ import { fetchBlogByAllFilter } from "@/redux/features/blog/action";
 import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
 import AreaDropDown from "./pagesDropDown/AreaDropDown";
 import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
+import { fetchHackathonsByAllFilter } from "@/redux/features/hackathon/action";
 
 const ModalContainer = ({
   title,
@@ -44,7 +45,7 @@ const ModalContainer = ({
           obj?.node?.name.toLowerCase().includes(searchTerm.toLowerCase())
         )
       : categoryData?.data;
- 
+
   return (
     <Modal onClose={closeModal}>
       <div className="absolute top-0 left-0 z-10 md:w-[300px] md:top-10 p-[24px] flex flex-col gap-[16px] self-stretch bg-white border border-indigos-op-300 modalShadow rounded-[4px]">
@@ -77,6 +78,16 @@ const ModalContainer = ({
                           menuTitle={menuTitle}
                           setShowModal={setShowModal}
                           allFilterFunc={fetchConferencesByAllFilter}
+                          pageState={pageState}
+                          page={page}
+                        />
+                      ) : page === "hackathons" ? (
+                        <AreaDropDown
+                          obj={obj.node}
+                          categorySelected={categorySelected}
+                          menuTitle={menuTitle}
+                          setShowModal={setShowModal}
+                          allFilterFunc={fetchHackathonsByAllFilter}
                           pageState={pageState}
                           page={page}
                         />

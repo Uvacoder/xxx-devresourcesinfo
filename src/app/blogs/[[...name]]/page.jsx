@@ -133,7 +133,10 @@ const Blogs = ({ name }) => {
         Blogs
       </h1>
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
-        A curated list of the Blogs
+        A curated list of
+        {langSelected && <span> {langSelected}</span>}
+        {tagSelected && <span> {tagSelected}</span>} blogs
+        {audienceSelected && <span> targeted towards {audienceSelected}</span>}
       </p>
       <AudienceFilterBar
         page="blogs"
