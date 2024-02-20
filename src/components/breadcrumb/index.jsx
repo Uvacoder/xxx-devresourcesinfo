@@ -2,17 +2,12 @@
 import { IoChevronForward } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { removePercent20 } from "@/utils/utils";
 
 const Breadcrumb = () => {
   const pathname = usePathname();
   const parts = pathname?.split("/");
-  const removePercent20 = (str) => {
-    if (str.includes("%20")) {
-      return str.replace(/%20/g, " ");
-    } else {
-      return str;
-    }
-  };
+  
   return (
     <>
       {parts.length > 2 && (
