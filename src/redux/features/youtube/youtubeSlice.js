@@ -3,14 +3,6 @@ import { fetchYoutubeByAllFilter } from "./action";
 import { clearFiltersFromURL } from "@/utils/utils";
 import { DEV_RESOURCES, YOUTUBE_URL } from "@/utils/constants";
 
-const isBrowser = typeof window !== "undefined";
-
-let localStorageResources = {};
-
-if (isBrowser) {
-  localStorageResources = JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
-}
-
 const initialState = {
   allYoutube: [],
   langSelected: "",
@@ -24,31 +16,17 @@ export const youtubeSlice = createSlice({
   name: "youtube",
   initialState,
   reducers: {
-    setYoutubeStorageData: (state, action) => {
-      state.langSelected = action.payload?.langSelected ?? "";
-      state.audienceSelected = action.payload?.audienceSelected ?? "";
-      state.tagSelected = action.payload?.tagSelected ?? "";
-    },
     clearYoutubeFilters: (state, action) => {
       state.langSelected = "";
       state.audienceSelected = "";
       state.tagSelected = "";
 
-      const updateResources = {
-        ...localStorageResources,
-        youtube: {},
-      };
-      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
-
       clearFiltersFromURL(YOUTUBE_URL);
     },
     setYoutubeDataByUrl: (state, action) => {
-      const newData = action.payload;
-      const updateResources = {
-        ...localStorageResources,
-        youtube: newData,
-      };
-      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
+      state.langSelected = action.payload?.langSelected ?? "";
+      state.audienceSelected = action.payload?.audienceSelected ?? "";
+      state.tagSelected = action.payload?.tagSelected ?? "";
     },
     setYoutubeLangFilter: (state, action) => {
       state.langSelected = action.payload;
@@ -79,12 +57,11 @@ export const youtubeSlice = createSlice({
 });
 
 export const {
+  clearYoutubeFilters,
+  setYoutubeDataByUrl,
   setYoutubeLangFilter,
   setYoutubeAudienceFilter,
   setYoutubeTagFilter,
-  setYoutubeStorageData,
-  clearYoutubeFilters,
-  setYoutubeDataByUrl,
 } = youtubeSlice.actions;
 
 export default youtubeSlice.reducer;

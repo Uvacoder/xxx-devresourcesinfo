@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { usePathname } from "next/navigation";
 import { DEV_RESOURCES, YOUTUBE_URL } from "@/utils/constants";
-import { addQuotesToString } from "@/utils/utils";
+import { addQuotesToString, extractDataFromURL } from "@/utils/utils";
 import PageContainer from "@/components/pageContainer";
 import AudienceFilterBar from "@/components/audienceFilterBar";
 import AudienceTable from "@/components/audienceTable";
@@ -13,27 +14,25 @@ import {
 } from "@/redux/features/youtube/youtubeSlice";
 import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
 import Breadcrumb from "@/components/breadcrumb";
+import { fetchFilterFromURL, updateURLAndData } from "@/utils/urlFunc";
 
 const Youtube = ({ name }) => {
   const dispatch = useDispatch();
+  const pathname = usePathname();
+  const dataFromURL = extractDataFromURL(pathname);
   const youtube = useSelector(({ youtube }) => youtube);
   const { allYoutube, status, langSelected, audienceSelected, tagSelected } =
     youtube;
 
-  const fetchData = () => {
-    const localStorageResources =
-      JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
-
-    dispatch(setYoutubeStorageData(localStorageResources?.youtube));
-
-    const convertLang = localStorageResources?.youtube?.langSelected
-      ? addQuotesToString(localStorageResources?.youtube?.langSelected)
+  const fetchData = (obj) => {
+    const convertLang = obj?.langSelected
+      ? addQuotesToString(obj?.langSelected)
       : undefined;
-    const convertAudience = localStorageResources?.youtube?.audienceSelected
-      ? addQuotesToString(localStorageResources?.youtube?.audienceSelected)
+    const convertAudience = obj?.audienceSelected
+      ? addQuotesToString(obj?.audienceSelected)
       : undefined;
-    const convertTag = localStorageResources?.youtube?.tagSelected
-      ? addQuotesToString(localStorageResources?.youtube?.tagSelected)
+    const convertTag = obj?.tagSelected
+      ? addQuotesToString(obj?.tagSelected)
       : undefined;
 
     dispatch(
@@ -46,86 +45,31 @@ const Youtube = ({ name }) => {
   };
 
   useEffect(() => {
-    fetchData();
+    const filterFromURL = fetchFilterFromURL(
+      dispatch,
+      setYoutubeDataByUrl,
+      dataFromURL
+    );
+    fetchData(filterFromURL);
   }, []);
 
   useEffect(() => {
-    if (langSelected && audienceSelected && tagSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${YOUTUBE_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
-      );
-      dispatch(
-        setYoutubeDataByUrl({
-          langSelected,
-          audienceSelected,
-          tagSelected,
-        })
-      );
-    } else if (langSelected && audienceSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${YOUTUBE_URL}/${audienceSelected}/${langSelected}`
-      );
-      dispatch(
-        setYoutubeDataByUrl({
-          langSelected,
-          audienceSelected,
-        })
-      );
-    } else if (audienceSelected && tagSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${YOUTUBE_URL}/${tagSelected}/${audienceSelected}`
-      );
-      dispatch(
-        setYoutubeDataByUrl({
-          audienceSelected,
-          tagSelected,
-        })
-      );
-    } else if (langSelected && tagSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${YOUTUBE_URL}/${tagSelected}/${langSelected}`
-      );
-      dispatch(
-        setYoutubeDataByUrl({
-          langSelected,
-          tagSelected,
-        })
-      );
-    } else if (langSelected) {
-      window.history.pushState(null, "", `${YOUTUBE_URL}/${langSelected}`);
-      dispatch(
-        setYoutubeDataByUrl({
-          langSelected,
-          tagSelected,
-        })
-      );
-    } else if (audienceSelected) {
-      window.history.pushState(null, "", `${YOUTUBE_URL}/${audienceSelected}`);
-      dispatch(
-        setYoutubeDataByUrl({
-          audienceSelected,
-          tagSelected,
-        })
-      );
-    } else if (tagSelected) {
-      window.history.pushState(null, "", `${YOUTUBE_URL}/${tagSelected}`);
-      dispatch(
-        setYoutubeDataByUrl({
-          tagSelected,
-        })
-      );
-    } else {
-      fetchData();
-    }
+    const filterFromURL = fetchFilterFromURL(
+      dispatch,
+      setYoutubeDataByUrl,
+      dataFromURL
+    );
+    fetchData(filterFromURL);
+  }, [pathname]);
+
+  useEffect(() => {
+    updateURLAndData(YOUTUBE_URL, fetchData, {
+      langSelected,
+      audienceSelected,
+      tagSelected,
+    });
   }, [langSelected, audienceSelected, tagSelected]);
+
   return (
     <PageContainer>
       <Breadcrumb />
