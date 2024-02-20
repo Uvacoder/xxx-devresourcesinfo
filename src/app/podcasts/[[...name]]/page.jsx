@@ -1,19 +1,19 @@
 "use client";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { usePathname } from "next/navigation";
 import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
 import PageContainer from "@/components/pageContainer";
+import AudienceFilterBar from "@/components/audienceFilterBar";
+import AudienceTable from "@/components/audienceTable";
+import Breadcrumb from "@/components/breadcrumb";
 import {
   clearPodcastFilters,
   setPodcastDataByUrl,
 } from "@/redux/features/podcast/podcastSlice";
 import { addQuotesToString, extractDataFromURL } from "@/utils/utils";
-import { PODCASTS_URL } from "@/utils/constants";
-import AudienceFilterBar from "@/components/audienceFilterBar";
-import AudienceTable from "@/components/audienceTable";
-import Breadcrumb from "@/components/breadcrumb";
-import { usePathname } from "next/navigation";
 import { fetchFilterFromURL, updateURLAndData } from "@/utils/urlFunc";
+import { PODCASTS_URL } from "@/utils/constants";
 
 const Podcasts = ({ params: { name } }) => {
   const dispatch = useDispatch();
