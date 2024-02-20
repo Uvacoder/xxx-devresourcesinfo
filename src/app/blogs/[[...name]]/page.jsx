@@ -9,12 +9,11 @@ import AudienceTable from "@/components/audienceTable";
 import {
   clearBlogFilters,
   setBlogDataByUrl,
-  setBlogStorageData,
 } from "@/redux/features/blog/blogSlice";
 import { addQuotesToString, extractDataFromURL } from "@/utils/utils";
 import { fetchBlogByAllFilter } from "@/redux/features/blog/action";
-import { BLOGS_URL } from "@/utils/constants";
 import { fetchFilterFromURL, updateURLAndData } from "@/utils/urlFunc";
+import { BLOGS_URL } from "@/utils/constants";
 
 const Blogs = ({ name }) => {
   const dispatch = useDispatch();
