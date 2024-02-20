@@ -1,22 +1,28 @@
 "use client";
 import React, { useEffect } from "react";
-import { getCurrentDate, addQuotesToString } from "@/utils/utils";
+import {
+  getCurrentDate,
+  addQuotesToString,
+  extractDataFromURL,
+} from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
 import {
   clearConfFilters,
   setConferenceDataByUrl,
-  setStorageData,
   setTodayDate,
 } from "@/redux/features/conference/conferenceSlice";
 import PageContainer from "@/components/pageContainer";
-import { CONFERENCES_URL, DEV_RESOURCES } from "@/utils/constants";
+import { CONFERENCES_URL } from "@/utils/constants";
 import Breadcrumb from "@/components/breadcrumb";
 import AreaFilterBar from "@/components/areaFilterBar";
 import AreaTable from "@/components/areaTable";
+import { usePathname } from "next/navigation";
+import { fetchAreaFilterFromURL, updateAreaURLAndData } from "@/utils/urlFunc";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
+  const pathname = usePathname();
   const conferences = useSelector(({ conferences }) => conferences);
   const {
     allConferences,
@@ -27,35 +33,27 @@ const Conferences = ({ params: { name } }) => {
     continentSelected,
     techSelected,
   } = conferences;
+  const dataFromURL = extractDataFromURL(pathname);
 
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
 
-  const fetchData = () => {
-    const localStorageResources =
-      JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
-
-    dispatch(setStorageData(localStorageResources?.conferences));
-
-    const convertCity = localStorageResources?.conferences?.citySelected
-      ? addQuotesToString(localStorageResources?.conferences?.citySelected)
+  const fetchData = (obj) => {
+    const convertCity = obj?.citySelected
+      ? addQuotesToString(obj?.citySelected)
       : undefined;
-    const convertCountry = localStorageResources?.conferences?.countrySelected
-      ? addQuotesToString(localStorageResources?.conferences?.countrySelected)
+    const convertCountry = obj?.countrySelected
+      ? addQuotesToString(obj?.countrySelected)
       : undefined;
-    const convertContinent = localStorageResources?.conferences
-      ?.continentSelected
-      ? addQuotesToString(localStorageResources?.conferences?.continentSelected)
+    const convertContinent = obj?.continentSelected
+      ? addQuotesToString(obj?.continentSelected)
       : undefined;
-    const convertTech = localStorageResources?.conferences?.techSelected
-      ? addQuotesToString(localStorageResources?.conferences?.techSelected)
+    const convertTech = obj?.techSelected
+      ? addQuotesToString(obj?.techSelected)
       : undefined;
-    const convertedDateStr = localStorageResources?.conferences?.pastConf
-      ? undefined
-      : convertedDate;
+    const convertedDateStr = pastConf ? undefined : convertedDate;
 
     dispatch(setTodayDate(convertedDateStr));
-
     dispatch(
       fetchConferencesByAllFilter({
         citySelected: convertCity,
@@ -68,116 +66,43 @@ const Conferences = ({ params: { name } }) => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchAreaFilterFromURL(
+      dispatch,
+      setConferenceDataByUrl,
+      dataFromURL,
+      fetchData
+    );
   }, []);
 
   useEffect(() => {
-    fetchData();
+    fetchAreaFilterFromURL(
+      dispatch,
+      setConferenceDataByUrl,
+      dataFromURL,
+      fetchData
+    );
+  }, [pathname]);
+
+  useEffect(() => {
+    fetchAreaFilterFromURL(
+      dispatch,
+      setConferenceDataByUrl,
+      dataFromURL,
+      fetchData
+    );
   }, [pastConf]);
 
   useEffect(() => {
-    if (citySelected && techSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${CONFERENCES_URL}/${techSelected}/${continentSelected}/${countrySelected}/${citySelected}`
-      );
-      dispatch(
-        setConferenceDataByUrl({
-          payload: {
-            citySelected,
-            countrySelected,
-            continentSelected,
-            techSelected,
-          },
-        })
-      );
-    } else if (countrySelected && techSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${CONFERENCES_URL}/${techSelected}/${continentSelected}/${countrySelected}`
-      );
-      dispatch(
-        setConferenceDataByUrl({
-          payload: {
-            countrySelected,
-            continentSelected,
-            techSelected,
-          },
-        })
-      );
-    } else if (continentSelected && techSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${CONFERENCES_URL}/${techSelected}/${continentSelected}`
-      );
-      dispatch(
-        setConferenceDataByUrl({
-          payload: {
-            continentSelected,
-            techSelected,
-          },
-        })
-      );
-    } else if (techSelected) {
-      window.history.pushState(null, "", `${CONFERENCES_URL}/${techSelected}`);
-      dispatch(
-        setConferenceDataByUrl({
-          payload: {
-            techSelected,
-          },
-        })
-      );
-    } else if (citySelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${CONFERENCES_URL}/${continentSelected}/${countrySelected}/${citySelected}`
-      );
-      dispatch(
-        setConferenceDataByUrl({
-          payload: {
-            citySelected,
-            countrySelected,
-            continentSelected,
-          },
-        })
-      );
-    } else if (countrySelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${CONFERENCES_URL}/${continentSelected}/${countrySelected}`
-      );
-      dispatch(
-        setConferenceDataByUrl({
-          payload: {
-            countrySelected,
-            continentSelected,
-          },
-        })
-      );
-    } else if (continentSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${CONFERENCES_URL}/${continentSelected}`
-      );
-      dispatch(
-        setConferenceDataByUrl({
-          continentSelected,
-        })
-      );
-    } else {
-      fetchData();
-      return;
-    }
+    updateAreaURLAndData(CONFERENCES_URL, fetchData, {
+      citySelected,
+      countrySelected,
+      continentSelected,
+      techSelected,
+    });
   }, [citySelected, countrySelected, continentSelected, techSelected]);
 
   const currentYear = currentDate.split("-")[0];
- 
+
   return (
     <PageContainer>
       <Breadcrumb />

@@ -5,15 +5,7 @@ import {
   fetchConferencesByAllFilter,
 } from "./action";
 import { clearFiltersFromURL } from "@/utils/utils";
-import { CONFERENCES_URL, DEV_RESOURCES } from "@/utils/constants";
-
-const isBrowser = typeof window !== "undefined";
-
-let localStorageResources;
-
-if (isBrowser) {
-  localStorageResources = JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
-}
+import { CONFERENCES_URL } from "@/utils/constants";
 
 const initialState = {
   allConferences: [],
@@ -33,12 +25,11 @@ export const conferenceSlice = createSlice({
   name: "conferences",
   initialState,
   reducers: {
-    setStorageData: (state, action) => {
+    setConferenceDataByUrl: (state, action) => {
       state.citySelected = action.payload?.citySelected ?? "";
       state.countrySelected = action.payload?.countrySelected ?? "";
       state.continentSelected = action.payload?.continentSelected ?? "";
       state.techSelected = action.payload?.techSelected ?? "";
-      state.pastConf = action.payload?.pastConf ?? false;
     },
     setCityFilter: (state, action) => {
       state.citySelected = action.payload.value;
@@ -66,14 +57,6 @@ export const conferenceSlice = createSlice({
     },
     pastConfUpdate: (state, action) => {
       state.pastConf = action.payload;
-      const newData = {
-        pastConf: action.payload,
-      };
-      const updateResources = {
-        ...localStorageResources,
-        conferences: { ...localStorageResources.conferences, ...newData },
-      };
-      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
     },
     setTodayDate: (state, action) => {
       state.todayDate = action.payload;
@@ -85,21 +68,7 @@ export const conferenceSlice = createSlice({
       state.techSelected = "";
       state.pastConf = false;
 
-      const updateResources = {
-        ...localStorageResources,
-        conferences: {},
-      };
-      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
-
       clearFiltersFromURL(CONFERENCES_URL);
-    },
-    setConferenceDataByUrl: (state, action) => {
-      const newData = action.payload;
-      const updateResources = {
-        ...localStorageResources,
-        conferences: newData.payload,
-      };
-      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
     },
   },
   extraReducers: (builder) => {
@@ -146,7 +115,7 @@ export const conferenceSlice = createSlice({
 });
 
 export const {
-  setStorageData,
+  setConferenceDataByUrl,
   setCityFilter,
   setCountryFilter,
   setContinentFilter,
@@ -155,7 +124,6 @@ export const {
   setOtherByCountry,
   pastConfUpdate,
   setTodayDate,
-  setConferenceDataByUrl,
   clearConfFilters,
 } = conferenceSlice.actions;
 
