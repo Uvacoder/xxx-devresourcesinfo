@@ -6,7 +6,10 @@ const TechnologiesRow = ({ tech, clickHandler, techSelected }) => {
   const findIcon = iconsData.find((obj) => obj.name === tech.name);
 
   return (
-    <div onClick={() => clickHandler(tech?.name, "Technology", tech?.id)}>
+    <div
+      className="cursor-pointer"
+      onClick={() => clickHandler(tech?.name, "Technology", tech?.id)}
+    >
       {techSelected === tech?.name ? (
         <Image
           src={findIcon.imageHover}
