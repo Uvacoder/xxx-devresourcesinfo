@@ -1,21 +1,24 @@
 "use client";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DEV_RESOURCES, NEWSLETTERS_URL } from "@/utils/constants";
-import { addQuotesToString } from "@/utils/utils";
-import PageContainer from "@/components/pageContainer";
-import {
-  clearNewsletterFilters,
-  setNewsletterDataByUrl,
-  setNewsletterStorageData,
-} from "@/redux/features/newsletter/newsletterSlice";
+import { usePathname } from "next/navigation";
 import { fetchNewsletterByAllFilter } from "@/redux/features/newsletter/action";
+import PageContainer from "@/components/pageContainer";
 import AudienceFilterBar from "@/components/audienceFilterBar";
 import AudienceTable from "@/components/audienceTable";
 import Breadcrumb from "@/components/breadcrumb";
+import { addQuotesToString, extractDataFromURL } from "@/utils/utils";
+import {
+  clearNewsletterFilters,
+  setNewsletterDataByUrl,
+} from "@/redux/features/newsletter/newsletterSlice";
+import { fetchFilterFromURL, updateURLAndData } from "@/utils/urlFunc";
+import { NEWSLETTERS_URL } from "@/utils/constants";
 
 const NewsLetters = ({ name }) => {
   const dispatch = useDispatch();
+  const pathname = usePathname();
+  const dataFromURL = extractDataFromURL(pathname);
   const newsletters = useSelector(({ newsletters }) => newsletters);
   const {
     allNewsletters,
@@ -25,20 +28,15 @@ const NewsLetters = ({ name }) => {
     tagSelected,
   } = newsletters;
 
-  const fetchData = () => {
-    const localStorageResources =
-      JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
-
-    dispatch(setNewsletterStorageData(localStorageResources?.newsletters));
-
-    const convertLang = localStorageResources?.newsletters?.langSelected
-      ? addQuotesToString(localStorageResources?.newsletters?.langSelected)
+  const fetchData = (obj) => {
+    const convertLang = obj?.langSelected
+      ? addQuotesToString(obj?.langSelected)
       : undefined;
-    const convertAudience = localStorageResources?.newsletters?.audienceSelected
-      ? addQuotesToString(localStorageResources?.newsletters?.audienceSelected)
+    const convertAudience = obj?.audienceSelected
+      ? addQuotesToString(obj?.audienceSelected)
       : undefined;
-    const convertTag = localStorageResources?.newsletters?.tagSelected
-      ? addQuotesToString(localStorageResources?.newsletters?.tagSelected)
+    const convertTag = obj?.tagSelected
+      ? addQuotesToString(obj?.tagSelected)
       : undefined;
 
     dispatch(
@@ -51,89 +49,29 @@ const NewsLetters = ({ name }) => {
   };
 
   useEffect(() => {
-    fetchData();
+    const filterFromURL = fetchFilterFromURL(
+      dispatch,
+      setNewsletterDataByUrl,
+      dataFromURL
+    );
+    fetchData(filterFromURL);
   }, []);
 
   useEffect(() => {
-    if (langSelected && audienceSelected && tagSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${NEWSLETTERS_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
-      );
-      dispatch(
-        setNewsletterDataByUrl({
-          langSelected,
-          audienceSelected,
-          tagSelected,
-        })
-      );
-    } else if (langSelected && audienceSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${NEWSLETTERS_URL}/${audienceSelected}/${langSelected}`
-      );
-      dispatch(
-        setNewsletterDataByUrl({
-          langSelected,
-          audienceSelected,
-        })
-      );
-    } else if (audienceSelected && tagSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${NEWSLETTERS_URL}/${tagSelected}/${audienceSelected}`
-      );
-      dispatch(
-        setNewsletterDataByUrl({
-          audienceSelected,
-          tagSelected,
-        })
-      );
-    } else if (langSelected && tagSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${NEWSLETTERS_URL}/${tagSelected}/${langSelected}`
-      );
-      dispatch(
-        setNewsletterDataByUrl({
-          langSelected,
-          tagSelected,
-        })
-      );
-    } else if (langSelected) {
-      window.history.pushState(null, "", `${NEWSLETTERS_URL}/${langSelected}`);
-      dispatch(
-        setNewsletterDataByUrl({
-          langSelected,
-          tagSelected,
-        })
-      );
-    } else if (audienceSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${NEWSLETTERS_URL}/${audienceSelected}`
-      );
-      dispatch(
-        setNewsletterDataByUrl({
-          audienceSelected,
-          tagSelected,
-        })
-      );
-    } else if (tagSelected) {
-       window.history.pushState(null, "", `${NEWSLETTERS_URL}/${tagSelected}`);
-      dispatch(
-        setNewsletterDataByUrl({
-          tagSelected,
-        })
-      );
-    } else {
-      fetchData();
-    }
+    const filterFromURL = fetchFilterFromURL(
+      dispatch,
+      setNewsletterDataByUrl,
+      dataFromURL
+    );
+    fetchData(filterFromURL);
+  }, [pathname]);
+
+  useEffect(() => {
+    updateURLAndData(NEWSLETTERS_URL, fetchData, {
+      langSelected,
+      audienceSelected,
+      tagSelected,
+    });
   }, [langSelected, audienceSelected, tagSelected]);
   return (
     <PageContainer>
