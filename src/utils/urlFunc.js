@@ -1,7 +1,12 @@
+import {
+  additionalAudienceUrl,
+  additionalLanguageUrl,
+  additionalAllUrl,
+} from "./constants";
 import { removePercent20 } from "./utils";
 
 export const fetchFilterFromURL = (dispatch, setterFunc, urlArr) => {
-  if (urlArr.length === 5 && urlArr[4] === "allDev") {
+  if (urlArr.length === 5 && urlArr[4] === additionalAudienceUrl) {
     const langData = removePercent20(urlArr[3]);
     const tagData = removePercent20(urlArr[2]);
     dispatch(
@@ -11,7 +16,7 @@ export const fetchFilterFromURL = (dispatch, setterFunc, urlArr) => {
       })
     );
     return { langSelected: langData, tagSelected: tagData };
-  } else if (urlArr.length === 5 && urlArr[4] === "allLang") {
+  } else if (urlArr.length === 5 && urlArr[4] === additionalLanguageUrl) {
     const audData = removePercent20(urlArr[3]);
     const tagData = removePercent20(urlArr[2]);
     dispatch(
@@ -37,7 +42,7 @@ export const fetchFilterFromURL = (dispatch, setterFunc, urlArr) => {
       audienceSelected: audData,
       tagSelected: tagData,
     };
-  } else if (urlArr.length === 4 && urlArr[3] === "allDev") {
+  } else if (urlArr.length === 4 && urlArr[3] === additionalAudienceUrl) {
     const audData = removePercent20(urlArr[2]);
     dispatch(
       setterFunc({
@@ -47,7 +52,7 @@ export const fetchFilterFromURL = (dispatch, setterFunc, urlArr) => {
     return {
       audienceSelected: audData,
     };
-  } else if (urlArr.length === 4 && urlArr[3] === "allLang") {
+  } else if (urlArr.length === 4 && urlArr[3] === additionalLanguageUrl) {
     const langData = removePercent20(urlArr[2]);
     dispatch(
       setterFunc({
@@ -98,21 +103,29 @@ export const updateURLAndData = (URL, fetchData, obj) => {
     window.history.pushState(
       null,
       "",
-      `${URL}/${tagSelected}/${audienceSelected}/allLang`
+      `${URL}/${tagSelected}/${audienceSelected}/${additionalLanguageUrl}`
     );
     fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (tagSelected && langSelected) {
     window.history.pushState(
       null,
       "",
-      `${URL}/${tagSelected}/${langSelected}/allDev`
+      `${URL}/${tagSelected}/${langSelected}/${additionalAudienceUrl}`
     );
     fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (langSelected) {
-    window.history.pushState(null, "", `${URL}/${langSelected}/allLang`);
+    window.history.pushState(
+      null,
+      "",
+      `${URL}/${langSelected}/${additionalLanguageUrl}`
+    );
     fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (audienceSelected) {
-    window.history.pushState(null, "", `${URL}/${audienceSelected}/allDev`);
+    window.history.pushState(
+      null,
+      "",
+      `${URL}/${audienceSelected}/${additionalAudienceUrl}`
+    );
     fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (tagSelected) {
     window.history.pushState(null, "", `${URL}/${tagSelected}`);
@@ -128,7 +141,7 @@ export const fetchAreaFilterFromURL = (
   urlArr,
   fetchData
 ) => {
-  if (urlArr.length === 6 && urlArr[5] === "all") {
+  if (urlArr.length === 6 && urlArr[5] === additionalAllUrl) {
     const cityData = removePercent20(urlArr[4]);
     const countryData = removePercent20(urlArr[3]);
     const continentData = removePercent20(urlArr[2]);
@@ -163,7 +176,7 @@ export const fetchAreaFilterFromURL = (
       continentSelected: continentData,
       techSelected: techData,
     });
-  } else if (urlArr.length === 5 && urlArr[4] === "all") {
+  } else if (urlArr.length === 5 && urlArr[4] === additionalAllUrl) {
     const countryData = removePercent20(urlArr[3]);
     const continentData = removePercent20(urlArr[2]);
     dispatch(
@@ -192,7 +205,7 @@ export const fetchAreaFilterFromURL = (
       continentSelected: continentData,
       techSelected: techData,
     });
-  } else if (urlArr.length === 4 && urlArr[3] === "all") {
+  } else if (urlArr.length === 4 && urlArr[3] === additionalAllUrl) {
     const continentData = removePercent20(urlArr[2]);
     dispatch(
       setterFunc({
@@ -257,16 +270,20 @@ export const updateAreaURLAndData = (URL, fetchData, obj) => {
     window.history.pushState(
       null,
       "",
-      `${URL}/${continentSelected}/${countrySelected}/${citySelected}/all`
+      `${URL}/${continentSelected}/${countrySelected}/${citySelected}/${additionalAllUrl}`
     );
   } else if (countrySelected) {
     window.history.pushState(
       null,
       "",
-      `${URL}/${continentSelected}/${countrySelected}/all`
+      `${URL}/${continentSelected}/${countrySelected}/${additionalAllUrl}`
     );
   } else if (continentSelected) {
-    window.history.pushState(null, "", `${URL}/${continentSelected}/all`);
+    window.history.pushState(
+      null,
+      "",
+      `${URL}/${continentSelected}/${additionalAllUrl}`
+    );
   } else {
     fetchData({
       citySelected,
@@ -285,7 +302,7 @@ export const handleAreaBreadcrumb = (
   textSelected,
   URL
 ) => {
-  if (urlArr.length === 6 && urlArr[5] === "all") {
+  if (urlArr.length === 6 && urlArr[5] === additionalAllUrl) {
     const countryData = removePercent20(urlArr[3]);
     const continentData = removePercent20(urlArr[2]);
     if (textSelected === continentData) {
@@ -295,7 +312,11 @@ export const handleAreaBreadcrumb = (
         })
       );
 
-      window.history.pushState(null, "", `${URL}/${continentData}/all`);
+      window.history.pushState(
+        null,
+        "",
+        `${URL}/${continentData}/${additionalAllUrl}`
+      );
     } else if (textSelected === countryData) {
       dispatch(
         setterFunc({
@@ -307,7 +328,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${countryData}/all`
+        `${URL}/${continentData}/${countryData}/${additionalAllUrl}`
       );
     } else {
       return;
@@ -328,7 +349,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${countryData}/${cityData}/all`
+        `${URL}/${continentData}/${countryData}/${cityData}/${additionalAllUrl}`
       );
     } else if (textSelected === countryData) {
       dispatch(
@@ -341,7 +362,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${countryData}/all`
+        `${URL}/${continentData}/${countryData}/${additionalAllUrl}`
       );
     } else if (textSelected === continentData) {
       dispatch(
@@ -350,11 +371,15 @@ export const handleAreaBreadcrumb = (
         })
       );
 
-      window.history.pushState(null, "", `${URL}/${continentData}/all`);
+      window.history.pushState(
+        null,
+        "",
+        `${URL}/${continentData}/${additionalAllUrl}`
+      );
     } else {
       return;
     }
-  } else if (urlArr.length === 5 && urlArr[4] === "all") {
+  } else if (urlArr.length === 5 && urlArr[4] === additionalAllUrl) {
     const continentData = removePercent20(urlArr[2]);
     if (textSelected === continentData) {
       dispatch(
@@ -363,7 +388,11 @@ export const handleAreaBreadcrumb = (
         })
       );
 
-      window.history.pushState(null, "", `${URL}/${continentData}/all`);
+      window.history.pushState(
+        null,
+        "",
+        `${URL}/${continentData}/${additionalAllUrl}`
+      );
     } else {
       return;
     }
@@ -381,7 +410,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${countryData}/all`
+        `${URL}/${continentData}/${countryData}/${additionalAllUrl}`
       );
     } else if (textSelected === continentData) {
       dispatch(
@@ -390,7 +419,11 @@ export const handleAreaBreadcrumb = (
         })
       );
 
-      window.history.pushState(null, "", `${URL}/${continentData}/all`);
+      window.history.pushState(
+        null,
+        "",
+        `${URL}/${continentData}/${additionalAllUrl}`
+      );
     } else {
       return;
     }
@@ -403,7 +436,11 @@ export const handleAreaBreadcrumb = (
         })
       );
 
-      window.history.pushState(null, "", `${URL}/${continentData}/all`);
+      window.history.pushState(
+        null,
+        "",
+        `${URL}/${continentData}/${additionalAllUrl}`
+      );
     }
   } else {
     return;
@@ -417,7 +454,7 @@ export const handleAudienceBreadcrumb = (
   textSelected,
   URL
 ) => {
-  if (urlArr.length === 5 && urlArr[4] === "allDev") {
+  if (urlArr.length === 5 && urlArr[4] === additionalAudienceUrl) {
     const tagData = removePercent20(urlArr[2]);
     if (textSelected === tagData) {
       dispatch(
@@ -427,7 +464,7 @@ export const handleAudienceBreadcrumb = (
       );
       window.history.pushState(null, "", `${URL}/${tagData}`);
     }
-  } else if (urlArr.length === 5 && urlArr[4] === "allLang") {
+  } else if (urlArr.length === 5 && urlArr[4] === additionalLanguageUrl) {
     const tagData = removePercent20(urlArr[2]);
     if (textSelected === tagData) {
       dispatch(
@@ -450,7 +487,7 @@ export const handleAudienceBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${tagData}/${audData}/allLang`
+        `${URL}/${tagData}/${audData}/${additionalLanguageUrl}`
       );
     } else if (textSelected === tagData) {
       dispatch(
@@ -462,9 +499,9 @@ export const handleAudienceBreadcrumb = (
     } else {
       return;
     }
-  } else if (urlArr.length === 4 && urlArr[3] === "allDev") {
+  } else if (urlArr.length === 4 && urlArr[3] === additionalAudienceUrl) {
     return;
-  } else if (urlArr.length === 4 && urlArr[3] === "allLang") {
+  } else if (urlArr.length === 4 && urlArr[3] === additionalLanguageUrl) {
     return;
   } else if (urlArr.length === 4) {
     const audData = removePercent20(urlArr[2]);
@@ -474,7 +511,11 @@ export const handleAudienceBreadcrumb = (
           audienceSelected: audData,
         })
       );
-      window.history.pushState(null, "", `${URL}/${audData}/allDev`);
+      window.history.pushState(
+        null,
+        "",
+        `${URL}/${audData}/${additionalAudienceUrl}`
+      );
     }
   } else if (urlArr.length === 3) {
     return;

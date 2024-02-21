@@ -6,3 +6,7 @@ export const NEWSLETTERS_URL = "/newsletters";
 export const YOUTUBE_URL = "/youtube";
 
 export const DEV_RESOURCES = "devResources";
+
+export const additionalAudienceUrl = "allAudience";
+export const additionalLanguageUrl = "allLang";
+export const additionalAllUrl = "all";
