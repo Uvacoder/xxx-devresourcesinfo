@@ -86,7 +86,11 @@ const AreaAccordion = ({ page, pageState, clearFunc, showPastDate }) => {
         </div>
       </div>
 
-      <div className="flex border border-x-0 py-1 border-neutrals-200">
+      <div
+        className={`flex border border-x-0 border-t py-1 border-neutrals-200 ${
+          !showPastDate && (isFilter ? "border-b" : "border-b-0")
+        }`}
+      >
         <span className="text-neutrals-300 mt-[5px]">
           <MdOutlineHandyman className="w-[18px] h-[18px]" />
         </span>
