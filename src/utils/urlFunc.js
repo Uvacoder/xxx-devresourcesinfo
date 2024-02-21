@@ -412,3 +412,10 @@ export const handleAreaBreadcrumb = (
     return;
   }
 };
+
+export const handleAudienceBreadcrumb = (
+  dispatch,
+  setterFunc,
+  urlArr,
+  textSelected
+) => {};

@@ -7,7 +7,7 @@ import {
 } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import PageContainer from "@/components/pageContainer";
-import { HACKATHONS_URL, DEV_RESOURCES } from "@/utils/constants";
+import { HACKATHONS_URL } from "@/utils/constants";
 import AreaFilterBar from "@/components/areaFilterBar";
 import AreaTable from "@/components/areaTable";
 import Breadcrumb from "@/components/breadcrumb";
