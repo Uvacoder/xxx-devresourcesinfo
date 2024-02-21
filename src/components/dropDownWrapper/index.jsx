@@ -23,7 +23,6 @@ const DropdownWrapper = ({ page, title, pageState }) => {
     getData();
   }, [title]);
 
- 
   return (
     <div className="relative">
       <button

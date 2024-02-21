@@ -1,0 +1,130 @@
+import React, { useState } from "react";
+import AreaDropDown from "../pagesDropDown/AreaDropDown";
+import AudienceDropDown from "../pagesDropDown/AudienceDropDown";
+import { findCategoryData } from "@/data/modalContainerData";
+import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
+import { fetchHackathonsByAllFilter } from "@/redux/features/hackathon/action";
+import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
+import { fetchNewsletterByAllFilter } from "@/redux/features/newsletter/action";
+import { fetchBlogByAllFilter } from "@/redux/features/blog/action";
+import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
+
+const MobileModalContainer = ({
+  title,
+  categoryData,
+  page,
+  pageState,
+  handleDropDown,
+}) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const categorySelected = findCategoryData.find(({ name }) => name === title);
+
+  let menuTitle = title.toLowerCase();
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredDropDownData =
+    searchTerm.length > 0
+      ? categoryData?.data.filter((obj) =>
+          obj?.node?.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : categoryData?.data;
+
+  const handleModal = () => {
+    handleDropDown();
+  };
+
+  return (
+    <div>
+      <div className="flex items-center gap-2 border border-neutrals-200 rounded-[4px] self-stretch mb-[4px] overflow-hidden">
+        <input
+          type="text"
+          className="text-[13px] w-full p-[8px] px-[12px]"
+          placeholder={`Search or select a ${title.toLowerCase()}`}
+          value={searchTerm}
+          onChange={(e) => handleSearch(e)}
+        />
+      </div>
+      <div className="self-stretch">
+        <ul className="flex flex-col border border-neutrals-200 rounded-[4px] max-h-[248px] overflow-auto">
+          {filteredDropDownData.length > 0 ? (
+            filteredDropDownData?.map((obj) => (
+              <li key={obj.node.id}>
+                {page === "conferences" ? (
+                  <AreaDropDown
+                    obj={obj.node}
+                    categorySelected={categorySelected}
+                    menuTitle={menuTitle}
+                    handleDropDown={handleModal}
+                    allFilterFunc={fetchConferencesByAllFilter}
+                    pageState={pageState}
+                    page={page}
+                  />
+                ) : page === "hackathons" ? (
+                  <AreaDropDown
+                    obj={obj.node}
+                    categorySelected={categorySelected}
+                    menuTitle={menuTitle}
+                    handleDropDown={handleModal}
+                    allFilterFunc={fetchHackathonsByAllFilter}
+                    pageState={pageState}
+                    page={page}
+                  />
+                ) : page === "podcasts" ? (
+                  <AudienceDropDown
+                    obj={obj.node}
+                    categorySelected={categorySelected}
+                    menuTitle={menuTitle}
+                    handleDropDown={handleModal}
+                    allFilterFunc={fetchPodcastByAllFilter}
+                    pageState={pageState}
+                    page={page}
+                  />
+                ) : page === "newsletters" ? (
+                  <AudienceDropDown
+                    obj={obj.node}
+                    categorySelected={categorySelected}
+                    menuTitle={menuTitle}
+                    handleDropDown={handleModal}
+                    allFilterFunc={fetchNewsletterByAllFilter}
+                    pageState={pageState}
+                    page={page}
+                  />
+                ) : page === "blogs" ? (
+                  <AudienceDropDown
+                    obj={obj.node}
+                    categorySelected={categorySelected}
+                    menuTitle={menuTitle}
+                    handleDropDown={handleModal}
+                    allFilterFunc={fetchBlogByAllFilter}
+                    pageState={pageState}
+                    page={page}
+                  />
+                ) : (
+                  <AudienceDropDown
+                    obj={obj.node}
+                    categorySelected={categorySelected}
+                    menuTitle={menuTitle}
+                    handleDropDown={handleModal}
+                    allFilterFunc={fetchYoutubeByAllFilter}
+                    pageState={pageState}
+                    page={page}
+                  />
+                )}
+              </li>
+            ))
+          ) : (
+            <p className="text-[14px] font-[700] p-[10px] text-neutrals-500">
+              No {title.toLowerCase()} found.
+            </p>
+          )}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default MobileModalContainer;

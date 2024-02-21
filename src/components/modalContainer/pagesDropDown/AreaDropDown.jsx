@@ -16,7 +16,7 @@ const AreaDropDown = ({
   obj,
   categorySelected,
   menuTitle,
-  setShowModal,
+  handleDropDown,
   allFilterFunc,
   pageState,
   page,
@@ -52,7 +52,7 @@ const AreaDropDown = ({
       ? addQuotesToString(techSelected)
       : undefined;
     const convertedDate = pastConf ? undefined : todayDate;
-    setShowModal((prev) => !prev);
+    handleDropDown();
     if (menuTitle === "technology") {
       dispatch(
         allFilterFunc({

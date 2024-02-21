@@ -46,6 +46,10 @@ const ModalContainer = ({
         )
       : categoryData?.data;
 
+  const handleModal = () => {
+    setShowModal((prev) => !prev);
+  };
+
   return (
     <Modal onClose={closeModal}>
       <div className="absolute top-0 left-0 z-10 md:w-[300px] md:top-10 p-[24px] flex flex-col gap-[16px] self-stretch bg-white border border-indigos-op-300 modalShadow rounded-[4px]">
@@ -69,71 +73,77 @@ const ModalContainer = ({
             <div className="self-stretch">
               {showDropDown && (
                 <ul className="flex flex-col border border-neutrals-200 rounded-[4px] max-h-[248px] overflow-auto">
-                  {filteredDropDownData?.map((obj) => (
-                    <li key={obj.node.id}>
-                      {page === "conferences" ? (
-                        <AreaDropDown
-                          obj={obj.node}
-                          categorySelected={categorySelected}
-                          menuTitle={menuTitle}
-                          setShowModal={setShowModal}
-                          allFilterFunc={fetchConferencesByAllFilter}
-                          pageState={pageState}
-                          page={page}
-                        />
-                      ) : page === "hackathons" ? (
-                        <AreaDropDown
-                          obj={obj.node}
-                          categorySelected={categorySelected}
-                          menuTitle={menuTitle}
-                          setShowModal={setShowModal}
-                          allFilterFunc={fetchHackathonsByAllFilter}
-                          pageState={pageState}
-                          page={page}
-                        />
-                      ) : page === "podcasts" ? (
-                        <AudienceDropDown
-                          obj={obj.node}
-                          categorySelected={categorySelected}
-                          menuTitle={menuTitle}
-                          setShowModal={setShowModal}
-                          allFilterFunc={fetchPodcastByAllFilter}
-                          pageState={pageState}
-                          page={page}
-                        />
-                      ) : page === "newsletters" ? (
-                        <AudienceDropDown
-                          obj={obj.node}
-                          categorySelected={categorySelected}
-                          menuTitle={menuTitle}
-                          setShowModal={setShowModal}
-                          allFilterFunc={fetchNewsletterByAllFilter}
-                          pageState={pageState}
-                          page={page}
-                        />
-                      ) : page === "blogs" ? (
-                        <AudienceDropDown
-                          obj={obj.node}
-                          categorySelected={categorySelected}
-                          menuTitle={menuTitle}
-                          setShowModal={setShowModal}
-                          allFilterFunc={fetchBlogByAllFilter}
-                          pageState={pageState}
-                          page={page}
-                        />
-                      ) : (
-                        <AudienceDropDown
-                          obj={obj.node}
-                          categorySelected={categorySelected}
-                          menuTitle={menuTitle}
-                          setShowModal={setShowModal}
-                          allFilterFunc={fetchYoutubeByAllFilter}
-                          pageState={pageState}
-                          page={page}
-                        />
-                      )}
-                    </li>
-                  ))}
+                  {filteredDropDownData.length > 0 ? (
+                    filteredDropDownData?.map((obj) => (
+                      <li key={obj.node.id}>
+                        {page === "conferences" ? (
+                          <AreaDropDown
+                            obj={obj.node}
+                            categorySelected={categorySelected}
+                            menuTitle={menuTitle}
+                            handleDropDown={handleModal}
+                            allFilterFunc={fetchConferencesByAllFilter}
+                            pageState={pageState}
+                            page={page}
+                          />
+                        ) : page === "hackathons" ? (
+                          <AreaDropDown
+                            obj={obj.node}
+                            categorySelected={categorySelected}
+                            menuTitle={menuTitle}
+                            handleDropDown={handleModal}
+                            allFilterFunc={fetchHackathonsByAllFilter}
+                            pageState={pageState}
+                            page={page}
+                          />
+                        ) : page === "podcasts" ? (
+                          <AudienceDropDown
+                            obj={obj.node}
+                            categorySelected={categorySelected}
+                            menuTitle={menuTitle}
+                            handleDropDown={handleModal}
+                            allFilterFunc={fetchPodcastByAllFilter}
+                            pageState={pageState}
+                            page={page}
+                          />
+                        ) : page === "newsletters" ? (
+                          <AudienceDropDown
+                            obj={obj.node}
+                            categorySelected={categorySelected}
+                            menuTitle={menuTitle}
+                            handleDropDown={handleModal}
+                            allFilterFunc={fetchNewsletterByAllFilter}
+                            pageState={pageState}
+                            page={page}
+                          />
+                        ) : page === "blogs" ? (
+                          <AudienceDropDown
+                            obj={obj.node}
+                            categorySelected={categorySelected}
+                            menuTitle={menuTitle}
+                            handleDropDown={handleModal}
+                            allFilterFunc={fetchBlogByAllFilter}
+                            pageState={pageState}
+                            page={page}
+                          />
+                        ) : (
+                          <AudienceDropDown
+                            obj={obj.node}
+                            categorySelected={categorySelected}
+                            menuTitle={menuTitle}
+                            handleDropDown={handleModal}
+                            allFilterFunc={fetchYoutubeByAllFilter}
+                            pageState={pageState}
+                            page={page}
+                          />
+                        )}
+                      </li>
+                    ))
+                  ) : (
+                    <p className="text-[14px] font-[700] p-[10px] text-neutrals-500">
+                      No {title.toLowerCase()} found.
+                    </p>
+                  )}
                 </ul>
               )}
             </div>

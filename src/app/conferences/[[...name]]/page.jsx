@@ -23,6 +23,7 @@ import {
   handleAreaBreadcrumb,
   updateAreaURLAndData,
 } from "@/utils/urlFunc";
+import MobileFilterBar from "@/components/mobileFilterBar";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -120,6 +121,7 @@ const Conferences = ({ params: { name } }) => {
         clearFunc={clearConfFilters}
         URL={CONFERENCES_URL}
       />
+
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Developers Conferences
       </h1>
@@ -147,6 +149,13 @@ const Conferences = ({ params: { name } }) => {
         pageState={conferences}
         clearFunc={clearConfFilters}
         showPastDate
+      />
+      <MobileFilterBar
+        page="conferences"
+        pageState={conferences}
+        clearFunc={clearConfFilters}
+        showPastDate
+        area
       />
       {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>
