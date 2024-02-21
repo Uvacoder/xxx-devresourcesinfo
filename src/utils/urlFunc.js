@@ -122,8 +122,6 @@ export const updateURLAndData = (URL, fetchData, obj) => {
   }
 };
 
-/*****************************************/
-
 export const fetchAreaFilterFromURL = (
   dispatch,
   setterFunc,
@@ -279,8 +277,6 @@ export const updateAreaURLAndData = (URL, fetchData, obj) => {
     return;
   }
 };
-
-/********************* BreadCrumbs**********************/
 
 export const handleAreaBreadcrumb = (
   dispatch,
