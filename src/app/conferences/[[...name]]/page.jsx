@@ -18,7 +18,11 @@ import Breadcrumb from "@/components/breadcrumb";
 import AreaFilterBar from "@/components/areaFilterBar";
 import AreaTable from "@/components/areaTable";
 import { usePathname } from "next/navigation";
-import { fetchAreaFilterFromURL, handleAreaBreadcrumb, updateAreaURLAndData } from "@/utils/urlFunc";
+import {
+  fetchAreaFilterFromURL,
+  handleAreaBreadcrumb,
+  updateAreaURLAndData,
+} from "@/utils/urlFunc";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -84,13 +88,19 @@ const Conferences = ({ params: { name } }) => {
   }, [pathname]);
 
   useEffect(() => {
-    fetchAreaFilterFromURL(
-      dispatch,
-      setConferenceDataByUrl,
-      dataFromURL,
-      fetchData
-    );
+    if (citySelected || countrySelected || continentSelected || techSelected) {
+      fetchAreaFilterFromURL(
+        dispatch,
+        setConferenceDataByUrl,
+        dataFromURL,
+        fetchData
+      );
+    } else {
+      fetchData();
+    }
   }, [pastConf]);
+
+  console.log({ pastConf });
 
   useEffect(() => {
     updateAreaURLAndData(CONFERENCES_URL, fetchData, {
