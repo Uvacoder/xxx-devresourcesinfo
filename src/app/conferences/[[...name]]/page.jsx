@@ -18,7 +18,7 @@ import Breadcrumb from "@/components/breadcrumb";
 import AreaFilterBar from "@/components/areaFilterBar";
 import AreaTable from "@/components/areaTable";
 import { usePathname } from "next/navigation";
-import { fetchAreaFilterFromURL, updateAreaURLAndData } from "@/utils/urlFunc";
+import { fetchAreaFilterFromURL, handleAreaBreadcrumb, updateAreaURLAndData } from "@/utils/urlFunc";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -105,7 +105,12 @@ const Conferences = ({ params: { name } }) => {
 
   return (
     <PageContainer>
-      <Breadcrumb />
+      <Breadcrumb
+        page="conferences"
+        breadcrumbHandler={handleAreaBreadcrumb}
+        setterFunc={setConferenceDataByUrl}
+        clearFunc={clearConfFilters}
+      />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Developers Conferences
       </h1>

@@ -202,7 +202,7 @@ export const fetchAreaFilterFromURL = (
       })
     );
     fetchData({
-        continentSelected: continentData,
+      continentSelected: continentData,
     });
   } else if (urlArr.length === 4) {
     const techData = removePercent20(urlArr[3]);
@@ -241,76 +241,34 @@ export const updateAreaURLAndData = (URL, fetchData, obj) => {
       "",
       `${URL}/${continentSelected}/${countrySelected}/${citySelected}/${techSelected}`
     );
-    // fetchData({
-    //   citySelected,
-    //   countrySelected,
-    //   continentSelected,
-    //   techSelected,
-    // });
   } else if (countrySelected && techSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${continentSelected}/${countrySelected}/${techSelected}`
     );
-    // fetchData({
-    //   citySelected,
-    //   countrySelected,
-    //   continentSelected,
-    //   techSelected,
-    // });
   } else if (continentSelected && techSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${continentSelected}/${techSelected}`
     );
-    // fetchData({
-    //   citySelected,
-    //   countrySelected,
-    //   continentSelected,
-    //   techSelected,
-    // });
   } else if (techSelected) {
     window.history.pushState(null, "", `${URL}/${techSelected}`);
-    // fetchData({
-    //   citySelected,
-    //   countrySelected,
-    //   continentSelected,
-    //   techSelected,
-    // });
   } else if (citySelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${continentSelected}/${countrySelected}/${citySelected}/all`
     );
-    // fetchData({
-    //   citySelected,
-    //   countrySelected,
-    //   continentSelected,
-    //   techSelected,
-    // });
   } else if (countrySelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${continentSelected}/${countrySelected}/all`
     );
-    // fetchData({
-    //   citySelected,
-    //   countrySelected,
-    //   continentSelected,
-    //   techSelected,
-    // });
   } else if (continentSelected) {
     window.history.pushState(null, "", `${URL}/${continentSelected}/all`);
-    // fetchData({
-    //   citySelected,
-    //   countrySelected,
-    //   continentSelected,
-    //   techSelected,
-    // });
   } else {
     fetchData({
       citySelected,
@@ -318,6 +276,139 @@ export const updateAreaURLAndData = (URL, fetchData, obj) => {
       continentSelected,
       techSelected,
     });
+    return;
+  }
+};
+
+/********************* BreadCrumbs**********************/
+
+export const handleAreaBreadcrumb = (
+  dispatch,
+  setterFunc,
+  urlArr,
+  textSelected
+) => {
+  if (urlArr.length === 6 && urlArr[5] === "all") {
+    const countryData = removePercent20(urlArr[3]);
+    const continentData = removePercent20(urlArr[2]);
+    if (textSelected === continentData) {
+      dispatch(
+        setterFunc({
+          continentSelected: continentData,
+        })
+      );
+
+      window.history.pushState(null, "", `${URL}/${continentData}/all`);
+    } else if (textSelected === countryData) {
+      dispatch(
+        setterFunc({
+          countrySelected: countryData,
+          continentSelected: continentData,
+        })
+      );
+
+      window.history.pushState(
+        null,
+        "",
+        `${URL}/${continentData}/${countryData}/all`
+      );
+    } else {
+      return;
+    }
+  } else if (urlArr.length === 6) {
+    const cityData = removePercent20(urlArr[4]);
+    const countryData = removePercent20(urlArr[3]);
+    const continentData = removePercent20(urlArr[2]);
+    if (textSelected === cityData) {
+      dispatch(
+        setterFunc({
+          citySelected: cityData,
+          countrySelected: countryData,
+          continentSelected: continentData,
+        })
+      );
+
+      window.history.pushState(
+        null,
+        "",
+        `${URL}/${continentData}/${countryData}/${cityData}/all`
+      );
+    } else if (textSelected === countryData) {
+      dispatch(
+        setterFunc({
+          countrySelected: countryData,
+          continentSelected: continentData,
+        })
+      );
+
+      window.history.pushState(
+        null,
+        "",
+        `${URL}/${continentData}/${countryData}/all`
+      );
+    } else if (textSelected === continentData) {
+      dispatch(
+        setterFunc({
+          continentSelected: continentData,
+        })
+      );
+
+      window.history.pushState(null, "", `${URL}/${continentData}/all`);
+    } else {
+      return;
+    }
+  } else if (urlArr.length === 5 && urlArr[4] === "all") {
+    const continentData = removePercent20(urlArr[2]);
+    if (textSelected === continentData) {
+      dispatch(
+        setterFunc({
+          continentSelected: continentData,
+        })
+      );
+
+      window.history.pushState(null, "", `${URL}/${continentData}/all`);
+    } else {
+      return;
+    }
+  } else if (urlArr.length === 5) {
+    const countryData = removePercent20(urlArr[3]);
+    const continentData = removePercent20(urlArr[2]);
+    if (textSelected === countryData) {
+      dispatch(
+        setterFunc({
+          countrySelected: countryData,
+          continentSelected: continentData,
+        })
+      );
+
+      window.history.pushState(
+        null,
+        "",
+        `${URL}/${continentData}/${countryData}/all`
+      );
+    } else if (textSelected === continentData) {
+      dispatch(
+        setterFunc({
+          continentSelected: continentData,
+        })
+      );
+
+      window.history.pushState(null, "", `${URL}/${continentData}/all`);
+    } else {
+      return;
+    }
+  } else if (urlArr.length === 4) {
+    const continentData = removePercent20(urlArr[2]);
+    if (textSelected === continentData) {
+      dispatch(
+        setterFunc({
+          continentSelected: continentData,
+        })
+      );
+
+      window.history.pushState(null, "", `${URL}/${continentData}/all`);
+    }
+  } else {
     return;
   }
 };

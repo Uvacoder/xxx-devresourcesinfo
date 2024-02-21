@@ -3,11 +3,21 @@ import { IoChevronForward } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { removePercent20 } from "@/utils/utils";
+import { useDispatch } from "react-redux";
 
-const Breadcrumb = () => {
+const Breadcrumb = ({ page, breadcrumbHandler, setterFunc, clearFunc }) => {
   const pathname = usePathname();
+  const dispatch = useDispatch();
   const parts = pathname?.split("/");
-  
+
+  const clickHandler = (textSelected) => {
+    if (textSelected === page) {
+      dispatch(clearFunc());
+    } else {
+      breadcrumbHandler(dispatch, setterFunc, parts, textSelected);
+    }
+  };
+
   return (
     <>
       {parts.length > 2 && (
@@ -20,7 +30,10 @@ const Breadcrumb = () => {
               {index > 1 && (
                 <IoChevronForward className="text-neutrals-200 w-[17px] h-[17px]" />
               )}
-              <span className="capitalize text-[13px] cursor-pointer">
+              <span
+                className="capitalize text-[13px] cursor-pointer hover:text-primary-end"
+                onClick={() => clickHandler(removePercent20(path))}
+              >
                 {removePercent20(path)}
               </span>
             </li>
