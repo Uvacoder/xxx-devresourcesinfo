@@ -17,7 +17,7 @@ export const getHackathonByAllFilters = async (
       techSelected,
       convertedDate
     );
-    console.log(dataQuery);
+   
     const gqlResponse = await client.request(dataQuery);
 
     return {

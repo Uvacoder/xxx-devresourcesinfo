@@ -44,3 +44,16 @@ export const clearFiltersFromURL = (path) => {
 export const clearLocalStorage = () => {
   localStorage.clear();
 };
+
+export const removePercent20 = (str) => {
+  if (str.includes("%20")) {
+    return str.replace(/%20/g, " ");
+  } else {
+    return str;
+  }
+};
+
+export const extractDataFromURL = (pathname) => {
+  const parts = pathname.split("/");
+  return parts;
+};

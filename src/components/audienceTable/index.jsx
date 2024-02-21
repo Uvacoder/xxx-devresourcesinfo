@@ -71,7 +71,7 @@ const AudienceTable = ({ data, page, pageState, filterFunc }) => {
         {data?.map(({ node }, index) => (
           <li
             key={node?.id + index}
-            className="confTable flex justify-between items-center gap-2 border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600 cursor-pointer py-[16px] px-[16px] md:px-[24px]"
+            className="confTable flex justify-between items-center gap-2 border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600 py-[16px] px-[16px] md:px-[24px]"
           >
             <div className="w-full flex flex-col items-start">
               <a
@@ -84,7 +84,7 @@ const AudienceTable = ({ data, page, pageState, filterFunc }) => {
               </a>
               <div className="flex gap-[10px] sm:gap-[16px] flex-wrap mt-[6.5px] text-neutrals-600 text-[12px] sm:text-sm">
                 <p
-                  className="flex items-center gap-[4px]"
+                  className="flex items-center gap-[4px] cursor-pointer"
                   onClick={() =>
                     clickHandler(node?.language[0]?.name, "Language")
                   }
@@ -99,7 +99,7 @@ const AudienceTable = ({ data, page, pageState, filterFunc }) => {
                   </span>
                 </p>
                 <p
-                  className="flex items-center gap-[4px]"
+                  className="flex items-center gap-[4px] cursor-pointer"
                   onClick={() =>
                     clickHandler(node?.target[0]?.name, "Audience")
                   }
@@ -118,7 +118,7 @@ const AudienceTable = ({ data, page, pageState, filterFunc }) => {
 
             <ul className="flex items-center justify-end md:justify-normal flex-wrap gap-[10px] min-w-[120px] sm:min-w-[200px] md:min-w-[320px] sm:self-stretch">
               {node?.technology?.map((obj) => (
-                <li key={obj?.id}>
+                <li key={obj?.id} className="cursor-pointer">
                   <TechnologiesRow
                     obj={obj}
                     clickHandler={clickHandler}

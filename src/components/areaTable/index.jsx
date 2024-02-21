@@ -178,7 +178,7 @@ const AreaTable = ({ data, page, pageState, filterFunc }) => {
             {arrays?.map(({ node }, index) => (
               <li
                 key={node?.id + index}
-                className="confTable flex items-center border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600 cursor-pointer"
+                className="confTable flex items-center border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600"
               >
                 <DateRow node={node} />
                 <div className="w-full flex flex-col items-start py-[16px] pl-3 sm:pl-[40px] lg:pl-[64px]">
@@ -192,7 +192,7 @@ const AreaTable = ({ data, page, pageState, filterFunc }) => {
                   </a>
                   <p className="flex flex-wrap gap-[2px] text-neutrals-500 text-[12px] sm:text-sm">
                     <span
-                      className="hover:font-[700] hover:underline hover:text-primary-end"
+                      className="hover:font-[700] hover:underline hover:text-primary-end cursor-pointer"
                       onClick={() =>
                         clickHandler(node?.city?.name, "City", node?.city?.id)
                       }
@@ -201,7 +201,7 @@ const AreaTable = ({ data, page, pageState, filterFunc }) => {
                     </span>
                     ,
                     <span
-                      className="hover:font-[700] hover:underline hover:text-primary-end"
+                      className="hover:font-[700] hover:underline hover:text-primary-end cursor-pointer"
                       onClick={() =>
                         clickHandler(
                           node?.country[0]?.name,
@@ -214,7 +214,7 @@ const AreaTable = ({ data, page, pageState, filterFunc }) => {
                     </span>
                     ,
                     <span
-                      className="hover:font-[700] hover:underline hover:text-primary-end"
+                      className="hover:font-[700] hover:underline hover:text-primary-end cursor-pointer"
                       onClick={() =>
                         clickHandler(
                           node?.continent[0]?.name,

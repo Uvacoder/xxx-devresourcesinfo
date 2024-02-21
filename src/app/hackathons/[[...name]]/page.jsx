@@ -1,22 +1,32 @@
 "use client";
 import React, { useEffect } from "react";
-import { getCurrentDate, addQuotesToString } from "@/utils/utils";
+import {
+  getCurrentDate,
+  addQuotesToString,
+  extractDataFromURL,
+} from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import PageContainer from "@/components/pageContainer";
-import { HACKATHONS_URL, DEV_RESOURCES } from "@/utils/constants";
+import { HACKATHONS_URL } from "@/utils/constants";
 import AreaFilterBar from "@/components/areaFilterBar";
 import AreaTable from "@/components/areaTable";
+import Breadcrumb from "@/components/breadcrumb";
 import { fetchHackathonsByAllFilter } from "@/redux/features/hackathon/action";
 import {
   clearHackathonFilters,
   setHackathonDataByUrl,
-  setHackathonStorageData,
   setHackathonTodayDate,
 } from "@/redux/features/hackathon/hackathonSlice";
-import Breadcrumb from "@/components/breadcrumb";
+import { usePathname } from "next/navigation";
+import {
+  fetchAreaFilterFromURL,
+  handleAreaBreadcrumb,
+  updateAreaURLAndData,
+} from "@/utils/urlFunc";
 
 const Hackathons = ({ params: { name } }) => {
   const dispatch = useDispatch();
+  const pathname = usePathname();
   const hackathons = useSelector(({ hackathons }) => hackathons);
   const {
     allHackathons,
@@ -27,28 +37,22 @@ const Hackathons = ({ params: { name } }) => {
     continentSelected,
     techSelected,
   } = hackathons;
-
+  const dataFromURL = extractDataFromURL(pathname);
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
 
-  const fetchData = () => {
-    const localStorageResources =
-      JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
-
-    dispatch(setHackathonStorageData(localStorageResources?.hackathons));
-
-    const convertCity = localStorageResources?.hackathons?.citySelected
-      ? addQuotesToString(localStorageResources?.hackathons?.citySelected)
+  const fetchData = (obj) => {
+    const convertCity = obj?.citySelected
+      ? addQuotesToString(obj?.citySelected)
       : undefined;
-    const convertCountry = localStorageResources?.hackathons?.countrySelected
-      ? addQuotesToString(localStorageResources?.hackathons?.countrySelected)
+    const convertCountry = obj?.countrySelected
+      ? addQuotesToString(obj?.countrySelected)
       : undefined;
-    const convertContinent = localStorageResources?.hackathons
-      ?.continentSelected
-      ? addQuotesToString(localStorageResources?.hackathons?.continentSelected)
+    const convertContinent = obj?.continentSelected
+      ? addQuotesToString(obj?.continentSelected)
       : undefined;
-    const convertTech = localStorageResources?.hackathons?.techSelected
-      ? addQuotesToString(localStorageResources?.hackathons?.techSelected)
+    const convertTech = obj?.techSelected
+      ? addQuotesToString(obj?.techSelected)
       : undefined;
     const convertedDateStr = pastConf ? undefined : convertedDate;
 
@@ -66,117 +70,50 @@ const Hackathons = ({ params: { name } }) => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchAreaFilterFromURL(
+      dispatch,
+      setHackathonDataByUrl,
+      dataFromURL,
+      fetchData,
+    );
   }, []);
 
   useEffect(() => {
-    if (citySelected && techSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${HACKATHONS_URL}/${techSelected}/${continentSelected}/${countrySelected}/${citySelected}`
-      );
-      dispatch(
-        setHackathonDataByUrl({
-          payload: {
-            citySelected,
-            countrySelected,
-            continentSelected,
-            techSelected,
-          },
-        })
-      );
-    } else if (countrySelected && techSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${HACKATHONS_URL}/${techSelected}/${continentSelected}/${countrySelected}`
-      );
-      dispatch(
-        setHackathonDataByUrl({
-          payload: {
-            countrySelected,
-            continentSelected,
-            techSelected,
-          },
-        })
-      );
-    } else if (continentSelected && techSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${HACKATHONS_URL}/${techSelected}/${continentSelected}`
-      );
-      dispatch(
-        setHackathonDataByUrl({
-          payload: {
-            continentSelected,
-            techSelected,
-          },
-        })
-      );
-    } else if (techSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${HACKATHONS_URL}/${techSelected}`
-      );
-      dispatch(
-        setHackathonDataByUrl({
-          payload: {
-            techSelected,
-          },
-        })
-      );
-    } else if (citySelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${HACKATHONS_URL}/${continentSelected}/${countrySelected}/${citySelected}`
-      );
-      dispatch(
-        setHackathonDataByUrl({
-          payload: {
-            citySelected,
-            countrySelected,
-            continentSelected,
-          },
-        })
-      );
-    } else if (countrySelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${HACKATHONS_URL}/${continentSelected}/${countrySelected}`
-      );
-      dispatch(
-        setHackathonDataByUrl({
-          payload: {
-            countrySelected,
-            continentSelected,
-          },
-        })
-      );
-    } else if (continentSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${HACKATHONS_URL}/${continentSelected}`
-      );
-      dispatch(
-        setHackathonDataByUrl({
-          continentSelected,
-        })
-      );
-    } else {
-      fetchData();
-      return;
-    }
+    fetchAreaFilterFromURL(
+      dispatch,
+      setHackathonDataByUrl,
+      dataFromURL,
+      fetchData
+    );
+  }, [pathname]);
+
+  useEffect(() => {
+    fetchAreaFilterFromURL(
+      dispatch,
+      setHackathonDataByUrl,
+      dataFromURL,
+      fetchData
+    );
+  }, [pastConf]);
+
+  useEffect(() => {
+    updateAreaURLAndData(HACKATHONS_URL, fetchData, {
+      citySelected,
+      countrySelected,
+      continentSelected,
+      techSelected,
+    });
   }, [citySelected, countrySelected, continentSelected, techSelected]);
 
   return (
     <PageContainer>
-      <Breadcrumb />
+      <Breadcrumb
+        page="hackathons"
+        breadcrumbHandler={handleAreaBreadcrumb}
+        setterFunc={setHackathonDataByUrl}
+        clearFunc={clearHackathonFilters}
+        URL={HACKATHONS_URL}
+      />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Hackathons
       </h1>

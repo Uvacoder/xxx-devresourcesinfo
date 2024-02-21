@@ -3,14 +3,6 @@ import { fetchHackathonsByAllFilter } from "./action";
 import { clearFiltersFromURL } from "@/utils/utils";
 import { HACKATHONS_URL, DEV_RESOURCES } from "@/utils/constants";
 
-const isBrowser = typeof window !== "undefined";
-
-let localStorageResources;
-
-if (isBrowser) {
-  localStorageResources = JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
-}
-
 const initialState = {
   allHackathons: [],
   citySelected: "",
@@ -29,13 +21,6 @@ export const hackathonSlice = createSlice({
   name: "hackathons",
   initialState,
   reducers: {
-    setHackathonStorageData: (state, action) => {
-      state.citySelected = action.payload?.citySelected ?? "";
-      state.countrySelected = action.payload?.countrySelected ?? "";
-      state.continentSelected = action.payload?.continentSelected ?? "";
-      state.techSelected = action.payload?.techSelected ?? "";
-      state.pastHackathons = action.payload?.pastHackathons ?? false;
-    },
     setHackathonCityFilter: (state, action) => {
       state.citySelected = action.payload.value;
       state.cityId = action.payload.id;
@@ -62,14 +47,6 @@ export const hackathonSlice = createSlice({
     },
     pastHackathonUpdate: (state, action) => {
       state.pastHackathons = !state.pastHackathons;
-      const newData = {
-        pastHackathons: !state.pastHackathons,
-      };
-      const updateResources = {
-        ...localStorageResources,
-        hackathons: { ...localStorageResources.hackathons, ...newData },
-      };
-      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
     },
     setHackathonTodayDate: (state, action) => {
       state.todayDate = action.payload;
@@ -81,21 +58,13 @@ export const hackathonSlice = createSlice({
       state.techSelected = "";
       state.pastHackathons = false;
 
-      const updateResources = {
-        ...localStorageResources,
-        hackathons: {},
-      };
-      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
-
       clearFiltersFromURL(HACKATHONS_URL);
     },
     setHackathonDataByUrl: (state, action) => {
-      const newData = action.payload;
-      const updateResources = {
-        ...localStorageResources,
-        hackathons: newData.payload,
-      };
-      localStorage.setItem(DEV_RESOURCES, JSON.stringify(updateResources));
+      state.citySelected = action.payload?.citySelected ?? "";
+      state.countrySelected = action.payload?.countrySelected ?? "";
+      state.continentSelected = action.payload?.continentSelected ?? "";
+      state.techSelected = action.payload?.techSelected ?? "";
     },
   },
   extraReducers: (builder) => {
@@ -117,7 +86,6 @@ export const hackathonSlice = createSlice({
 });
 
 export const {
-  setHackathonStorageData,
   setHackathonCityFilter,
   setHackathonCountryFilter,
   setHackathonContinentFilter,

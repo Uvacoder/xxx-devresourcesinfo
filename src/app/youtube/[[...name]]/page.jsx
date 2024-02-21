@@ -1,39 +1,41 @@
 "use client";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DEV_RESOURCES, YOUTUBE_URL } from "@/utils/constants";
-import { addQuotesToString } from "@/utils/utils";
+import { usePathname } from "next/navigation";
 import PageContainer from "@/components/pageContainer";
+import Breadcrumb from "@/components/breadcrumb";
 import AudienceFilterBar from "@/components/audienceFilterBar";
 import AudienceTable from "@/components/audienceTable";
+import { addQuotesToString, extractDataFromURL } from "@/utils/utils";
 import {
   clearYoutubeFilters,
   setYoutubeDataByUrl,
-  setYoutubeStorageData,
 } from "@/redux/features/youtube/youtubeSlice";
 import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
-import Breadcrumb from "@/components/breadcrumb";
+import {
+  fetchFilterFromURL,
+  handleAudienceBreadcrumb,
+  updateURLAndData,
+} from "@/utils/urlFunc";
+import { YOUTUBE_URL } from "@/utils/constants";
 
 const Youtube = ({ name }) => {
   const dispatch = useDispatch();
+  const pathname = usePathname();
+  const dataFromURL = extractDataFromURL(pathname);
   const youtube = useSelector(({ youtube }) => youtube);
   const { allYoutube, status, langSelected, audienceSelected, tagSelected } =
     youtube;
 
-  const fetchData = () => {
-    const localStorageResources =
-      JSON.parse(localStorage.getItem(DEV_RESOURCES)) ?? {};
-
-    dispatch(setYoutubeStorageData(localStorageResources?.youtube));
-
-    const convertLang = localStorageResources?.youtube?.langSelected
-      ? addQuotesToString(localStorageResources?.youtube?.langSelected)
+  const fetchData = (obj) => {
+    const convertLang = obj?.langSelected
+      ? addQuotesToString(obj?.langSelected)
       : undefined;
-    const convertAudience = localStorageResources?.youtube?.audienceSelected
-      ? addQuotesToString(localStorageResources?.youtube?.audienceSelected)
+    const convertAudience = obj?.audienceSelected
+      ? addQuotesToString(obj?.audienceSelected)
       : undefined;
-    const convertTag = localStorageResources?.youtube?.tagSelected
-      ? addQuotesToString(localStorageResources?.youtube?.tagSelected)
+    const convertTag = obj?.tagSelected
+      ? addQuotesToString(obj?.tagSelected)
       : undefined;
 
     dispatch(
@@ -46,89 +48,40 @@ const Youtube = ({ name }) => {
   };
 
   useEffect(() => {
-    fetchData();
+    const filterFromURL = fetchFilterFromURL(
+      dispatch,
+      setYoutubeDataByUrl,
+      dataFromURL
+    );
+    fetchData(filterFromURL);
   }, []);
 
   useEffect(() => {
-    if (langSelected && audienceSelected && tagSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${YOUTUBE_URL}/${tagSelected}/${audienceSelected}/${langSelected}`
-      );
-      dispatch(
-        setYoutubeDataByUrl({
-          langSelected,
-          audienceSelected,
-          tagSelected,
-        })
-      );
-    } else if (langSelected && audienceSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${YOUTUBE_URL}/${audienceSelected}/${langSelected}`
-      );
-      dispatch(
-        setYoutubeDataByUrl({
-          langSelected,
-          audienceSelected,
-        })
-      );
-    } else if (audienceSelected && tagSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${YOUTUBE_URL}/${tagSelected}/${audienceSelected}`
-      );
-      dispatch(
-        setYoutubeDataByUrl({
-          audienceSelected,
-          tagSelected,
-        })
-      );
-    } else if (langSelected && tagSelected) {
-      window.history.pushState(
-        null,
-        "",
-        `${YOUTUBE_URL}/${tagSelected}/${langSelected}`
-      );
-      dispatch(
-        setYoutubeDataByUrl({
-          langSelected,
-          tagSelected,
-        })
-      );
-    } else if (langSelected) {
-      window.history.pushState(null, "", `${YOUTUBE_URL}/${langSelected}`);
-      dispatch(
-        setYoutubeDataByUrl({
-          langSelected,
-          tagSelected,
-        })
-      );
-    } else if (audienceSelected) {
-      window.history.pushState(null, "", `${YOUTUBE_URL}/${audienceSelected}`);
-      dispatch(
-        setYoutubeDataByUrl({
-          audienceSelected,
-          tagSelected,
-        })
-      );
-    } else if (tagSelected) {
-      window.history.pushState(null, "", `${YOUTUBE_URL}/${tagSelected}`);
-      dispatch(
-        setYoutubeDataByUrl({
-          tagSelected,
-        })
-      );
-    } else {
-      fetchData();
-    }
+    const filterFromURL = fetchFilterFromURL(
+      dispatch,
+      setYoutubeDataByUrl,
+      dataFromURL
+    );
+    fetchData(filterFromURL);
+  }, [pathname]);
+
+  useEffect(() => {
+    updateURLAndData(YOUTUBE_URL, fetchData, {
+      langSelected,
+      audienceSelected,
+      tagSelected,
+    });
   }, [langSelected, audienceSelected, tagSelected]);
+
   return (
     <PageContainer>
-      <Breadcrumb />
+      <Breadcrumb
+        page="youtube"
+        breadcrumbHandler={handleAudienceBreadcrumb}
+        setterFunc={setYoutubeDataByUrl}
+        clearFunc={clearYoutubeFilters}
+        URL={YOUTUBE_URL}
+      />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Youtube
       </h1>
