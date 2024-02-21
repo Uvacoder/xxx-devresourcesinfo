@@ -1,12 +1,12 @@
 import {
-  additionalAudienceUrl,
-  additionalLanguageUrl,
-  additionalAllUrl,
+  ADDITIONAL_AUDIENCE_URL,
+  ADDITIONAL_LANGUAGE_URL,
+  ADDITIONAL_ALL_URL,
 } from "./constants";
 import { removePercent20 } from "./utils";
 
 export const fetchFilterFromURL = (dispatch, setterFunc, urlArr) => {
-  if (urlArr.length === 5 && urlArr[4] === additionalAudienceUrl) {
+  if (urlArr.length === 5 && urlArr[4] === ADDITIONAL_AUDIENCE_URL) {
     const langData = removePercent20(urlArr[3]);
     const tagData = removePercent20(urlArr[2]);
     dispatch(
@@ -16,7 +16,7 @@ export const fetchFilterFromURL = (dispatch, setterFunc, urlArr) => {
       })
     );
     return { langSelected: langData, tagSelected: tagData };
-  } else if (urlArr.length === 5 && urlArr[4] === additionalLanguageUrl) {
+  } else if (urlArr.length === 5 && urlArr[4] === ADDITIONAL_LANGUAGE_URL) {
     const audData = removePercent20(urlArr[3]);
     const tagData = removePercent20(urlArr[2]);
     dispatch(
@@ -42,7 +42,7 @@ export const fetchFilterFromURL = (dispatch, setterFunc, urlArr) => {
       audienceSelected: audData,
       tagSelected: tagData,
     };
-  } else if (urlArr.length === 4 && urlArr[3] === additionalAudienceUrl) {
+  } else if (urlArr.length === 4 && urlArr[3] === ADDITIONAL_AUDIENCE_URL) {
     const audData = removePercent20(urlArr[2]);
     dispatch(
       setterFunc({
@@ -52,7 +52,7 @@ export const fetchFilterFromURL = (dispatch, setterFunc, urlArr) => {
     return {
       audienceSelected: audData,
     };
-  } else if (urlArr.length === 4 && urlArr[3] === additionalLanguageUrl) {
+  } else if (urlArr.length === 4 && urlArr[3] === ADDITIONAL_LANGUAGE_URL) {
     const langData = removePercent20(urlArr[2]);
     dispatch(
       setterFunc({
@@ -103,28 +103,28 @@ export const updateURLAndData = (URL, fetchData, obj) => {
     window.history.pushState(
       null,
       "",
-      `${URL}/${tagSelected}/${audienceSelected}/${additionalLanguageUrl}`
+      `${URL}/${tagSelected}/${audienceSelected}/${ADDITIONAL_LANGUAGE_URL}`
     );
     fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (tagSelected && langSelected) {
     window.history.pushState(
       null,
       "",
-      `${URL}/${tagSelected}/${langSelected}/${additionalAudienceUrl}`
+      `${URL}/${tagSelected}/${langSelected}/${ADDITIONAL_AUDIENCE_URL}`
     );
     fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (langSelected) {
     window.history.pushState(
       null,
       "",
-      `${URL}/${langSelected}/${additionalLanguageUrl}`
+      `${URL}/${langSelected}/${ADDITIONAL_LANGUAGE_URL}`
     );
     fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (audienceSelected) {
     window.history.pushState(
       null,
       "",
-      `${URL}/${audienceSelected}/${additionalAudienceUrl}`
+      `${URL}/${audienceSelected}/${ADDITIONAL_AUDIENCE_URL}`
     );
     fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (tagSelected) {
@@ -141,7 +141,7 @@ export const fetchAreaFilterFromURL = (
   urlArr,
   fetchData
 ) => {
-  if (urlArr.length === 6 && urlArr[5] === additionalAllUrl) {
+  if (urlArr.length === 6 && urlArr[5] === ADDITIONAL_ALL_URL) {
     const cityData = removePercent20(urlArr[4]);
     const countryData = removePercent20(urlArr[3]);
     const continentData = removePercent20(urlArr[2]);
@@ -176,7 +176,7 @@ export const fetchAreaFilterFromURL = (
       continentSelected: continentData,
       techSelected: techData,
     });
-  } else if (urlArr.length === 5 && urlArr[4] === additionalAllUrl) {
+  } else if (urlArr.length === 5 && urlArr[4] === ADDITIONAL_ALL_URL) {
     const countryData = removePercent20(urlArr[3]);
     const continentData = removePercent20(urlArr[2]);
     dispatch(
@@ -205,7 +205,7 @@ export const fetchAreaFilterFromURL = (
       continentSelected: continentData,
       techSelected: techData,
     });
-  } else if (urlArr.length === 4 && urlArr[3] === additionalAllUrl) {
+  } else if (urlArr.length === 4 && urlArr[3] === ADDITIONAL_ALL_URL) {
     const continentData = removePercent20(urlArr[2]);
     dispatch(
       setterFunc({
@@ -270,19 +270,19 @@ export const updateAreaURLAndData = (URL, fetchData, obj) => {
     window.history.pushState(
       null,
       "",
-      `${URL}/${continentSelected}/${countrySelected}/${citySelected}/${additionalAllUrl}`
+      `${URL}/${continentSelected}/${countrySelected}/${citySelected}/${ADDITIONAL_ALL_URL}`
     );
   } else if (countrySelected) {
     window.history.pushState(
       null,
       "",
-      `${URL}/${continentSelected}/${countrySelected}/${additionalAllUrl}`
+      `${URL}/${continentSelected}/${countrySelected}/${ADDITIONAL_ALL_URL}`
     );
   } else if (continentSelected) {
     window.history.pushState(
       null,
       "",
-      `${URL}/${continentSelected}/${additionalAllUrl}`
+      `${URL}/${continentSelected}/${ADDITIONAL_ALL_URL}`
     );
   } else {
     fetchData({
@@ -302,7 +302,7 @@ export const handleAreaBreadcrumb = (
   textSelected,
   URL
 ) => {
-  if (urlArr.length === 6 && urlArr[5] === additionalAllUrl) {
+  if (urlArr.length === 6 && urlArr[5] === ADDITIONAL_ALL_URL) {
     const countryData = removePercent20(urlArr[3]);
     const continentData = removePercent20(urlArr[2]);
     if (textSelected === continentData) {
@@ -315,7 +315,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${additionalAllUrl}`
+        `${URL}/${continentData}/${ADDITIONAL_ALL_URL}`
       );
     } else if (textSelected === countryData) {
       dispatch(
@@ -328,7 +328,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${countryData}/${additionalAllUrl}`
+        `${URL}/${continentData}/${countryData}/${ADDITIONAL_ALL_URL}`
       );
     } else {
       return;
@@ -349,7 +349,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${countryData}/${cityData}/${additionalAllUrl}`
+        `${URL}/${continentData}/${countryData}/${cityData}/${ADDITIONAL_ALL_URL}`
       );
     } else if (textSelected === countryData) {
       dispatch(
@@ -362,7 +362,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${countryData}/${additionalAllUrl}`
+        `${URL}/${continentData}/${countryData}/${ADDITIONAL_ALL_URL}`
       );
     } else if (textSelected === continentData) {
       dispatch(
@@ -374,12 +374,12 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${additionalAllUrl}`
+        `${URL}/${continentData}/${ADDITIONAL_ALL_URL}`
       );
     } else {
       return;
     }
-  } else if (urlArr.length === 5 && urlArr[4] === additionalAllUrl) {
+  } else if (urlArr.length === 5 && urlArr[4] === ADDITIONAL_ALL_URL) {
     const continentData = removePercent20(urlArr[2]);
     if (textSelected === continentData) {
       dispatch(
@@ -391,7 +391,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${additionalAllUrl}`
+        `${URL}/${continentData}/${ADDITIONAL_ALL_URL}`
       );
     } else {
       return;
@@ -410,7 +410,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${countryData}/${additionalAllUrl}`
+        `${URL}/${continentData}/${countryData}/${ADDITIONAL_ALL_URL}`
       );
     } else if (textSelected === continentData) {
       dispatch(
@@ -422,7 +422,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${additionalAllUrl}`
+        `${URL}/${continentData}/${ADDITIONAL_ALL_URL}`
       );
     } else {
       return;
@@ -439,7 +439,7 @@ export const handleAreaBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${continentData}/${additionalAllUrl}`
+        `${URL}/${continentData}/${ADDITIONAL_ALL_URL}`
       );
     }
   } else {
@@ -454,7 +454,7 @@ export const handleAudienceBreadcrumb = (
   textSelected,
   URL
 ) => {
-  if (urlArr.length === 5 && urlArr[4] === additionalAudienceUrl) {
+  if (urlArr.length === 5 && urlArr[4] === ADDITIONAL_AUDIENCE_URL) {
     const tagData = removePercent20(urlArr[2]);
     if (textSelected === tagData) {
       dispatch(
@@ -464,7 +464,7 @@ export const handleAudienceBreadcrumb = (
       );
       window.history.pushState(null, "", `${URL}/${tagData}`);
     }
-  } else if (urlArr.length === 5 && urlArr[4] === additionalLanguageUrl) {
+  } else if (urlArr.length === 5 && urlArr[4] === ADDITIONAL_LANGUAGE_URL) {
     const tagData = removePercent20(urlArr[2]);
     if (textSelected === tagData) {
       dispatch(
@@ -487,7 +487,7 @@ export const handleAudienceBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${tagData}/${audData}/${additionalLanguageUrl}`
+        `${URL}/${tagData}/${audData}/${ADDITIONAL_LANGUAGE_URL}`
       );
     } else if (textSelected === tagData) {
       dispatch(
@@ -499,9 +499,9 @@ export const handleAudienceBreadcrumb = (
     } else {
       return;
     }
-  } else if (urlArr.length === 4 && urlArr[3] === additionalAudienceUrl) {
+  } else if (urlArr.length === 4 && urlArr[3] === ADDITIONAL_AUDIENCE_URL) {
     return;
-  } else if (urlArr.length === 4 && urlArr[3] === additionalLanguageUrl) {
+  } else if (urlArr.length === 4 && urlArr[3] === ADDITIONAL_LANGUAGE_URL) {
     return;
   } else if (urlArr.length === 4) {
     const audData = removePercent20(urlArr[2]);
@@ -514,7 +514,7 @@ export const handleAudienceBreadcrumb = (
       window.history.pushState(
         null,
         "",
-        `${URL}/${audData}/${additionalAudienceUrl}`
+        `${URL}/${audData}/${ADDITIONAL_AUDIENCE_URL}`
       );
     }
   } else if (urlArr.length === 3) {
