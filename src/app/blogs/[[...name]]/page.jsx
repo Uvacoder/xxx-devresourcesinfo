@@ -12,7 +12,11 @@ import {
 } from "@/redux/features/blog/blogSlice";
 import { addQuotesToString, extractDataFromURL } from "@/utils/utils";
 import { fetchBlogByAllFilter } from "@/redux/features/blog/action";
-import { fetchFilterFromURL, updateURLAndData } from "@/utils/urlFunc";
+import {
+  fetchFilterFromURL,
+  handleAudienceBreadcrumb,
+  updateURLAndData,
+} from "@/utils/urlFunc";
 import { BLOGS_URL } from "@/utils/constants";
 
 const Blogs = ({ name }) => {
@@ -70,7 +74,13 @@ const Blogs = ({ name }) => {
   }, [langSelected, audienceSelected, tagSelected]);
   return (
     <PageContainer>
-      <Breadcrumb />
+      <Breadcrumb
+        page="blogs"
+        breadcrumbHandler={handleAudienceBreadcrumb}
+        setterFunc={setBlogDataByUrl}
+        clearFunc={clearBlogFilters}
+        URL={BLOGS_URL}
+      />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Blogs
       </h1>

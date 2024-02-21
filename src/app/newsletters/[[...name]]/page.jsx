@@ -12,7 +12,11 @@ import {
   clearNewsletterFilters,
   setNewsletterDataByUrl,
 } from "@/redux/features/newsletter/newsletterSlice";
-import { fetchFilterFromURL, updateURLAndData } from "@/utils/urlFunc";
+import {
+  fetchFilterFromURL,
+  handleAudienceBreadcrumb,
+  updateURLAndData,
+} from "@/utils/urlFunc";
 import { NEWSLETTERS_URL } from "@/utils/constants";
 
 const NewsLetters = ({ name }) => {
@@ -75,7 +79,13 @@ const NewsLetters = ({ name }) => {
   }, [langSelected, audienceSelected, tagSelected]);
   return (
     <PageContainer>
-      <Breadcrumb />
+      <Breadcrumb
+        page="newsletters"
+        breadcrumbHandler={handleAudienceBreadcrumb}
+        setterFunc={setNewsletterDataByUrl}
+        clearFunc={clearNewsletterFilters}
+        URL={NEWSLETTERS_URL}
+      />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Newsletters
       </h1>

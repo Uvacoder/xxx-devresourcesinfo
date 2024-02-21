@@ -5,7 +5,13 @@ import React from "react";
 import { removePercent20 } from "@/utils/utils";
 import { useDispatch } from "react-redux";
 
-const Breadcrumb = ({ page, breadcrumbHandler, setterFunc, clearFunc }) => {
+const Breadcrumb = ({
+  page,
+  breadcrumbHandler,
+  setterFunc,
+  clearFunc,
+  URL,
+}) => {
   const pathname = usePathname();
   const dispatch = useDispatch();
   const parts = pathname?.split("/");
@@ -14,7 +20,7 @@ const Breadcrumb = ({ page, breadcrumbHandler, setterFunc, clearFunc }) => {
     if (textSelected === page) {
       dispatch(clearFunc());
     } else {
-      breadcrumbHandler(dispatch, setterFunc, parts, textSelected);
+      breadcrumbHandler(dispatch, setterFunc, parts, textSelected, URL);
     }
   };
 

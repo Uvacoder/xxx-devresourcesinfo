@@ -110,6 +110,7 @@ const Conferences = ({ params: { name } }) => {
         breadcrumbHandler={handleAreaBreadcrumb}
         setterFunc={setConferenceDataByUrl}
         clearFunc={clearConfFilters}
+        URL={CONFERENCES_URL}
       />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Developers Conferences

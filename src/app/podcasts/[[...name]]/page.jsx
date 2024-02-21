@@ -12,7 +12,7 @@ import {
   setPodcastDataByUrl,
 } from "@/redux/features/podcast/podcastSlice";
 import { addQuotesToString, extractDataFromURL } from "@/utils/utils";
-import { fetchFilterFromURL, updateURLAndData } from "@/utils/urlFunc";
+import { fetchFilterFromURL, handleAudienceBreadcrumb, updateURLAndData } from "@/utils/urlFunc";
 import { PODCASTS_URL } from "@/utils/constants";
 
 const Podcasts = ({ params: { name } }) => {
@@ -72,7 +72,13 @@ const Podcasts = ({ params: { name } }) => {
 
   return (
     <PageContainer>
-      <Breadcrumb />
+      <Breadcrumb
+        page="podcasts"
+        breadcrumbHandler={handleAudienceBreadcrumb}
+        setterFunc={setPodcastDataByUrl}
+        clearFunc={clearPodcastFilters}
+        URL={PODCASTS_URL}
+      />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Podcasts
       </h1>

@@ -12,7 +12,11 @@ import {
   setYoutubeDataByUrl,
 } from "@/redux/features/youtube/youtubeSlice";
 import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
-import { fetchFilterFromURL, updateURLAndData } from "@/utils/urlFunc";
+import {
+  fetchFilterFromURL,
+  handleAudienceBreadcrumb,
+  updateURLAndData,
+} from "@/utils/urlFunc";
 import { YOUTUBE_URL } from "@/utils/constants";
 
 const Youtube = ({ name }) => {
@@ -71,7 +75,13 @@ const Youtube = ({ name }) => {
 
   return (
     <PageContainer>
-      <Breadcrumb />
+      <Breadcrumb
+        page="youtube"
+        breadcrumbHandler={handleAudienceBreadcrumb}
+        setterFunc={setYoutubeDataByUrl}
+        clearFunc={clearYoutubeFilters}
+        URL={YOUTUBE_URL}
+      />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Youtube
       </h1>

@@ -286,7 +286,8 @@ export const handleAreaBreadcrumb = (
   dispatch,
   setterFunc,
   urlArr,
-  textSelected
+  textSelected,
+  URL
 ) => {
   if (urlArr.length === 6 && urlArr[5] === "all") {
     const countryData = removePercent20(urlArr[3]);
@@ -417,5 +418,71 @@ export const handleAudienceBreadcrumb = (
   dispatch,
   setterFunc,
   urlArr,
-  textSelected
-) => {};
+  textSelected,
+  URL
+) => {
+  if (urlArr.length === 5 && urlArr[4] === "allDev") {
+    const tagData = removePercent20(urlArr[2]);
+    if (textSelected === tagData) {
+      dispatch(
+        setterFunc({
+          tagSelected: tagData,
+        })
+      );
+      window.history.pushState(null, "", `${URL}/${tagData}`);
+    }
+  } else if (urlArr.length === 5 && urlArr[4] === "allLang") {
+    const tagData = removePercent20(urlArr[2]);
+    if (textSelected === tagData) {
+      dispatch(
+        setterFunc({
+          tagSelected: tagData,
+        })
+      );
+      window.history.pushState(null, "", `${URL}/${tagData}`);
+    }
+  } else if (urlArr.length === 5) {
+    const audData = removePercent20(urlArr[3]);
+    const tagData = removePercent20(urlArr[2]);
+    if (textSelected === audData) {
+      dispatch(
+        setterFunc({
+          audienceSelected: audData,
+          tagSelected: tagData,
+        })
+      );
+      window.history.pushState(
+        null,
+        "",
+        `${URL}/${tagData}/${audData}/allLang`
+      );
+    } else if (textSelected === tagData) {
+      dispatch(
+        setterFunc({
+          tagSelected: tagData,
+        })
+      );
+      window.history.pushState(null, "", `${URL}/${tagData}`);
+    } else {
+      return;
+    }
+  } else if (urlArr.length === 4 && urlArr[3] === "allDev") {
+    return;
+  } else if (urlArr.length === 4 && urlArr[3] === "allLang") {
+    return;
+  } else if (urlArr.length === 4) {
+    const audData = removePercent20(urlArr[2]);
+    if (textSelected === audData) {
+      dispatch(
+        setterFunc({
+          audienceSelected: audData,
+        })
+      );
+      window.history.pushState(null, "", `${URL}/${audData}/allDev`);
+    }
+  } else if (urlArr.length === 3) {
+    return;
+  } else {
+    return;
+  }
+};
