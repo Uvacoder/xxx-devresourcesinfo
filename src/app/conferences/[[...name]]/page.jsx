@@ -100,8 +100,6 @@ const Conferences = ({ params: { name } }) => {
     }
   }, [pastConf]);
 
-  console.log({ pastConf });
-
   useEffect(() => {
     updateAreaURLAndData(CONFERENCES_URL, fetchData, {
       citySelected,
