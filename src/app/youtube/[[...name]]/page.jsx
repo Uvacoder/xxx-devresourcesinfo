@@ -86,7 +86,7 @@ const Youtube = ({ name }) => {
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Youtube
       </h1>
-      <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
+      <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[25px] md:pb-[48px]">
         A curated list of
         {langSelected && <span> {langSelected}</span>}
         {tagSelected && <span> {tagSelected}</span>} youtube videos

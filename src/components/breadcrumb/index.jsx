@@ -27,17 +27,17 @@ const Breadcrumb = ({
   return (
     <>
       {parts.length > 2 && (
-        <ul className="flex gap-[3px] items-center pb-[16px]">
+        <ul className="flex gap-[2px] md:gap-[3px] items-center pb-[16px]">
           {parts.map((path, index) => (
             <li
-              className="flex gap-[3px] items-center text-neutrals-400 font-[500]"
+              className="flex gap-[2px] md:gap-[3px] items-center text-neutrals-400 font-[500]"
               key={index}
             >
               {index > 1 && (
-                <IoChevronForward className="text-neutrals-200 w-[17px] h-[17px]" />
+                <IoChevronForward className="text-neutrals-200 w-[11px] h-[11px] md:w-[17px] md:h-[17px]" />
               )}
               <span
-                className="capitalize text-[13px] cursor-pointer hover:text-primary-end"
+                className="capitalize text-[10px] md:text-[13px] cursor-pointer hover:text-primary-end"
                 onClick={() => clickHandler(removePercent20(path))}
               >
                 {removePercent20(path)}
