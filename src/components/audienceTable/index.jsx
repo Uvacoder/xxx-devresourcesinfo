@@ -71,18 +71,18 @@ const AudienceTable = ({ data, page, pageState, filterFunc }) => {
         {data?.map(({ node }, index) => (
           <li
             key={node?.id + index}
-            className="confTable flex justify-between items-center gap-2 border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600 py-[16px] px-[16px] md:px-[24px]"
+            className="confTable flex justify-between items-center gap-2 border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600 py-[16px] px-2 xs-450:px-[16px] md:px-[24px]"
           >
             <div className="w-full flex flex-col items-start">
               <a
-                className="inline-block tableRowTitle text-xl sm:text-2xl text-neutrals-900 font-[700]"
+                className="inline-block tableRowTitle text-lg xs-450:text-xl sm:text-2xl text-neutrals-900 font-[700]"
                 href={node.url}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 {node.name}
               </a>
-              <div className="flex gap-[10px] sm:gap-[16px] flex-wrap mt-[6.5px] text-neutrals-600 text-[12px] sm:text-sm">
+              <div className="flex gap-[10px] sm:gap-[16px] flex-wrap mt-[6.5px] text-neutrals-600">
                 <p
                   className="flex items-center gap-[4px] cursor-pointer"
                   onClick={() =>
@@ -92,9 +92,9 @@ const AudienceTable = ({ data, page, pageState, filterFunc }) => {
                   <Image
                     src={globe}
                     alt="language icon"
-                    className="text-neutrals-300 w-[16px] h-[16px]"
+                    className="text-neutrals-300 w-[12px] h-[12px] sm:w-[16px] sm:h-[16px]"
                   />
-                  <span className="text-[14px] font-[400] hover:font-[700] hover:underline">
+                  <span className="text-[11px] xs-450:text-[12px] sm:text-[14px] font-[400] hover:font-[700] hover:underline">
                     {node?.language[0]?.name}
                   </span>
                 </p>
@@ -107,9 +107,9 @@ const AudienceTable = ({ data, page, pageState, filterFunc }) => {
                   <Image
                     src={group}
                     alt="audience icon"
-                    className="text-neutrals-300 w-[16px] h-[16px]"
+                    className="text-neutrals-300 w-[12px] h-[12px] sm:w-[16px] sm:h-[16px]"
                   />
-                  <span className="text-[14px] font-[400] hover:font-[700] hover:underline">
+                  <span className="text-[11px] xs-450:text-[12px] sm:text-[14px] font-[400] hover:font-[700] hover:underline">
                     {node?.target[0]?.name}
                   </span>
                 </p>
