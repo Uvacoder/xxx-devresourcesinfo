@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import AreaAccordion from "../areaAccordion";
+import AudienceAccordion from "../audienceAccordion";
 
 const MobileFilterBar = ({
   page,
@@ -23,12 +24,18 @@ const MobileFilterBar = ({
       </div>
       {showFilters && (
         <div>
-          {area && (
+          {area ? (
             <AreaAccordion
               page={page}
               pageState={pageState}
               clearFunc={clearFunc}
               showPastDate={showPastDate}
+            />
+          ) : (
+            <AudienceAccordion
+              page={page}
+              pageState={pageState}
+              clearFunc={clearFunc}
             />
           )}
         </div>

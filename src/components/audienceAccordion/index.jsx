@@ -1,30 +1,19 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { RiMapPin2Line } from "react-icons/ri";
-import { MdOutlineHandyman } from "react-icons/md";
+import Image from "next/image";
 import AccordionItem from "./accordionItem";
 import ClearBtn from "../clearBtn";
-import Switch from "../switch";
+import tag from "@/assets/tag.svg";
+import globe from "@/assets/globe.svg";
+import group from "@/assets/group.svg";
 
-const AreaAccordion = ({ page, pageState, clearFunc, showPastDate }) => {
+const AudienceAccordion = ({ page, pageState, clearFunc }) => {
   const [openAccordion, setOpenAccordion] = useState(0);
+  const { langSelected, audienceSelected, tagSelected } = pageState;
   const dispatch = useDispatch();
-  const {
-    pastConf,
-    citySelected,
-    countrySelected,
-    continentSelected,
-    techSelected,
-  } = pageState;
 
   const isFilter =
-    pastConf ||
-    citySelected ||
-    countrySelected ||
-    continentSelected ||
-    techSelected
-      ? true
-      : false;
+    langSelected || audienceSelected || tagSelected ? true : false;
 
   const clearFilterHandler = () => {
     dispatch(clearFunc());
@@ -40,8 +29,6 @@ const AreaAccordion = ({ page, pageState, clearFunc, showPastDate }) => {
         setOpenAccordion(2);
       } else if (index === 3) {
         setOpenAccordion(3);
-      } else if (index === 4) {
-        setOpenAccordion(4);
       } else {
         return;
       }
@@ -52,31 +39,30 @@ const AreaAccordion = ({ page, pageState, clearFunc, showPastDate }) => {
     <div className="flex flex-col gap-[4px] mt-[10px]">
       <div className="flex">
         <span className="text-neutrals-300 mt-[5px]">
-          <RiMapPin2Line className="w-[18px] h-[18px]" />
+          <Image src={globe} alt="tag icon" className="w-[18px] h-[18px]" />
         </span>
         <div className="w-full flex flex-col gap-[4px]">
           <AccordionItem
             page={page}
-            title="City"
+            title="Language"
             pageState={pageState}
             openAccordion={openAccordion}
             index={1}
             handleAccordion={handleAccordion}
           />
+        </div>
+      </div>
+      <div className="flex border border-x-0 border-t border-b-0">
+        <span className="text-neutrals-300 mt-[5px]">
+          <Image src={group} alt="tag icon" className=" w-[18px] h-[18px]" />
+        </span>
+        <div className="w-full flex flex-col gap-[4px]">
           <AccordionItem
             page={page}
-            title="Country"
+            title="Audience"
             pageState={pageState}
             openAccordion={openAccordion}
             index={2}
-            handleAccordion={handleAccordion}
-          />
-          <AccordionItem
-            page={page}
-            title="Continent"
-            pageState={pageState}
-            openAccordion={openAccordion}
-            index={3}
             handleAccordion={handleAccordion}
           />
         </div>
@@ -84,19 +70,19 @@ const AreaAccordion = ({ page, pageState, clearFunc, showPastDate }) => {
 
       <div
         className={`flex border border-x-0 border-t py-1 border-neutrals-200 ${
-          !showPastDate && (isFilter ? "border-b" : "border-b-0")
+          isFilter ? "border-b" : "border-b-0"
         }`}
       >
         <span className="text-neutrals-300 mt-[5px]">
-          <MdOutlineHandyman className="w-[18px] h-[18px]" />
+          <Image src={tag} alt="tag icon" className=" w-[18px] h-[18px]" />
         </span>
         <div className="w-full">
           <AccordionItem
             page={page}
-            title="Technology"
+            title="Tags"
             pageState={pageState}
             openAccordion={openAccordion}
-            index={4}
+            index={3}
             handleAccordion={handleAccordion}
           />
         </div>
@@ -106,16 +92,8 @@ const AreaAccordion = ({ page, pageState, clearFunc, showPastDate }) => {
           <ClearBtn clickHandler={clearFilterHandler} />
         </div>
       )}
-      {showPastDate && (
-        <div className="flex items-center gap-[8px] mt-[4px]">
-          <Switch />
-          <span className="text-[14px] text-neutrals-600 leading-[21px]">
-            Show past {page}
-          </span>
-        </div>
-      )}
     </div>
   );
 };
 
-export default AreaAccordion;
+export default AudienceAccordion;

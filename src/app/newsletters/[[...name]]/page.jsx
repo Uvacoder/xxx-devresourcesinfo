@@ -18,6 +18,7 @@ import {
   updateURLAndData,
 } from "@/utils/urlFunc";
 import { NEWSLETTERS_URL } from "@/utils/constants";
+import MobileFilterBar from "@/components/mobileFilterBar";
 
 const NewsLetters = ({ name }) => {
   const dispatch = useDispatch();
@@ -96,6 +97,11 @@ const NewsLetters = ({ name }) => {
         {audienceSelected && <span> targeted towards {audienceSelected}</span>}
       </p>
       <AudienceFilterBar
+        page="newsletters"
+        pageState={newsletters}
+        clearFunc={clearNewsletterFilters}
+      />
+      <MobileFilterBar
         page="newsletters"
         pageState={newsletters}
         clearFunc={clearNewsletterFilters}

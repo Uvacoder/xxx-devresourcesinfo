@@ -18,6 +18,7 @@ import {
   updateURLAndData,
 } from "@/utils/urlFunc";
 import { YOUTUBE_URL } from "@/utils/constants";
+import MobileFilterBar from "@/components/mobileFilterBar";
 
 const Youtube = ({ name }) => {
   const dispatch = useDispatch();
@@ -92,6 +93,11 @@ const Youtube = ({ name }) => {
         {audienceSelected && <span> targeted towards {audienceSelected}</span>}
       </p>
       <AudienceFilterBar
+        page="youtube"
+        pageState={youtube}
+        clearFunc={clearYoutubeFilters}
+      />
+      <MobileFilterBar
         page="youtube"
         pageState={youtube}
         clearFunc={clearYoutubeFilters}

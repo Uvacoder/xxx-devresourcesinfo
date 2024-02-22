@@ -14,6 +14,7 @@ import {
 import { addQuotesToString, extractDataFromURL } from "@/utils/utils";
 import { fetchFilterFromURL, handleAudienceBreadcrumb, updateURLAndData } from "@/utils/urlFunc";
 import { PODCASTS_URL } from "@/utils/constants";
+import MobileFilterBar from "@/components/mobileFilterBar";
 
 const Podcasts = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -89,6 +90,11 @@ const Podcasts = ({ params: { name } }) => {
         {audienceSelected && <span> targeted towards {audienceSelected}</span>}
       </p>
       <AudienceFilterBar
+        page="podcasts"
+        pageState={podcasts}
+        clearFunc={clearPodcastFilters}
+      />
+      <MobileFilterBar
         page="podcasts"
         pageState={podcasts}
         clearFunc={clearPodcastFilters}

@@ -18,6 +18,7 @@ import {
   updateURLAndData,
 } from "@/utils/urlFunc";
 import { BLOGS_URL } from "@/utils/constants";
+import MobileFilterBar from "@/components/mobileFilterBar";
 
 const Blogs = ({ name }) => {
   const dispatch = useDispatch();
@@ -91,6 +92,11 @@ const Blogs = ({ name }) => {
         {audienceSelected && <span> targeted towards {audienceSelected}</span>}
       </p>
       <AudienceFilterBar
+        page="blogs"
+        pageState={blogs}
+        clearFunc={clearBlogFilters}
+      />
+      <MobileFilterBar
         page="blogs"
         pageState={blogs}
         clearFunc={clearBlogFilters}
