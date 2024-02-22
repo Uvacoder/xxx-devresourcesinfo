@@ -26,7 +26,7 @@ const TechnologiesRow = ({ obj, clickHandler, tagSelected }) => {
         </p>
       ) : (
         <div
-          className={`text-[11px] xs-450:text-[12px] font-[600] text-center leading-[12px] py-[3px] px-[6px] xs-450:py-[5px] xs-450:px-[8px] rounded-[4px] hover:bg-[${darkColor}] hover:text-white`}
+          className={`text-[11px] xs-450:text-[12px] font-[600] text-center leading-[12px] py-[3px] px-[6px] xs-450:py-[5px] xs-450:px-[8px] rounded-[4px]`}
           onClick={() => clickHandler(obj?.name, "Tags")}
           style={isHovered ? { ...normalStyle, ...hoverStyle } : normalStyle}
           onMouseEnter={() => setIsHovered(true)}
