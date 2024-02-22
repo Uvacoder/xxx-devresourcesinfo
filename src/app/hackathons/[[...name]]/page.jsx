@@ -23,6 +23,7 @@ import {
   handleAreaBreadcrumb,
   updateAreaURLAndData,
 } from "@/utils/urlFunc";
+import MobileFilterBar from "@/components/mobileFilterBar";
 
 const Hackathons = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -74,7 +75,7 @@ const Hackathons = ({ params: { name } }) => {
       dispatch,
       setHackathonDataByUrl,
       dataFromURL,
-      fetchData,
+      fetchData
     );
   }, []);
 
@@ -117,7 +118,7 @@ const Hackathons = ({ params: { name } }) => {
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Hackathons
       </h1>
-      <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
+      <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[25px] md:pb-[48px]">
         <span>
           A curated list of the {techSelected && <span>{techSelected}</span>}{" "}
           hackathons
@@ -134,6 +135,12 @@ const Hackathons = ({ params: { name } }) => {
         page="hackathons"
         pageState={hackathons}
         clearFunc={clearHackathonFilters}
+      />
+      <MobileFilterBar
+        page="hackathons"
+        pageState={hackathons}
+        clearFunc={clearHackathonFilters}
+        area
       />
       {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>

@@ -23,6 +23,7 @@ import {
   handleAreaBreadcrumb,
   updateAreaURLAndData,
 } from "@/utils/urlFunc";
+import MobileFilterBar from "@/components/mobileFilterBar";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -120,6 +121,7 @@ const Conferences = ({ params: { name } }) => {
         clearFunc={clearConfFilters}
         URL={CONFERENCES_URL}
       />
+
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Developers Conferences
       </h1>
@@ -128,25 +130,32 @@ const Conferences = ({ params: { name } }) => {
           for {currentYear}
         </p>
       )}
-      <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[48px]">
-        <span>
-          A curated list of the {techSelected && <span>{techSelected}</span>}{" "}
-          developer conferences
-        </span>
+      <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[25px] md:pb-[48px]">
+        <>
+          A curated list of the {techSelected && <>{techSelected}</>} developer
+          conferences
+        </>
         {citySelected && (
-          <span>
-            <span> in {citySelected}</span>
-            {countrySelected && <span>, {countrySelected}</span>}
-            {continentSelected && <span>, {continentSelected}</span>}
-          </span>
+          <>
+            <> in {citySelected}</>
+            {countrySelected && <>, {countrySelected}</>}
+            {continentSelected && <>, {continentSelected}</>}
+          </>
         )}
-        {!pastConf && <span> for {currentYear} and beyond</span>}
+        {!pastConf && <> for {currentYear} and beyond</>}
       </p>
       <AreaFilterBar
         page="conferences"
         pageState={conferences}
         clearFunc={clearConfFilters}
         showPastDate
+      />
+      <MobileFilterBar
+        page="conferences"
+        pageState={conferences}
+        clearFunc={clearConfFilters}
+        showPastDate
+        area
       />
       {status === "loading" ? (
         <p className="text-neutrals-800">Loading data...</p>

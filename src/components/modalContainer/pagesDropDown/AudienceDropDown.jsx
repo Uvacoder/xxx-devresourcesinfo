@@ -7,7 +7,7 @@ const AudienceDropDown = ({
   obj,
   categorySelected,
   menuTitle,
-  setShowModal,
+  handleDropDown,
   allFilterFunc,
   pageState,
   page,
@@ -24,7 +24,7 @@ const AudienceDropDown = ({
       ? addQuotesToString(audienceSelected)
       : undefined;
     const convertTag = tagSelected ? addQuotesToString(tagSelected) : undefined;
-    setShowModal((prev) => !prev);
+    handleDropDown();
     if (menuTitle === "language") {
       dispatch(
         allFilterFunc({

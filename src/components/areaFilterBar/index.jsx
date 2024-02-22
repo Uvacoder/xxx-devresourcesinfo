@@ -29,7 +29,7 @@ const AreaFilterBar = ({ page, pageState, clearFunc, showPastDate }) => {
     dispatch(clearFunc());
   };
   return (
-    <div className="flex flex-col gap-2 md:flex-row md:justify-between items-center md:h-[48px] border border-indigos-op-100 rounded-[8px] mb-[10px]">
+    <div className="hidden xl:flex flex-wrap gap-2 justify-between items-center border border-indigos-op-100 rounded-[8px] mb-[10px]">
       <div className="flex items-center p-1 pl-[12px]">
         <span className="text-neutrals-300 pl-[8px]">
           <RiMapPin2Line className="w-[18px] h-[18px]" />
@@ -62,7 +62,7 @@ const AreaFilterBar = ({ page, pageState, clearFunc, showPastDate }) => {
         )}
       </div>
       {showPastDate && (
-        <div className="flex items-center gap-[8px] mx-[16px] pr-[8px]">
+        <div className="flex items-center gap-[8px] mx-[16px] pr-[8px] p-[6px]">
           <Switch />
           <span className="text-[14px] text-neutrals-600 leading-[21px]">
             Show past {page}
