@@ -24,6 +24,8 @@ const commonQueries = `edges {
             id
             name
             slug
+            lightColor
+            darkColor
           }
         }
         url
