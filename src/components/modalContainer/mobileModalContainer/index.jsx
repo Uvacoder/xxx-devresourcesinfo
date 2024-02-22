@@ -50,7 +50,7 @@ const MobileModalContainer = ({
       </div>
       <div className="self-stretch">
         <ul className="flex flex-col border border-neutrals-200 rounded-[4px] max-h-[248px] overflow-auto">
-          {filteredDropDownData.length > 0 ? (
+          {filteredDropDownData?.length > 0 ? (
             filteredDropDownData?.map((obj) => (
               <li key={obj.node.id}>
                 {page === "conferences" ? (

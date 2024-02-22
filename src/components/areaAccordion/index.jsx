@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { RiMapPin2Line } from "react-icons/ri";
-import { MdOutlineHandyman } from "react-icons/md";
 import AccordionItem from "./accordionItem";
 import ClearBtn from "../clearBtn";
 import Switch from "../switch";
@@ -50,10 +48,7 @@ const AreaAccordion = ({ page, pageState, clearFunc, showPastDate }) => {
 
   return (
     <div className="flex flex-col gap-[4px] mt-[10px]">
-      <div className="flex">
-        <span className="text-neutrals-300 mt-[5px]">
-          <RiMapPin2Line className="w-[18px] h-[18px]" />
-        </span>
+      <div>
         <div className="w-full flex flex-col gap-[4px]">
           <AccordionItem
             page={page}
@@ -87,9 +82,6 @@ const AreaAccordion = ({ page, pageState, clearFunc, showPastDate }) => {
           !showPastDate && (isFilter ? "border-b" : "border-b-0")
         }`}
       >
-        <span className="text-neutrals-300 mt-[5px]">
-          <MdOutlineHandyman className="w-[18px] h-[18px]" />
-        </span>
         <div className="w-full">
           <AccordionItem
             page={page}

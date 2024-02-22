@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import Image from "next/image";
 import AccordionItem from "./accordionItem";
 import ClearBtn from "../clearBtn";
-import tag from "@/assets/tag.svg";
-import globe from "@/assets/globe.svg";
-import group from "@/assets/group.svg";
 
 const AudienceAccordion = ({ page, pageState, clearFunc }) => {
   const [openAccordion, setOpenAccordion] = useState(0);
@@ -37,11 +33,8 @@ const AudienceAccordion = ({ page, pageState, clearFunc }) => {
 
   return (
     <div className="flex flex-col gap-[4px] mt-[10px]">
-      <div className="flex">
-        <span className="text-neutrals-300 mt-[5px]">
-          <Image src={globe} alt="tag icon" className="w-[18px] h-[18px]" />
-        </span>
-        <div className="w-full flex flex-col gap-[4px]">
+      <div>
+        <div className="w-full">
           <AccordionItem
             page={page}
             title="Language"
@@ -53,10 +46,7 @@ const AudienceAccordion = ({ page, pageState, clearFunc }) => {
         </div>
       </div>
       <div className="flex border border-x-0 border-t border-b-0">
-        <span className="text-neutrals-300 mt-[5px]">
-          <Image src={group} alt="tag icon" className=" w-[18px] h-[18px]" />
-        </span>
-        <div className="w-full flex flex-col gap-[4px]">
+        <div className="w-full">
           <AccordionItem
             page={page}
             title="Audience"
@@ -73,9 +63,6 @@ const AudienceAccordion = ({ page, pageState, clearFunc }) => {
           isFilter ? "border-b" : "border-b-0"
         }`}
       >
-        <span className="text-neutrals-300 mt-[5px]">
-          <Image src={tag} alt="tag icon" className=" w-[18px] h-[18px]" />
-        </span>
         <div className="w-full">
           <AccordionItem
             page={page}

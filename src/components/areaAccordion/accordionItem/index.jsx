@@ -40,7 +40,7 @@ const AccordionItem = ({
   return (
     <div>
       <button
-        className={`w-full flex items-center gap-[4px] text-neutrals-400 p-[5px] pl-[12px] pr-[4px] cursor-pointer ${
+        className={`w-full flex items-center gap-[4px] text-neutrals-400 py-[5px] cursor-pointer ${
           isActive && "text-neutrals-600"
         }`}
         onClick={clickHandler}

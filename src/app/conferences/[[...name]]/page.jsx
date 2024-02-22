@@ -131,18 +131,18 @@ const Conferences = ({ params: { name } }) => {
         </p>
       )}
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[25px] md:pb-[48px]">
-        <span>
-          A curated list of the {techSelected && <span>{techSelected}</span>}{" "}
-          developer conferences
-        </span>
+        <>
+          A curated list of the {techSelected && <>{techSelected}</>} developer
+          conferences
+        </>
         {citySelected && (
-          <span>
-            <span> in {citySelected}</span>
-            {countrySelected && <span>, {countrySelected}</span>}
-            {continentSelected && <span>, {continentSelected}</span>}
-          </span>
+          <>
+            <> in {citySelected}</>
+            {countrySelected && <>, {countrySelected}</>}
+            {continentSelected && <>, {continentSelected}</>}
+          </>
         )}
-        {!pastConf && <span> for {currentYear} and beyond</span>}
+        {!pastConf && <> for {currentYear} and beyond</>}
       </p>
       <AreaFilterBar
         page="conferences"

@@ -19,7 +19,7 @@ const MobileFilterBar = ({
         className="flex justify-between items-center text-neutrals-500 hover:text-neutrals-700"
         onClick={() => setShowFilters((prev) => !prev)}
       >
-        <span className="font-[600]">Filters</span>
+        <span className="font-[500] text-[15px]">Filters</span>
         <IoChevronDownSharp className="p-[1px]" />
       </div>
       {showFilters && (
