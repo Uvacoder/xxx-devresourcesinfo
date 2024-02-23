@@ -24,6 +24,7 @@ import {
   updateAreaURLAndData,
 } from "@/utils/urlFunc";
 import MobileFilterBar from "@/components/mobileFilterBar";
+import NoDataFound from "@/components/noDataFound";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -167,7 +168,7 @@ const Conferences = ({ params: { name } }) => {
           filterFunc={fetchConferencesByAllFilter}
         />
       ) : (
-        status === "success" && <p>No conferences found!</p>
+        status === "success" && <NoDataFound title="conferences" />
       )}
     </PageContainer>
   );

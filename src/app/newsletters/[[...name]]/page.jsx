@@ -19,6 +19,7 @@ import {
 } from "@/utils/urlFunc";
 import { NEWSLETTERS_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
+import NoDataFound from "@/components/noDataFound";
 
 const NewsLetters = ({ name }) => {
   const dispatch = useDispatch();
@@ -116,7 +117,7 @@ const NewsLetters = ({ name }) => {
           filterFunc={fetchNewsletterByAllFilter}
         />
       ) : (
-        status === "success" && <p>No newsletters found!</p>
+        status === "success" && <NoDataFound title="newsletters" />
       )}
     </PageContainer>
   );

@@ -15,6 +15,7 @@ import { addQuotesToString, extractDataFromURL } from "@/utils/utils";
 import { fetchFilterFromURL, handleAudienceBreadcrumb, updateURLAndData } from "@/utils/urlFunc";
 import { PODCASTS_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
+import NoDataFound from "@/components/noDataFound";
 
 const Podcasts = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -109,7 +110,7 @@ const Podcasts = ({ params: { name } }) => {
           filterFunc={fetchPodcastByAllFilter}
         />
       ) : (
-        status === "success" && <p>No podcasts found!</p>
+        status === "success" && <NoDataFound title="podcasts"/>
       )}
     </PageContainer>
   );
