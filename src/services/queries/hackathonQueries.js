@@ -34,6 +34,14 @@ const commonQueries = `edges {
             id
             name
             slug
+            filledIcon {
+              id
+              src
+            }
+            unfilledIcon {
+              id
+              src
+            }
           }
         }
         url
