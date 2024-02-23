@@ -12,10 +12,15 @@ import {
   setPodcastDataByUrl,
 } from "@/redux/features/podcast/podcastSlice";
 import { addQuotesToString, extractDataFromURL } from "@/utils/utils";
-import { fetchFilterFromURL, handleAudienceBreadcrumb, updateURLAndData } from "@/utils/urlFunc";
+import {
+  fetchFilterFromURL,
+  handleAudienceBreadcrumb,
+  updateURLAndData,
+} from "@/utils/urlFunc";
 import { PODCASTS_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
 import NoDataFound from "@/components/noDataFound";
+import Loader from "@/components/loader";
 
 const Podcasts = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -100,17 +105,17 @@ const Podcasts = ({ params: { name } }) => {
         pageState={podcasts}
         clearFunc={clearPodcastFilters}
       />
-      {status === "loading" ? (
-        <p className="text-neutrals-800">Loading data...</p>
-      ) : allPodcasts.length > 0 ? (
+      {allPodcasts.length > 0 ? (
         <AudienceTable
           data={allPodcasts}
           page="podcasts"
           pageState={podcasts}
           filterFunc={fetchPodcastByAllFilter}
         />
+      ) : status === "success" ? (
+        <NoDataFound title="podcasts" />
       ) : (
-        status === "success" && <NoDataFound title="podcasts"/>
+        status !== "error" && <Loader />
       )}
     </PageContainer>
   );
