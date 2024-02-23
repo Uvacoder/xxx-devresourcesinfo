@@ -24,6 +24,7 @@ import {
   updateAreaURLAndData,
 } from "@/utils/urlFunc";
 import MobileFilterBar from "@/components/mobileFilterBar";
+import NoDataFound from "@/components/noDataFound";
 
 const Hackathons = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -152,7 +153,7 @@ const Hackathons = ({ params: { name } }) => {
           filterFunc={fetchHackathonsByAllFilter}
         />
       ) : (
-        status === "success" && <p>No hackathons found!</p>
+        status === "success" && <NoDataFound title="hackathons" />
       )}
     </PageContainer>
   );

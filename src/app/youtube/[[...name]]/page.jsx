@@ -19,6 +19,7 @@ import {
 } from "@/utils/urlFunc";
 import { YOUTUBE_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
+import NoDataFound from "@/components/noDataFound";
 
 const Youtube = ({ name }) => {
   const dispatch = useDispatch();
@@ -112,7 +113,7 @@ const Youtube = ({ name }) => {
           filterFunc={fetchYoutubeByAllFilter}
         />
       ) : (
-        status === "success" && <p>No youtube data found!</p>
+        status === "success" && <NoDataFound title="youtube" />
       )}
     </PageContainer>
   );

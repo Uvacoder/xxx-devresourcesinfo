@@ -19,6 +19,7 @@ import {
 } from "@/utils/urlFunc";
 import { BLOGS_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
+import NoDataFound from "@/components/noDataFound";
 
 const Blogs = ({ name }) => {
   const dispatch = useDispatch();
@@ -111,7 +112,7 @@ const Blogs = ({ name }) => {
           filterFunc={fetchBlogByAllFilter}
         />
       ) : (
-        status === "success" && <p>No blogs found!</p>
+        status === "success" && <NoDataFound title="blogs" />
       )}
     </PageContainer>
   );
