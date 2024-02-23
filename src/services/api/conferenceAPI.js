@@ -10,6 +10,7 @@ import {
   allConferenceFilterQuery,
   findAreaByCityQuery,
   findAreaByCountryQuery,
+  individualConfScriptQuery,
 } from "../queries/conferenceQueries";
 
 export const getAllConferences = async () => {
@@ -172,6 +173,21 @@ export const getConferenceByAllFilters = async (
     };
   } catch (error) {
     console.error("Error fetching conference data:", error);
+    return { data: [] };
+  }
+};
+
+export const getIndividualConfScript = async (conferenceId) => {
+  const client = getClient(false);
+  try {
+    const dataQuery = individualConfScriptQuery(conferenceId);
+    const gqlResponse = await client.request(dataQuery);
+
+    return {
+      data: gqlResponse?.Conference || [],
+    };
+  } catch (error) {
+    console.error("Error fetching conference detail:", error);
     return { data: [] };
   }
 };

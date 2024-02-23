@@ -239,3 +239,57 @@ export const allConferenceFilterQuery = (
 `;
   }
 };
+
+//"f1e045da-f2f3-49c1-b586-50da03e12b28"
+
+export const individualConfScriptQuery = (conferenceId) => gql`
+  query Conference {
+    Conference(id: ${conferenceId}) {
+      context
+      type
+      name
+      startDate
+      endDate
+      eventAttendanceMode
+      eventStatus
+      location {
+        ... on VirtualLocation {
+          type
+          url
+        }
+        ... on Place {
+          name
+          type
+          address {
+            type
+            streetAddress
+            addressLocality
+            postalCode
+            addressRegion
+            addressCountry
+          }
+        }
+      }
+      description
+      offers {
+        type
+        url
+        price
+        priceCurrency
+        availability
+        validFrom
+      }
+      performer {
+        type
+        name
+      }
+      organizer {
+        ... on Organizer {
+          type
+          name
+          url
+        }
+      }
+    }
+  }
+`;
