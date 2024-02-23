@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import React, { useEffect, useRef, useState } from "react";
 import TechnologiesRow from "../rowElements/TechnologiesRow";
 import DateRow from "../rowElements/DateRow";
 import { getIndividualConfScript } from "@/services/api/conferenceAPI";
 import { addQuotesToString, parseDate } from "@/utils/utils";
 
 const IndividualRow = ({ node, clickHandler, techSelected }) => {
+  const instanceRef = useRef(null);
   const [scriptData, setScriptData] = useState({});
   const fetchScriptData = async () => {
     const id = addQuotesToString(node?.id);
@@ -30,12 +30,23 @@ const IndividualRow = ({ node, clickHandler, techSelected }) => {
     fetchScriptData();
   }, [node]);
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    const scriptText = document.createTextNode(JSON.stringify(scriptData));
+    script.appendChild(scriptText);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, [scriptData]);
+
   return (
     <>
-      <Helmet>
-        <script type="application/ld+json">{JSON.stringify(scriptData)}</script>
-      </Helmet>
-      <div className="confTable flex items-center border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600">
+      <div
+        ref={instanceRef}
+        className="confTable flex items-center border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600"
+      >
         <DateRow node={node} />
         <div className="w-full flex flex-col items-start py-[16px] pl-0 xs-450:pl-3 sm:pl-[40px] lg:pl-[64px]">
           <a
