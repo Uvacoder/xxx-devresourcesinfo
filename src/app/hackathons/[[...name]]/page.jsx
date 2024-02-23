@@ -25,6 +25,7 @@ import {
 } from "@/utils/urlFunc";
 import MobileFilterBar from "@/components/mobileFilterBar";
 import NoDataFound from "@/components/noDataFound";
+import Loader from "@/components/loader";
 
 const Hackathons = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -143,17 +144,17 @@ const Hackathons = ({ params: { name } }) => {
         clearFunc={clearHackathonFilters}
         area
       />
-      {status === "loading" ? (
-        <p className="text-neutrals-800">Loading data...</p>
-      ) : allHackathons.length > 0 ? (
+      {allHackathons.length > 0 ? (
         <AreaTable
           data={allHackathons}
           page="hackathons"
           pageState={hackathons}
           filterFunc={fetchHackathonsByAllFilter}
         />
+      ) : status === "success" ? (
+        <NoDataFound title="hackathons" />
       ) : (
-        status === "success" && <NoDataFound title="hackathons" />
+        status !== "error" && <Loader />
       )}
     </PageContainer>
   );

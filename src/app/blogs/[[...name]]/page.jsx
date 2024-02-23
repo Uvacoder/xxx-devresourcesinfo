@@ -20,6 +20,7 @@ import {
 import { BLOGS_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
 import NoDataFound from "@/components/noDataFound";
+import Loader from "@/components/loader";
 
 const Blogs = ({ name }) => {
   const dispatch = useDispatch();
@@ -102,17 +103,17 @@ const Blogs = ({ name }) => {
         pageState={blogs}
         clearFunc={clearBlogFilters}
       />
-      {status === "loading" ? (
-        <p className="text-neutrals-800">Loading data...</p>
-      ) : allBlogs.length > 0 ? (
+      {allBlogs.length > 0 ? (
         <AudienceTable
           data={allBlogs}
           page="blogs"
           pageState={blogs}
           filterFunc={fetchBlogByAllFilter}
         />
+      ) : status === "success" ? (
+        <NoDataFound title="blogs" />
       ) : (
-        status === "success" && <NoDataFound title="blogs" />
+        status !== "error" && <Loader />
       )}
     </PageContainer>
   );

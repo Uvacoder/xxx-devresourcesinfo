@@ -20,6 +20,7 @@ import {
 import { NEWSLETTERS_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
 import NoDataFound from "@/components/noDataFound";
+import Loader from "@/components/loader";
 
 const NewsLetters = ({ name }) => {
   const dispatch = useDispatch();
@@ -107,17 +108,17 @@ const NewsLetters = ({ name }) => {
         pageState={newsletters}
         clearFunc={clearNewsletterFilters}
       />
-      {status === "loading" ? (
-        <p className="text-neutrals-800">Loading data...</p>
-      ) : allNewsletters.length > 0 ? (
+      {allNewsletters.length > 0 ? (
         <AudienceTable
           data={allNewsletters}
           page="newsletters"
           pageState={newsletters}
           filterFunc={fetchNewsletterByAllFilter}
         />
+      ) : status === "success" ? (
+        <NoDataFound title="newsletters" />
       ) : (
-        status === "success" && <NoDataFound title="newsletters" />
+        status !== "error" && <Loader />
       )}
     </PageContainer>
   );

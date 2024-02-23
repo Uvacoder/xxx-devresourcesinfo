@@ -25,6 +25,7 @@ import {
 } from "@/utils/urlFunc";
 import MobileFilterBar from "@/components/mobileFilterBar";
 import NoDataFound from "@/components/noDataFound";
+import Loader from "@/components/loader";
 
 const Conferences = ({ params: { name } }) => {
   const dispatch = useDispatch();
@@ -158,17 +159,17 @@ const Conferences = ({ params: { name } }) => {
         showPastDate
         area
       />
-      {status === "loading" ? (
-        <p className="text-neutrals-800">Loading data...</p>
-      ) : allConferences.length > 0 ? (
+      {allConferences.length > 0 ? (
         <AreaTable
           data={allConferences}
           page="conferences"
           pageState={conferences}
           filterFunc={fetchConferencesByAllFilter}
         />
+      ) : status === "success" ? (
+        <NoDataFound title="conferences" />
       ) : (
-        status === "success" && <NoDataFound title="conferences" />
+        status !== "error" && <Loader />
       )}
     </PageContainer>
   );

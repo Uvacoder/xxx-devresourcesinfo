@@ -20,6 +20,7 @@ import {
 import { YOUTUBE_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
 import NoDataFound from "@/components/noDataFound";
+import Loader from "@/components/loader";
 
 const Youtube = ({ name }) => {
   const dispatch = useDispatch();
@@ -103,17 +104,17 @@ const Youtube = ({ name }) => {
         pageState={youtube}
         clearFunc={clearYoutubeFilters}
       />
-      {status === "loading" ? (
-        <p className="text-neutrals-800">Loading data...</p>
-      ) : allYoutube.length > 0 ? (
+      {allYoutube.length > 0 ? (
         <AudienceTable
           data={allYoutube}
           page="youtube"
           pageState={youtube}
           filterFunc={fetchYoutubeByAllFilter}
         />
+      ) : status === "success" ? (
+        <NoDataFound title="youtube" />
       ) : (
-        status === "success" && <NoDataFound title="youtube" />
+        status !== "error" && <Loader />
       )}
     </PageContainer>
   );
