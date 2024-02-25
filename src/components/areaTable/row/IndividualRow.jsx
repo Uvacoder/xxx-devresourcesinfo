@@ -37,6 +37,24 @@ const IndividualRow = ({ node, clickHandler, techSelected }) => {
     offers: { ...scriptData?.offers, "@type": "Offer" },
     performer: { ...scriptData?.performer, "@type": "PerformingGroup" },
     organizer: { ...scriptData?.organizer, "@type": "Organization" },
+    location: [
+      {
+        "@type": "VirtualLocation",
+        url: "https://operaonline.stream5.com/",
+      },
+      {
+        "@type": "Place",
+        name: "Snickerpark Stadium",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "100 West Snickerpark Dr",
+          addressLocality: "Snickertown",
+          postalCode: "19019",
+          addressRegion: "PA",
+          addressCountry: "US",
+        },
+      },
+    ],
   };
   console.log({ formattedData });
 
