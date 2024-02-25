@@ -30,19 +30,20 @@ const IndividualRow = ({ node, clickHandler, techSelected }) => {
     fetchScriptData();
   }, [node]);
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    const scriptText = document.createTextNode(JSON.stringify(scriptData));
-    script.appendChild(scriptText);
-    document.head.appendChild(script);
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+  //   const scriptText = document.createTextNode(JSON.stringify(scriptData));
+  //   script.appendChild(scriptText);
+  //   document.head.appendChild(script);
 
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, [scriptData]);
+  //   return () => {
+  //     document.head.removeChild(script);
+  //   };
+  // }, [scriptData]);
 
   return (
     <>
+      <script type="application/ld+json">{JSON.stringify(scriptData)}</script>
       <div
         ref={instanceRef}
         className="confTable flex items-center border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600"
