@@ -30,6 +30,16 @@ const IndividualRow = ({ node, clickHandler, techSelected }) => {
     fetchScriptData();
   }, [node]);
 
+  const formattedData = {
+    ...scriptData,
+    "@context": "https://schema.org",
+    "@type": "Event",
+    offers: { ...scriptData?.offers, "@type": "Offer" },
+    performer: { ...scriptData?.performer, "@type": "PerformingGroup" },
+    organizer: { ...scriptData?.organizer, "@type": "Organization" },
+  };
+  console.log({ formattedData });
+
   // useEffect(() => {
   //   const script = document.createElement("script");
   //   const scriptText = document.createTextNode(JSON.stringify(scriptData));
@@ -43,7 +53,9 @@ const IndividualRow = ({ node, clickHandler, techSelected }) => {
 
   return (
     <>
-      <script type="application/ld+json">{JSON.stringify(scriptData)}</script>
+      <script type="application/ld+json">
+        {JSON.stringify(formattedData)}
+      </script>
       <div
         ref={instanceRef}
         className="confTable flex items-center border-b border-neutrals-100 bg-white hover:bg-whites-800 text-neutrals-400 hover:text-neutrals-600"
