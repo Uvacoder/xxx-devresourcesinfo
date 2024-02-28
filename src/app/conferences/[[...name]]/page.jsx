@@ -16,6 +16,14 @@ const Conferences = async ({ searchParams }) => {
     pastConf: searchParams?.mode ?? "",
   };
 
+  const {
+    citySelected,
+    countrySelected,
+    continentSelected,
+    techSelected,
+    pastConf,
+  } = stateObj;
+
   const convertCity = stateObj?.citySelected
     ? addQuotesToString(stateObj?.citySelected)
     : undefined;
@@ -39,9 +47,44 @@ const Conferences = async ({ searchParams }) => {
     convertTech,
     convertedDateStr
   );
-  console.log({ stateObj });
+
+  const currentYear = currentDate.split("-")[0];
+
   return (
     <PageContainer>
+      <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
+        Developers Conferences
+      </h1>
+      {pastConf !== "past" && (
+        <p className="text-neutrals-800 font-[500] text-[25px] sm:text-[30px] lg:text-[40px]">
+          for {currentYear}
+        </p>
+      )}
+      <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[25px] md:pb-[48px]">
+        <>
+          A curated list of the {techSelected && <>{techSelected}</>} developer
+          conferences
+        </>
+        {citySelected ? (
+          <>
+            <> in {citySelected}</>
+            {countrySelected && <>, {countrySelected}</>}
+            {continentSelected && <>, {continentSelected}</>}
+          </>
+        ) : countrySelected ? (
+          <>
+            <> in {countrySelected}</>
+            {continentSelected && <>, {continentSelected}</>}
+          </>
+        ) : (
+          continentSelected && (
+            <>
+              <> in {continentSelected}</>
+            </>
+          )
+        )}
+        {pastConf !== "past" && <> for {currentYear} and beyond</>}
+      </p>
       <ConferenceTable data={allConferences?.data} stateObj={stateObj} />
     </PageContainer>
   );
