@@ -3,6 +3,7 @@ import PageContainer from "@/components/pageContainer";
 import ConferenceTable from "@/components/conferenceComponents/ConferenceTable";
 import { getConferenceByAllFilters } from "@/services/api/conferenceAPI";
 import { addQuotesToString, getCurrentDate } from "@/utils/utils";
+import ConfBreadcrumb from "@/components/conferenceComponents/ConfBreadcrumb";
 
 const Conferences = async ({ searchParams }) => {
   const currentDate = getCurrentDate();
@@ -52,6 +53,7 @@ const Conferences = async ({ searchParams }) => {
 
   return (
     <PageContainer>
+      <ConfBreadcrumb stateObj={stateObj} />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
         Developers Conferences
       </h1>
