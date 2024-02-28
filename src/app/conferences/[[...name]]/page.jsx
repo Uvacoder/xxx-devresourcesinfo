@@ -5,6 +5,7 @@ import { getConferenceByAllFilters } from "@/services/api/conferenceAPI";
 import { addQuotesToString, getCurrentDate } from "@/utils/utils";
 import ConfBreadcrumb from "@/components/conferenceComponents/ConfBreadcrumb";
 import NoDataFound from "@/components/noDataFound";
+import DesktopConfFilter from "@/components/conferenceComponents/ConferenceFilter/desktopConfFilter";
 
 const Conferences = async ({ searchParams }) => {
   const currentDate = getCurrentDate();
@@ -88,6 +89,8 @@ const Conferences = async ({ searchParams }) => {
         )}
         {pastConf !== "past" && <> for {currentYear} and beyond</>}
       </p>
+
+      <DesktopConfFilter stateObj={stateObj} />
 
       {allConferences?.data.length > 0 ? (
         <ConferenceTable data={allConferences?.data} stateObj={stateObj} />

@@ -18,6 +18,6 @@ export const updateConferenceURL = (obj) => {
   } else if (continentSelected) {
     return `${CONFERENCES_URL}/${continentSelected}`;
   } else {
-    return;
+    return `${CONFERENCES_URL}`;
   }
 };
