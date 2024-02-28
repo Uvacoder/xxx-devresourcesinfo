@@ -1,4 +1,3 @@
-"use client";
 import { GraphQLClient } from "graphql-request";
 
 export const getClient = (preview) => {

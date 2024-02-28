@@ -1,176 +1,48 @@
-"use client";
-import React, { useEffect } from "react";
-import {
-  getCurrentDate,
-  addQuotesToString,
-  extractDataFromURL,
-} from "@/utils/utils";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
-import {
-  clearConfFilters,
-  setConferenceDataByUrl,
-  setTodayDate,
-} from "@/redux/features/conference/conferenceSlice";
+import React from "react";
 import PageContainer from "@/components/pageContainer";
-import { CONFERENCES_URL } from "@/utils/constants";
-import Breadcrumb from "@/components/breadcrumb";
-import AreaFilterBar from "@/components/areaFilterBar";
-import AreaTable from "@/components/areaTable";
-import { usePathname } from "next/navigation";
-import {
-  fetchAreaFilterFromURL,
-  handleAreaBreadcrumb,
-  updateAreaURLAndData,
-} from "@/utils/urlFunc";
-import MobileFilterBar from "@/components/mobileFilterBar";
-import NoDataFound from "@/components/noDataFound";
-import Loader from "@/components/loader";
+import ConferenceTable from "@/components/conferenceComponents/ConferenceTable";
+import { getConferenceByAllFilters } from "@/services/api/conferenceAPI";
+import { addQuotesToString, getCurrentDate } from "@/utils/utils";
 
-const Conferences = ({ params: { name } }) => {
-  const dispatch = useDispatch();
-  const pathname = usePathname();
-  const conferences = useSelector(({ conferences }) => conferences);
-  const {
-    allConferences,
-    status,
-    pastConf,
-    citySelected,
-    countrySelected,
-    continentSelected,
-    techSelected,
-  } = conferences;
-  const dataFromURL = extractDataFromURL(pathname);
-
+const Conferences = async ({ searchParams }) => {
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
 
-  const fetchData = (obj) => {
-    const convertCity = obj?.citySelected
-      ? addQuotesToString(obj?.citySelected)
-      : undefined;
-    const convertCountry = obj?.countrySelected
-      ? addQuotesToString(obj?.countrySelected)
-      : undefined;
-    const convertContinent = obj?.continentSelected
-      ? addQuotesToString(obj?.continentSelected)
-      : undefined;
-    const convertTech = obj?.techSelected
-      ? addQuotesToString(obj?.techSelected)
-      : undefined;
-    const convertedDateStr = pastConf ? undefined : convertedDate;
-
-    dispatch(setTodayDate(convertedDateStr));
-    dispatch(
-      fetchConferencesByAllFilter({
-        citySelected: convertCity,
-        countrySelected: convertCountry,
-        continentSelected: convertContinent,
-        techSelected: convertTech,
-        convertedDate: convertedDateStr,
-      })
-    );
+  const stateObj = {
+    citySelected: searchParams?.city ?? "",
+    countrySelected: searchParams?.country ?? "",
+    continentSelected: searchParams?.continent ?? "",
+    techSelected: searchParams?.tech ?? "",
+    pastConf: searchParams?.mode ?? "",
   };
 
-  useEffect(() => {
-    fetchAreaFilterFromURL(
-      dispatch,
-      setConferenceDataByUrl,
-      dataFromURL,
-      fetchData
-    );
-  }, []);
+  const convertCity = stateObj?.citySelected
+    ? addQuotesToString(stateObj?.citySelected)
+    : undefined;
+  const convertCountry = stateObj?.countrySelected
+    ? addQuotesToString(stateObj?.countrySelected)
+    : undefined;
+  const convertContinent = stateObj?.continentSelected
+    ? addQuotesToString(stateObj?.continentSelected)
+    : undefined;
+  const convertTech = stateObj?.techSelected
+    ? addQuotesToString(stateObj?.techSelected)
+    : undefined;
 
-  useEffect(() => {
-    fetchAreaFilterFromURL(
-      dispatch,
-      setConferenceDataByUrl,
-      dataFromURL,
-      fetchData
-    );
-  }, [pathname]);
+  const convertedDateStr =
+    searchParams?.mode === "past" ? undefined : convertedDate;
 
-  useEffect(() => {
-    if (citySelected || countrySelected || continentSelected || techSelected) {
-      fetchAreaFilterFromURL(
-        dispatch,
-        setConferenceDataByUrl,
-        dataFromURL,
-        fetchData
-      );
-    } else {
-      fetchData();
-    }
-  }, [pastConf]);
-
-  useEffect(() => {
-    updateAreaURLAndData(CONFERENCES_URL, fetchData, {
-      citySelected,
-      countrySelected,
-      continentSelected,
-      techSelected,
-    });
-  }, [citySelected, countrySelected, continentSelected, techSelected]);
-
-  const currentYear = currentDate.split("-")[0];
-
+  const allConferences = await getConferenceByAllFilters(
+    convertCity,
+    convertCountry,
+    convertContinent,
+    convertTech,
+    convertedDateStr
+  );
+  console.log({ stateObj });
   return (
     <PageContainer>
-      <Breadcrumb
-        page="conferences"
-        breadcrumbHandler={handleAreaBreadcrumb}
-        setterFunc={setConferenceDataByUrl}
-        clearFunc={clearConfFilters}
-        URL={CONFERENCES_URL}
-      />
-
-      <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
-        Developers Conferences
-      </h1>
-      {!pastConf && (
-        <p className="text-neutrals-800 font-[500] text-[25px] sm:text-[30px] lg:text-[40px]">
-          for {currentYear}
-        </p>
-      )}
-      <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[25px] md:pb-[48px]">
-        <>
-          A curated list of the {techSelected && <>{techSelected}</>} developer
-          conferences
-        </>
-        {citySelected && (
-          <>
-            <> in {citySelected}</>
-            {countrySelected && <>, {countrySelected}</>}
-            {continentSelected && <>, {continentSelected}</>}
-          </>
-        )}
-        {!pastConf && <> for {currentYear} and beyond</>}
-      </p>
-      <AreaFilterBar
-        page="conferences"
-        pageState={conferences}
-        clearFunc={clearConfFilters}
-        showPastDate
-      />
-      <MobileFilterBar
-        page="conferences"
-        pageState={conferences}
-        clearFunc={clearConfFilters}
-        showPastDate
-        area
-      />
-      {allConferences.length > 0 ? (
-        <AreaTable
-          data={allConferences}
-          page="conferences"
-          pageState={conferences}
-          filterFunc={fetchConferencesByAllFilter}
-        />
-      ) : status === "success" ? (
-        <NoDataFound title="conferences" />
-      ) : (
-        status !== "error" && <Loader />
-      )}
+      <ConferenceTable data={allConferences?.data} stateObj={stateObj} />
     </PageContainer>
   );
 };
