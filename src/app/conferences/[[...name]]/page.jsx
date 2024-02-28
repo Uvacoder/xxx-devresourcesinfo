@@ -4,6 +4,7 @@ import ConferenceTable from "@/components/conferenceComponents/ConferenceTable";
 import { getConferenceByAllFilters } from "@/services/api/conferenceAPI";
 import { addQuotesToString, getCurrentDate } from "@/utils/utils";
 import ConfBreadcrumb from "@/components/conferenceComponents/ConfBreadcrumb";
+import NoDataFound from "@/components/noDataFound";
 
 const Conferences = async ({ searchParams }) => {
   const currentDate = getCurrentDate();
@@ -87,7 +88,12 @@ const Conferences = async ({ searchParams }) => {
         )}
         {pastConf !== "past" && <> for {currentYear} and beyond</>}
       </p>
-      <ConferenceTable data={allConferences?.data} stateObj={stateObj} />
+
+      {allConferences?.data.length > 0 ? (
+        <ConferenceTable data={allConferences?.data} stateObj={stateObj} />
+      ) : (
+        <NoDataFound title="conferences" />
+      )}
     </PageContainer>
   );
 };

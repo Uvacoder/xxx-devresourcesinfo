@@ -125,12 +125,23 @@ const Hackathons = ({ params: { name } }) => {
           A curated list of the {techSelected && <span>{techSelected}</span>}{" "}
           hackathons
         </span>
-        {citySelected && (
-          <span>
-            <span> in {citySelected}</span>
-            {countrySelected && <span>, {countrySelected}</span>}
-            {continentSelected && <span>, {continentSelected}</span>}
-          </span>
+        {citySelected ? (
+          <>
+            <> in {citySelected}</>
+            {countrySelected && <>, {countrySelected}</>}
+            {continentSelected && <>, {continentSelected}</>}
+          </>
+        ) : countrySelected ? (
+          <>
+            <> in {countrySelected}</>
+            {continentSelected && <>, {continentSelected}</>}
+          </>
+        ) : (
+          continentSelected && (
+            <>
+              <> in {continentSelected}</>
+            </>
+          )
         )}
       </p>
       <AreaFilterBar
