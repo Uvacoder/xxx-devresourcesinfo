@@ -1,5 +1,6 @@
 import { getIndividualConfScript } from "@/services/api/conferenceAPI";
 import { addQuotesToString, parseDate } from "@/utils/utils";
+import Head from "next/head";
 import Script from "next/script";
 import React from "react";
 
@@ -40,14 +41,12 @@ const ConfScript = async ({ node }) => {
 
   return (
     <>
-      {formattedData && (
-        <Script
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `${JSON.stringify(formattedData)}`,
-          }}
-        />
-      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(formattedData),
+        }}
+      />
     </>
   );
 };
