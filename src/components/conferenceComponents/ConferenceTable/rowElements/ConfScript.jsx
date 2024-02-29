@@ -41,9 +41,7 @@ const ConfScript = async ({ node }) => {
   return (
     <>
       {formattedData && (
-        <Script strategy="beforeInteractive" type="application/ld+json">
-          {formattedData}
-        </Script>
+        <Script type="application/ld+json">{formattedData}</Script>
       )}
     </>
   );
