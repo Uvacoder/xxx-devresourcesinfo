@@ -34,7 +34,7 @@ const Hackathons = ({ params: { name } }) => {
   const {
     allHackathons,
     status,
-    pastConf,
+    pastHackathons,
     citySelected,
     countrySelected,
     continentSelected,
@@ -57,7 +57,7 @@ const Hackathons = ({ params: { name } }) => {
     const convertTech = obj?.techSelected
       ? addQuotesToString(obj?.techSelected)
       : undefined;
-    const convertedDateStr = pastConf ? undefined : convertedDate;
+    const convertedDateStr = pastHackathons ? undefined : convertedDate;
 
     dispatch(setHackathonTodayDate(convertedDateStr));
 
@@ -79,25 +79,7 @@ const Hackathons = ({ params: { name } }) => {
       dataFromURL,
       fetchData
     );
-  }, []);
-
-  useEffect(() => {
-    fetchAreaFilterFromURL(
-      dispatch,
-      setHackathonDataByUrl,
-      dataFromURL,
-      fetchData
-    );
   }, [pathname]);
-
-  useEffect(() => {
-    fetchAreaFilterFromURL(
-      dispatch,
-      setHackathonDataByUrl,
-      dataFromURL,
-      fetchData
-    );
-  }, [pastConf]);
 
   useEffect(() => {
     updateAreaURLAndData(HACKATHONS_URL, fetchData, {

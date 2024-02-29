@@ -15,90 +15,13 @@ import {
 const AreaDropDown = ({
   obj,
   categorySelected,
-  menuTitle,
   handleDropDown,
-  allFilterFunc,
   pageState,
   page,
 }) => {
-  const {
-    citySelected,
-    countrySelected,
-    continentSelected,
-    techSelected,
-    pastConf,
-    todayDate,
-  } = pageState;
   const dispatch = useDispatch();
 
-  const getData = (dropDownSelected, continent, country) => {
-    const convertCity =
-      continent || country
-        ? undefined
-        : citySelected
-        ? addQuotesToString(citySelected)
-        : undefined;
-    const convertCountry = country
-      ? addQuotesToString(country)
-      : countrySelected
-      ? addQuotesToString(countrySelected)
-      : undefined;
-    const convertContinent = continent
-      ? addQuotesToString(continent)
-      : continentSelected
-      ? addQuotesToString(continentSelected)
-      : undefined;
-    const convertTech = techSelected
-      ? addQuotesToString(techSelected)
-      : undefined;
-    const convertedDate = pastConf ? undefined : todayDate;
-    handleDropDown();
-    if (menuTitle === "technology") {
-      dispatch(
-        allFilterFunc({
-          citySelected: convertCity,
-          countrySelected: convertCountry,
-          continentSelected: convertContinent,
-          techSelected: dropDownSelected,
-          convertedDate,
-        })
-      );
-    } else if (menuTitle === "city") {
-      dispatch(
-        allFilterFunc({
-          citySelected: dropDownSelected,
-          countrySelected: convertCountry,
-          continentSelected: convertContinent,
-          techSelected: convertTech,
-          convertedDate,
-        })
-      );
-    } else if (menuTitle === "country") {
-      dispatch(
-        allFilterFunc({
-          citySelected: convertCity,
-          countrySelected: dropDownSelected,
-          continentSelected: convertContinent,
-          techSelected: convertTech,
-          convertedDate,
-        })
-      );
-    } else if (menuTitle === "continent") {
-      dispatch(
-        allFilterFunc({
-          citySelected: undefined,
-          countrySelected: undefined,
-          continentSelected: dropDownSelected,
-          techSelected: convertTech,
-          convertedDate,
-        })
-      );
-    } else {
-      return;
-    }
-  };
-
-  const setAreaValue = async (id, convertStr) => {
+  const setAreaValue = async (id) => {
     const convertId = addQuotesToString(id);
     if (categorySelected?.name === "City") {
       const { data } = await getAreaByCity(convertId);
@@ -119,7 +42,6 @@ const AreaDropDown = ({
       } else {
         return;
       }
-      getData(convertStr, data?.country?.continent?.name, data?.country?.name);
     } else {
       const { data } = await getAreaByCountry(convertId);
       if (page === "conferences") {
@@ -129,12 +51,11 @@ const AreaDropDown = ({
       } else {
         return;
       }
-      getData(convertStr, data?.continent?.name);
     }
+    handleDropDown();
   };
 
   const clickHandler = (name) => {
-    const convertStr = addQuotesToString(name);
     if (page === "conferences") {
       dispatch(categorySelected.toChangeAtt({ value: name, id: obj?.id }));
     } else if (page === "hackathons") {
@@ -149,9 +70,9 @@ const AreaDropDown = ({
       categorySelected?.name === "City" ||
       categorySelected?.name === "Country"
     ) {
-      setAreaValue(obj?.id, convertStr);
+      setAreaValue(obj?.id);
     } else {
-      getData(convertStr);
+      handleDropDown();
     }
   };
 

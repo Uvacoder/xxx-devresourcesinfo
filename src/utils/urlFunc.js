@@ -91,47 +91,40 @@ export const updateURLAndData = (URL, fetchData, obj) => {
       "",
       `${URL}/${tagSelected}/${audienceSelected}/${langSelected}`
     );
-    fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (langSelected && audienceSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${audienceSelected}/${langSelected}`
     );
-    fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (tagSelected && audienceSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${tagSelected}/${audienceSelected}/${ADDITIONAL_LANGUAGE_URL}`
     );
-    fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (tagSelected && langSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${tagSelected}/${langSelected}/${ADDITIONAL_AUDIENCE_URL}`
     );
-    fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (langSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${langSelected}/${ADDITIONAL_LANGUAGE_URL}`
     );
-    fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (audienceSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${audienceSelected}/${ADDITIONAL_AUDIENCE_URL}`
     );
-    fetchData({ langSelected, audienceSelected, tagSelected });
   } else if (tagSelected) {
     window.history.pushState(null, "", `${URL}/${tagSelected}`);
-    fetchData({ langSelected, audienceSelected, tagSelected });
   } else {
-    fetchData({ langSelected, audienceSelected, tagSelected });
+    return;
   }
 };
 
@@ -239,6 +232,7 @@ export const fetchAreaFilterFromURL = (
       techSelected: techData,
     });
   } else {
+     fetchData();
     return;
   }
 };
@@ -285,12 +279,6 @@ export const updateAreaURLAndData = (URL, fetchData, obj) => {
       `${URL}/${continentSelected}/${ADDITIONAL_ALL_URL}`
     );
   } else {
-    fetchData({
-      citySelected,
-      countrySelected,
-      continentSelected,
-      techSelected,
-    });
     return;
   }
 };
