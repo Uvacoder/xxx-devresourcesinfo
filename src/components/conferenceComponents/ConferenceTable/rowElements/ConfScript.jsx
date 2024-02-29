@@ -41,9 +41,12 @@ const ConfScript = async ({ node }) => {
   return (
     <>
       {formattedData && (
-        <Script strategy="beforeInteractive" type="application/ld+json">
-          {JSON.stringify(formattedData)}
-        </Script>
+        <Script
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `${JSON.stringify(formattedData)}`,
+          }}
+        />
       )}
     </>
   );
