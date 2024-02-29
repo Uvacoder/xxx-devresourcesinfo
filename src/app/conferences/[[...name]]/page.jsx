@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import PageContainer from "@/components/pageContainer";
 import ConferenceTable from "@/components/conferenceComponents/ConferenceTable";
 import { getConferenceByAllFilters } from "@/services/api/conferenceAPI";
@@ -6,6 +6,8 @@ import { addQuotesToString, getCurrentDate } from "@/utils/utils";
 import ConfBreadcrumb from "@/components/conferenceComponents/ConfBreadcrumb";
 import NoDataFound from "@/components/noDataFound";
 import DesktopConfFilter from "@/components/conferenceComponents/ConferenceFilter/desktopConfFilter";
+import MobileConfFilter from "@/components/conferenceComponents/ConferenceFilter/mobileConfFilter";
+import Loader from "@/components/loader";
 
 const Conferences = async ({ searchParams }) => {
   const currentDate = getCurrentDate();
@@ -91,12 +93,14 @@ const Conferences = async ({ searchParams }) => {
       </p>
 
       <DesktopConfFilter stateObj={stateObj} />
-
-      {allConferences?.data.length > 0 ? (
-        <ConferenceTable data={allConferences?.data} stateObj={stateObj} />
-      ) : (
-        <NoDataFound title="conferences" />
-      )}
+      <MobileConfFilter stateObj={stateObj} />
+      <Suspense fallback={<Loader />}>
+        {allConferences?.data.length > 0 ? (
+          <ConferenceTable data={allConferences?.data} stateObj={stateObj} />
+        ) : (
+          <NoDataFound title="conferences" />
+        )}
+      </Suspense>
     </PageContainer>
   );
 };
