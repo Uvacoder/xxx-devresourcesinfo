@@ -20,10 +20,14 @@ const IndividualRow = ({ node, stateObj }) => {
         >
           {node.name}
         </Link>
-        <p className="flex flex-wrap gap-[2px] text-neutrals-500 text-[11px] xs-450:text-[12px] sm:text-sm">
-          <City node={node} stateObj={stateObj} />,
-          <Country node={node} stateObj={stateObj} />,
-          <Continent node={node} stateObj={stateObj} />
+        <p className="flex flex-wrap text-neutrals-500 text-[11px] xs-450:text-[12px] sm:text-sm">
+          <City node={node} stateObj={stateObj} />
+          {node?.country[0]?.name && (
+            <Country node={node} stateObj={stateObj} />
+          )}
+          {node?.continent[0]?.name && (
+            <Continent node={node} stateObj={stateObj} />
+          )}
         </p>
       </div>
 

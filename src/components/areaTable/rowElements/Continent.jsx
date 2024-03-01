@@ -12,7 +12,7 @@ const Continent = ({ node, clickHandler }) => {
         )
       }
     >
-      {node?.continent[0]?.name}
+      , {node?.continent[0]?.name}
     </span>
   );
 };

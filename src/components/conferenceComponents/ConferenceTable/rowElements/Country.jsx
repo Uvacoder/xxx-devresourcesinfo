@@ -48,7 +48,7 @@ const Country = ({ node, stateObj }) => {
       className="hover:font-[700] hover:underline hover:text-primary-end cursor-pointer"
       onClick={() => clickHandler(node?.country[0]?.name, node?.country[0]?.id)}
     >
-      {node?.country[0]?.name}
+      , {node?.country[0]?.name}
     </span>
   );
 };

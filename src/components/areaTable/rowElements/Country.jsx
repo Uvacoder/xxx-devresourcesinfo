@@ -8,7 +8,7 @@ const Country = ({ node, clickHandler }) => {
         clickHandler(node?.country[0]?.name, "Country", node?.country[0]?.id)
       }
     >
-      {node?.country[0]?.name}
+      , {node?.country[0]?.name}
     </span>
   );
 };
