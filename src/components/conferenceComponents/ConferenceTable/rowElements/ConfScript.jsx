@@ -52,6 +52,7 @@ const ConfScript = async ({ node }) => {
     "@type": "EducationEvent",
     name: node?.name,
     startDate: node?.startDate,
+    startDate: node?.endDate,
     eventAttendanceMode: addEventAttendanceMode,
     eventStatus: addEventStatus,
     location: addLocation,
