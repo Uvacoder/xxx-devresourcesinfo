@@ -50,6 +50,8 @@ const ConfScript = async ({ node }) => {
   const formattedData = {
     "@context": "https://schema.org",
     "@type": "EducationEvent",
+    name: node?.name,
+    startDate: node?.startDate,
     eventAttendanceMode: addEventAttendanceMode,
     eventStatus: addEventStatus,
     location: addLocation,
