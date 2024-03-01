@@ -25,9 +25,14 @@ const ConfScript = async ({ node }) => {
   const area = `${node?.city?.name}, ${node?.country[0]?.name}, ${node?.continent[0]?.name}`;
   const eventArea = encodeURIComponent(area);
 
+  let formattedDate;
   const startDateFormated = parseDate(node?.startDate);
-  const endDateFormated = node?.endDate && parseDate(node?.endDate);
-  const formattedDate = `${startDateFormated.date} ${startDateFormated?.mon} ${startDateFormated.year} - ${endDateFormated.date} ${endDateFormated?.mon} ${endDateFormated.year}`;
+  if (node?.endDate) {
+    const endDateFormated = node?.endDate && parseDate(node?.endDate);
+    formattedDate = `${startDateFormated.date} ${startDateFormated?.mon} ${startDateFormated.year} - ${endDateFormated.date} ${endDateFormated?.mon} ${endDateFormated.year}`;
+  } else {
+    formattedDate = `${startDateFormated.date} ${startDateFormated?.mon} ${startDateFormated.year}`;
+  }
   const eventDate = encodeURIComponent(formattedDate);
 
   const addImage = `https://res.cloudinary.com/dneebfbfo/image/upload/co_rgb:FFFFFF,c_fit,l_text:Roboto_130_bold:${eventName},c_fit,w_1200/fl_layer_apply/co_rgb:b9b8be,l_text:Roboto_80_bold:${eventArea}/fl_layer_apply,g_south,y_0.1/co_rgb:FFFFFF,l_text:Roboto_50_bold:${eventDate}/fl_layer_apply,g_south,y_0.2/DevResources/dev-resources-event.png`;

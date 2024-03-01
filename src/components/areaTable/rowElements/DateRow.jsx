@@ -6,7 +6,7 @@ const DateRow = ({ node }) => {
   const startDateFormated = parseDate(node?.startDate);
   const endDateFormated = node?.endDate && parseDate(node?.endDate);
   return (
-    <div className="tableRowConf w-[155px] flex sm:gap-4 items-center px-2 xs-450:px-4 sm:px-6 py-[16px] text-neutrals-400">
+    <div className="tableRowConf w-[155px] flex sm:gap-4 justify-center items-center sm:shrink-0 px-2 xs-450:px-4 sm:px-6 py-[16px] text-neutrals-400">
       <div className="flex flex-col items-center justify-center">
         <span className="uppercase font-[700] -mb-[6px] text-[9px] xs-450:text-[11px] sm:text-[13px]">
           {startDateFormated.mon}
