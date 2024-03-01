@@ -8,6 +8,7 @@ const commonQueries = `edges {
         name
         startDate
         endDate
+        description
         organizerName
         organizerUrl
         language {
