@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 
-const pastDate = process.env.NEXT_PAST_DATE_DATA || `"2023-01-01"`;
+const pastDate = `"${process.env.NEXT_PAST_DATE_DATA}"` || `"2023-01-01"`;
 
 const commonQueries = `edges {
       node {
