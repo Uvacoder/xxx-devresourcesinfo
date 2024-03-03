@@ -57,15 +57,6 @@ const Blogs = ({ name }) => {
       dataFromURL
     );
     fetchData(filterFromURL);
-  }, []);
-
-  useEffect(() => {
-    const filterFromURL = fetchFilterFromURL(
-      dispatch,
-      setBlogDataByUrl,
-      dataFromURL
-    );
-    fetchData(filterFromURL);
   }, [pathname]);
 
   useEffect(() => {

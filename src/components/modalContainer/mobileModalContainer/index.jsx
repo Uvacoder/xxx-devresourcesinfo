@@ -2,12 +2,7 @@ import React, { useState } from "react";
 import AreaDropDown from "../pagesDropDown/AreaDropDown";
 import AudienceDropDown from "../pagesDropDown/AudienceDropDown";
 import { findCategoryData } from "@/data/modalContainerData";
-import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
-import { fetchHackathonsByAllFilter } from "@/redux/features/hackathon/action";
-import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
-import { fetchNewsletterByAllFilter } from "@/redux/features/newsletter/action";
-import { fetchBlogByAllFilter } from "@/redux/features/blog/action";
-import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
+import ConfAreaDropdown from "@/components/conferenceComponents/ConferenceFilter/desktopConfFilter/components/ConfAreaDropdown";
 
 const MobileModalContainer = ({
   title,
@@ -15,6 +10,7 @@ const MobileModalContainer = ({
   page,
   pageState,
   handleDropDown,
+  stateObj,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -54,22 +50,18 @@ const MobileModalContainer = ({
             filteredDropDownData?.map((obj) => (
               <li key={obj.node.id}>
                 {page === "conferences" ? (
-                  <AreaDropDown
+                  <ConfAreaDropdown
                     obj={obj.node}
                     categorySelected={categorySelected}
                     menuTitle={menuTitle}
                     handleDropDown={handleModal}
-                    allFilterFunc={fetchConferencesByAllFilter}
-                    pageState={pageState}
-                    page={page}
+                    stateObj={stateObj}
                   />
                 ) : page === "hackathons" ? (
                   <AreaDropDown
                     obj={obj.node}
                     categorySelected={categorySelected}
-                    menuTitle={menuTitle}
                     handleDropDown={handleModal}
-                    allFilterFunc={fetchHackathonsByAllFilter}
                     pageState={pageState}
                     page={page}
                   />
@@ -77,9 +69,7 @@ const MobileModalContainer = ({
                   <AudienceDropDown
                     obj={obj.node}
                     categorySelected={categorySelected}
-                    menuTitle={menuTitle}
                     handleDropDown={handleModal}
-                    allFilterFunc={fetchPodcastByAllFilter}
                     pageState={pageState}
                     page={page}
                   />
@@ -87,9 +77,7 @@ const MobileModalContainer = ({
                   <AudienceDropDown
                     obj={obj.node}
                     categorySelected={categorySelected}
-                    menuTitle={menuTitle}
                     handleDropDown={handleModal}
-                    allFilterFunc={fetchNewsletterByAllFilter}
                     pageState={pageState}
                     page={page}
                   />
@@ -97,9 +85,7 @@ const MobileModalContainer = ({
                   <AudienceDropDown
                     obj={obj.node}
                     categorySelected={categorySelected}
-                    menuTitle={menuTitle}
                     handleDropDown={handleModal}
-                    allFilterFunc={fetchBlogByAllFilter}
                     pageState={pageState}
                     page={page}
                   />
@@ -107,9 +93,7 @@ const MobileModalContainer = ({
                   <AudienceDropDown
                     obj={obj.node}
                     categorySelected={categorySelected}
-                    menuTitle={menuTitle}
                     handleDropDown={handleModal}
-                    allFilterFunc={fetchYoutubeByAllFilter}
                     pageState={pageState}
                     page={page}
                   />

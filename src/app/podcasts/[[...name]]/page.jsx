@@ -58,15 +58,6 @@ const Podcasts = ({ params: { name } }) => {
       dataFromURL
     );
     fetchData(filterFromURL);
-  }, []);
-
-  useEffect(() => {
-    const filterFromURL = fetchFilterFromURL(
-      dispatch,
-      setPodcastDataByUrl,
-      dataFromURL
-    );
-    fetchData(filterFromURL);
   }, [pathname]);
 
   useEffect(() => {

@@ -27,7 +27,7 @@ const TechnologiesRow = ({ tech, clickHandler, techSelected }) => {
           />
           <Image
             src={filledIcon?.src}
-            className="tableRowJsHover w-[30px] h-[31px] sm:w-[40px] sm:h-[41px]"
+            className="tableRowJsHover w-[23px] h-[23px] sm:w-[30px] sm:h-[31px] lg:w-[40px] lg:h-[41px]"
             alt="javascript logo"
             width={40}
             height={41}

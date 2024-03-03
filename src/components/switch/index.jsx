@@ -1,57 +1,54 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
-import { pastConfUpdate } from "@/redux/features/conference/conferenceSlice";
-import { addQuotesToString } from "@/utils/utils";
+import { updateConferenceURL } from "@/utils/conferenceFunc";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
-const Switch = () => {
-  const {
-    citySelected,
-    countrySelected,
-    continentSelected,
-    techSelected,
-    pastConf,
-    todayDate,
-  } = useSelector(({ conferences }) => conferences);
-  const dispatch = useDispatch();
-  const [checked, setChecked] = useState(pastConf);
+const Switch = ({ stateObj }) => {
+  const router = useRouter();
+  const switchValue = stateObj?.pastConf === "past" ? true : false;
+  const [checked, setChecked] = useState(switchValue);
 
-  useEffect(() => {
-    setChecked(pastConf);
-  }, [pastConf]);
+  const createQueryString = useCallback((queryParams) => {
+    const params = new URLSearchParams();
+    for (const [name, value] of Object.entries(queryParams)) {
+      if (value !== "") {
+        params.set(name, value);
+      }
+    }
+    return params.toString();
+  }, []);
 
   const changeHandler = () => {
     let newCheckedValue = checked ? false : true;
     setChecked(newCheckedValue);
-    dispatch(pastConfUpdate(newCheckedValue));
-    getData(newCheckedValue);
+
+    const url = updateConferenceURL(stateObj);
+    let queryParams;
+    if (newCheckedValue) {
+      queryParams = {
+        continent: stateObj?.continentSelected,
+        country: stateObj?.countrySelected,
+        city: stateObj?.citySelected,
+        tech: stateObj?.techSelected,
+        mode: "past",
+      };
+    } else {
+      queryParams = {
+        continent: stateObj?.continentSelected,
+        country: stateObj?.countrySelected,
+        city: stateObj?.citySelected,
+        tech: stateObj?.techSelected,
+        mode: "",
+      };
+    }
+
+    router.push(`${url}/?${createQueryString(queryParams)}`);
   };
 
-  const getData = (newCheckedValue) => {
-    const convertCity = citySelected
-      ? addQuotesToString(citySelected)
-      : undefined;
-    const convertCountry = countrySelected
-      ? addQuotesToString(countrySelected)
-      : undefined;
-    const convertContinent = continentSelected
-      ? addQuotesToString(continentSelected)
-      : undefined;
-    const convertTech = techSelected
-      ? addQuotesToString(techSelected)
-      : undefined;
-    let convertedDate = newCheckedValue ? undefined : todayDate;
-    dispatch(
-      fetchConferencesByAllFilter({
-        citySelected: convertCity,
-        countrySelected: convertCountry,
-        continentSelected: convertContinent,
-        techSelected: convertTech,
-        convertedDate,
-      })
-    );
-  };
+  useEffect(() => {
+    const switchValue = stateObj?.pastConf === "past" ? true : false;
+    setChecked(switchValue);
+  }, [stateObj?.pastConf]);
 
   return (
     <label className="switch">

@@ -62,15 +62,6 @@ const NewsLetters = ({ name }) => {
       dataFromURL
     );
     fetchData(filterFromURL);
-  }, []);
-
-  useEffect(() => {
-    const filterFromURL = fetchFilterFromURL(
-      dispatch,
-      setNewsletterDataByUrl,
-      dataFromURL
-    );
-    fetchData(filterFromURL);
   }, [pathname]);
 
   useEffect(() => {

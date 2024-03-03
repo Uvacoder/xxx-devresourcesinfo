@@ -11,6 +11,7 @@ import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
 import AreaDropDown from "./pagesDropDown/AreaDropDown";
 import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
 import { fetchHackathonsByAllFilter } from "@/redux/features/hackathon/action";
+import ConfAreaDropdown from "../conferenceComponents/ConferenceFilter/desktopConfFilter/components/ConfAreaDropdown";
 
 const ModalContainer = ({
   title,
@@ -18,6 +19,7 @@ const ModalContainer = ({
   categoryData,
   page,
   pageState,
+  stateObj,
 }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -72,19 +74,17 @@ const ModalContainer = ({
             </div>
             <div className="self-stretch">
               {showDropDown && (
-                <ul className="flex flex-col border border-neutrals-200 rounded-[4px] max-h-[248px] overflow-auto">
+                <ul className="flex flex-col border border-neutrals-200 rounded-[4px] max-h-[207px] overflow-auto">
                   {filteredDropDownData?.length > 0 ? (
                     filteredDropDownData?.map((obj) => (
                       <li key={obj.node.id}>
                         {page === "conferences" ? (
-                          <AreaDropDown
+                          <ConfAreaDropdown
                             obj={obj.node}
                             categorySelected={categorySelected}
                             menuTitle={menuTitle}
                             handleDropDown={handleModal}
-                            allFilterFunc={fetchConferencesByAllFilter}
-                            pageState={pageState}
-                            page={page}
+                            stateObj={stateObj}
                           />
                         ) : page === "hackathons" ? (
                           <AreaDropDown

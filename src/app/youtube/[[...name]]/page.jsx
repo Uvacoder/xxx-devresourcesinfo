@@ -57,15 +57,6 @@ const Youtube = ({ name }) => {
       dataFromURL
     );
     fetchData(filterFromURL);
-  }, []);
-
-  useEffect(() => {
-    const filterFromURL = fetchFilterFromURL(
-      dispatch,
-      setYoutubeDataByUrl,
-      dataFromURL
-    );
-    fetchData(filterFromURL);
   }, [pathname]);
 
   useEffect(() => {

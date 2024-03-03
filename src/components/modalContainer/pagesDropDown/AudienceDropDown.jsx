@@ -1,60 +1,18 @@
 "use client";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addQuotesToString } from "@/utils/utils";
 
 const AudienceDropDown = ({
   obj,
   categorySelected,
-  menuTitle,
   handleDropDown,
-  allFilterFunc,
   pageState,
   page,
 }) => {
-  const { langSelected, audienceSelected, tagSelected } = pageState;
-
   const dispatch = useDispatch();
 
-  const getData = (dropDownSelected) => {
-    const convertLang = langSelected
-      ? addQuotesToString(langSelected)
-      : undefined;
-    const convertAudience = audienceSelected
-      ? addQuotesToString(audienceSelected)
-      : undefined;
-    const convertTag = tagSelected ? addQuotesToString(tagSelected) : undefined;
-    handleDropDown();
-    if (menuTitle === "language") {
-      dispatch(
-        allFilterFunc({
-          langSelected: dropDownSelected,
-          audienceSelected: convertAudience,
-          tagSelected: convertTag,
-        })
-      );
-    } else if (menuTitle === "audience") {
-      dispatch(
-        allFilterFunc({
-          langSelected: convertLang,
-          audienceSelected: dropDownSelected,
-          tagSelected: convertTag,
-        })
-      );
-    } else {
-      dispatch(
-        allFilterFunc({
-          langSelected: convertLang,
-          audienceSelected: convertAudience,
-          tagSelected: dropDownSelected,
-        })
-      );
-    }
-  };
-
   const clickHandler = (name) => {
-    const convertStr = addQuotesToString(name);
-    getData(convertStr);
+    handleDropDown();
     if (page === "podcasts") {
       dispatch(categorySelected.toChangeAtt(name));
     } else if (page === "blogs") {
