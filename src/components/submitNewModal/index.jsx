@@ -27,7 +27,6 @@ const SubmitNewModal = ({ setShowForm }) => {
         formData?.messageToModerator
       ) {
         setShowForm(false);
-        console.log({ formData });
         handleApiCall(formData);
       }
     } else {
