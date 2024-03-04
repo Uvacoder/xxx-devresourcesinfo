@@ -7,7 +7,7 @@ import Footer from "@/components/footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Dev Resources",
+  title: "DevResources",
   description: "One place information for all the events, across the globe",
 };
 
