@@ -1,30 +1,19 @@
 export const generateSharedMetaData = (meta) => {
   return {
+    metadataBase: new URL(meta.link),
     title: meta.title,
     description: meta.description,
-    robots: {
-      index: true,
-      follow: true,
-      nocache: true,
-      googleBot: {
-        index: true,
-        follow: false,
-        noimageindex: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
 
     openGraph: {
       title: meta.title,
       description: meta.description,
+      url: meta.link,
       siteName: meta.title,
       images: [
         {
           url: meta.image ?? "/og-image.png",
           width: 1200,
-          height: 627,
+          height: 630,
         },
       ],
       locale: "en_US",

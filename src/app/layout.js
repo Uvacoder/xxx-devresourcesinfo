@@ -12,6 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 const meta = {
   title: "DevResources",
+  link:" https://www.devresources.info/",
   description: "One place information for all the events, across the globe",
 };
 
