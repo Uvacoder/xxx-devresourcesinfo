@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { getClient } from "../graphQLClient";
 import { mutationQuery } from "../queries/mutationQueries";
 
@@ -13,12 +14,15 @@ export const addNewEvent = async (eventObj) => {
 
     if (eventType === "Conference" || eventType === "Hackathon") {
       const response = await client.request(mutation, { input: objWithDate });
+      toast.success(`New ${eventType.toLowerCase()} event added successfully!`);
       return response;
     } else {
       const response = await client.request(mutation, { input: obj });
+      toast.success(`New ${eventType.toLowerCase()} event added successfully!`);
       return response;
     }
   } catch (error) {
+    toast.error("Error adding new event!");
     console.error(`Error adding event: ${error}`);
     throw error;
   }
