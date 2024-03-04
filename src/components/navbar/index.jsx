@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PrimaryBtn from "../primaryBtn";
 import Image from "next/image";
 import logo_sign from "@/assets/logo_sign.svg";
@@ -7,10 +7,20 @@ import { menu } from "@/data/commonData";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileNavbar from "../mobileNavbar";
+import SubmitNewModal from "../submitNewModal";
 
 const Navbar = () => {
   let pathname = usePathname();
+  const [showForm, setShowForm] = useState(false);
   const parts = "/" + pathname.split("/")[1];
+
+  const submitHandler = () => {
+    setShowForm(true);
+  };
+
+    useEffect(() => {
+      document.body.style.overflow = showForm ? "hidden" : "unset";
+    }, [showForm]);
 
   return (
     <header className="fixed w-full z-20 bg-neutral-base text-white px-[15px] lg:px-[75px] xl:px-[80px]">
@@ -46,9 +56,10 @@ const Navbar = () => {
               );
             })}
           </ul>
-          <PrimaryBtn text="Submit New" />
+          <PrimaryBtn text="Submit New" clickHandler={submitHandler} />
         </div>
         <MobileNavbar menu={menu} pathname={parts} />
+        {showForm && <SubmitNewModal setShowForm={setShowForm} />}
       </nav>
     </header>
   );

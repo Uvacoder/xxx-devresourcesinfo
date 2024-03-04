@@ -1,11 +1,22 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { TbMenu2 } from "react-icons/tb";
 import PrimaryBtn from "../primaryBtn";
+import SubmitNewModal from "../submitNewModal";
 
 const MobileNavbar = ({ menu, pathname }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+
+  const submitHandler = () => {
+    setShowMenu(false);
+    setShowForm(true);
+  };
+  
+  useEffect(() => {
+    document.body.style.overflow = showForm ? "hidden" : "unset";
+  }, [showForm]);
 
   return (
     <div className="block lg:hidden">
@@ -41,10 +52,11 @@ const MobileNavbar = ({ menu, pathname }) => {
             })}
           </ul>
           <div className="px-5 pt-3 pb-4">
-            <PrimaryBtn text="Submit New" />
+            <PrimaryBtn text="Submit New" clickHandler={submitHandler} />
           </div>
         </div>
       )}
+      {showForm && <SubmitNewModal setShowForm={setShowForm} />}
     </div>
   );
 };
