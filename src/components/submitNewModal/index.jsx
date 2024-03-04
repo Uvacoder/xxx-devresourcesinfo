@@ -1,6 +1,7 @@
 import { eventAvailable } from "@/data/commonData";
 import React, { useState } from "react";
 import { addNewEvent } from "@/services/api/mutationApi";
+import { getCurrentDate } from "@/utils/utils";
 
 const SubmitNewModal = ({ setShowForm }) => {
   const [formData, setFormData] = useState({
@@ -48,6 +49,8 @@ const SubmitNewModal = ({ setShowForm }) => {
       messageToModerator: "",
     });
   };
+
+  const currentDate = getCurrentDate();
 
   return (
     <div className="fixed w-screen h-screen left-0 top-0 bg-[#2a29681f] backdrop-blur-sm">
@@ -107,6 +110,7 @@ const SubmitNewModal = ({ setShowForm }) => {
               <input
                 type="date"
                 id="date"
+                min={currentDate}
                 value={formData?.startDate}
                 className="p-2 w-full border border-gray-300 rounded-md accent-primary-end mb-2 lg:mb-3"
                 onChange={(e) =>
