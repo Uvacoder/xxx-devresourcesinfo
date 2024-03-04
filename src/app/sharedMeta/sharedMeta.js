@@ -25,7 +25,7 @@ export const generateSharedMetaData = (meta) => {
       siteName: meta.title,
       images: [
         {
-          url: meta.image ?? "/og-image.png",
+          url: meta.image ?? "/images/og-image.png",
           width: 1200,
           height: 630,
         },
@@ -41,7 +41,7 @@ export const generateSharedMetaData = (meta) => {
       creator: "@bugfenderapp",
       images: [
         {
-          url: meta.image ?? "/og-image.png",
+          url: meta.image ?? "/images/og-image.png",
           width: 1200,
           height: 630,
         },
@@ -56,14 +56,14 @@ export const generateSharedMetaData = (meta) => {
       {
         rel: "icon",
         type: "image/png",
-        sizes: "32x32x16x16",
-        url: "/favicon-devresources-32x32x16x16.png",
+        sizes: "32x32",
+        url: "/images/favicon-devresources-32.png",
       },
       {
         rel: "icon",
         type: "image/png",
-        sizes: "16x16x16x16",
-        url: "/favicon-devresources-16x16x16x16.png",
+        sizes: "16x16",
+        url: "/images/favicon-devresources-16.png",
       },
     ],
   };

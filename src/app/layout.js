@@ -25,14 +25,14 @@ export default function RootLayout({ children }) {
         <link
           rel="icon"
           type="image/png"
-          sizes="16x16x16x16"
-          href="/favicon-devresources-16x16x16x16.png"
+          sizes="16x16"
+          href="/images/favicon-devresources-16.png"
         />
         <link
           rel="icon"
           type="image/png"
-          sizes="32x32x16x16"
-          href="/favicon-devresources-32x32x16x16.png"
+          sizes="32x32"
+          href="/images/favicon-devresources-32.png"
         />
         <PlausibleProvider domain="devresources.info" />
       </head>
