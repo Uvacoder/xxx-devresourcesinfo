@@ -6,7 +6,7 @@ import { getAreaByCity } from "@/services/api/conferenceAPI";
 import { updateConferenceURL } from "@/utils/conferenceFunc";
 import { addQuotesToString } from "@/utils/utils";
 
-const City = ({ node, stateObj }) => {
+const City = ({ node, stateObj, country }) => {
   const router = useRouter();
 
   const createQueryString = useCallback((queryParams) => {
@@ -48,6 +48,7 @@ const City = ({ node, stateObj }) => {
       onClick={() => clickHandler(node?.city?.name, node?.city?.id)}
     >
       {node?.city?.name}
+      {country && ", "}
     </span>
   );
 };

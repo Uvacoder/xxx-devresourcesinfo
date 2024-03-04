@@ -20,10 +20,18 @@ const IndividualRow = ({ node, clickHandler, techSelected }) => {
           >
             {node.name}
           </Link>
-          <p className="flex flex-wrap text-neutrals-500 text-[11px] xs-450:text-[12px] sm:text-sm">
-            <City node={node} clickHandler={clickHandler} />
+          <p className="flex gap-1 flex-wrap text-neutrals-500 text-[11px] xs-450:text-[12px] sm:text-sm">
+            <City
+              node={node}
+              clickHandler={clickHandler}
+              country={node?.country[0]?.name}
+            />
             {node?.country[0]?.name && (
-              <Country node={node} clickHandler={clickHandler} />
+              <Country
+                node={node}
+                clickHandler={clickHandler}
+                continent={node?.continent[0]?.name}
+              />
             )}
             {node?.continent[0]?.name && (
               <Continent node={node} clickHandler={clickHandler} />
