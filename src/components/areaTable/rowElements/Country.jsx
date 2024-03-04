@@ -1,6 +1,6 @@
 import React from "react";
 
-const Country = ({ node, clickHandler }) => {
+const Country = ({ node, clickHandler, continent }) => {
   return (
     <span
       className="hover:font-[700] hover:underline hover:text-primary-end cursor-pointer"
@@ -8,7 +8,8 @@ const Country = ({ node, clickHandler }) => {
         clickHandler(node?.country[0]?.name, "Country", node?.country[0]?.id)
       }
     >
-      , {node?.country[0]?.name}
+      {node?.country[0]?.name}
+      {continent && ", "}
     </span>
   );
 };

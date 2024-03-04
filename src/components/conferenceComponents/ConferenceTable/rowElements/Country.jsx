@@ -6,7 +6,7 @@ import { getAreaByCountry } from "@/services/api/conferenceAPI";
 import { updateConferenceURL } from "@/utils/conferenceFunc";
 import { addQuotesToString } from "@/utils/utils";
 
-const Country = ({ node, stateObj }) => {
+const Country = ({ node, stateObj, continent }) => {
   const router = useRouter();
 
   const createQueryString = useCallback((queryParams) => {
@@ -48,7 +48,8 @@ const Country = ({ node, stateObj }) => {
       className="hover:font-[700] hover:underline hover:text-primary-end cursor-pointer"
       onClick={() => clickHandler(node?.country[0]?.name, node?.country[0]?.id)}
     >
-      , {node?.country[0]?.name}
+      {node?.country[0]?.name}
+      {continent && ", "}
     </span>
   );
 };
