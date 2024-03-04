@@ -3,7 +3,6 @@ export const generateSharedMetaData = (meta) => {
     metadataBase: new URL(meta.link),
     title: meta.title,
     description: meta.description,
-
     robots: {
       index: true,
       follow: true,

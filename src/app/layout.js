@@ -22,18 +22,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/images/favicon-devresources-16.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/images/favicon-devresources-32.png"
-        />
         <PlausibleProvider domain="devresources.info" />
       </head>
       <body className={inter.className}>
