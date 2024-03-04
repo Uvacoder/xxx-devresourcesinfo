@@ -26,7 +26,7 @@ export const addNewEvent = async (eventObj) => {
       return response;
     }
   } catch (error) {
-    toast.error(`Error adding new ${eventType.toLowerCase()}!`);
+    toast.error(`Error adding new ${eventObj?.eventType.toLowerCase()}!`);
     console.error(`Error adding event: ${error}`);
     throw error;
   }
