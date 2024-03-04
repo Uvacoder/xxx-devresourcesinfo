@@ -15,18 +15,18 @@ export const addNewEvent = async (eventObj) => {
     if (eventType === "Conference" || eventType === "Hackathon") {
       const response = await client.request(mutation, { input: objWithDate });
       toast.success(
-        `New ${eventType.toLowerCase()} event added successfully! It is under review and will appear here after the approval.`
+        `New ${eventType.toLowerCase()} added successfully! It is under review and will appear here after the approval.`
       );
       return response;
     } else {
       const response = await client.request(mutation, { input: obj });
       toast.success(
-        `New ${eventType.toLowerCase()} event added successfully! It is under review and will appear here after the approval.`
+        `New ${eventType.toLowerCase()} added successfully! It is under review and will appear here after the approval.`
       );
       return response;
     }
   } catch (error) {
-    toast.error("Error adding new event!");
+    toast.error(`Error adding new ${eventType.toLowerCase()}!`);
     console.error(`Error adding event: ${error}`);
     throw error;
   }

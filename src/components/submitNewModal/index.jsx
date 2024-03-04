@@ -68,7 +68,7 @@ const SubmitNewModal = ({ setShowForm }) => {
           onSubmit={(e) => e.preventDefault()}
         >
           <label htmlFor="eventType" className="block font-medium mb-[6px]">
-            Event type
+            Type
           </label>
           <select
             id="eventType"
@@ -87,7 +87,7 @@ const SubmitNewModal = ({ setShowForm }) => {
           </select>
 
           <label htmlFor="name" className="block font-medium mb-[6px]">
-            Event name
+            Name
           </label>
           <input
             type="text"
@@ -125,7 +125,7 @@ const SubmitNewModal = ({ setShowForm }) => {
           )}
 
           <label htmlFor="websiteUrl" className="block font-medium mb-[6px]">
-            Event URL
+            URL
           </label>
           <input
             type="url"
