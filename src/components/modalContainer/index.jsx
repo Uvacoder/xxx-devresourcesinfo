@@ -9,7 +9,6 @@ import { fetchNewsletterByAllFilter } from "@/redux/features/newsletter/action";
 import { fetchBlogByAllFilter } from "@/redux/features/blog/action";
 import { fetchYoutubeByAllFilter } from "@/redux/features/youtube/action";
 import AreaDropDown from "./pagesDropDown/AreaDropDown";
-import { fetchConferencesByAllFilter } from "@/redux/features/conference/action";
 import { fetchHackathonsByAllFilter } from "@/redux/features/hackathon/action";
 import ConfAreaDropdown from "../conferenceComponents/ConferenceFilter/desktopConfFilter/components/ConfAreaDropdown";
 

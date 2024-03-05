@@ -7,7 +7,7 @@ const City = ({ node, clickHandler, country }) => {
       onClick={() => clickHandler(node?.city?.name, "City", node?.city?.id)}
     >
       {node?.city?.name}
-      {country && ", "}
+      {country && country !== "Online" && ", "}
     </span>
   );
 };

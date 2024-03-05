@@ -64,35 +64,6 @@ const commonQueries = `edges {
       startCursor
     }`;
 
-export const allConferenceQuery = () => gql`
-  query allConference {
-    allConference {
-      ${commonQueries}
-    }
-  }
-`;
-
-export const upcomingConferenceQuery = (currentDate) => gql`
-  query allConference {
-    allConference( sort: {startDate: ASC}, where: {startDate: {gte: ${currentDate}}}) {
-      ${commonQueries}
-    }
-  }
-`;
-
-export const upcomingConferenceLimitQuery = (
-  currentDate,
-  endCursorValue
-) => gql`
-  query allConference {
-    allConference(first: ${dataLimit}, after: ${
-  endCursorValue ?? `""`
-}, sort: {startDate: ASC}, where: {startDate: {gte: ${currentDate}}}) {
-      ${commonQueries}
-    }
-  }
-`;
-
 export const findAllCitiesQuery = () => gql`
   query allCity {
     allCity {

@@ -2,10 +2,6 @@
 import { useDispatch } from "react-redux";
 import { findCategoryData } from "@/data/modalContainerData";
 import { addQuotesToString } from "@/utils/utils";
-import {
-  setOtherByCity,
-  setOtherByCountry,
-} from "@/redux/features/conference/conferenceSlice";
 import { getAreaByCity, getAreaByCountry } from "@/services/api/conferenceAPI";
 import {
   setHackathonOtherByCity,
@@ -105,14 +101,7 @@ const AreaTable = ({ data, page, pageState, filterFunc }) => {
 
     if (categorySelected?.name === "City") {
       const { data } = await getAreaByCity(convertId);
-      if (page === "conferences") {
-        dispatch(
-          setOtherByCity({
-            country: data?.country?.name,
-            continent: data?.country?.continent?.name,
-          })
-        );
-      } else if (page === "hackathons") {
+     if (page === "hackathons") {
         dispatch(
           setHackathonOtherByCity({
             country: data?.country?.name,
@@ -130,9 +119,7 @@ const AreaTable = ({ data, page, pageState, filterFunc }) => {
       );
     } else {
       const { data } = await getAreaByCountry(convertId);
-      if (page === "conferences") {
-        dispatch(setOtherByCountry(data?.continent?.name));
-      } else if (page === "hackathons") {
+       if (page === "hackathons") {
         dispatch(setHackathonOtherByCountry(data?.continent?.name));
       } else {
         return;
@@ -148,9 +135,7 @@ const AreaTable = ({ data, page, pageState, filterFunc }) => {
       ({ name }) => name === menuTitle
     );
 
-    if (page === "conferences") {
-      dispatch(categorySelected.toChangeAtt({ value: name, id: id }));
-    } else if (page === "hackathons") {
+    if (page === "hackathons") {
       dispatch(categorySelected.toChangeHackathonAtt({ value: name, id: id }));
     } else {
       return;

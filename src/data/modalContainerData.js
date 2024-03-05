@@ -4,12 +4,11 @@ import {
   setBlogTagFilter,
 } from "@/redux/features/blog/blogSlice";
 import {
-  setCityFilter,
-  setCountryFilter,
-  setContinentFilter,
-  setTechFilter,
-} from "@/redux/features/conference/conferenceSlice";
-import { setHackathonCityFilter, setHackathonContinentFilter, setHackathonCountryFilter, setHackathonTechFilter } from "@/redux/features/hackathon/hackathonSlice";
+  setHackathonCityFilter,
+  setHackathonContinentFilter,
+  setHackathonCountryFilter,
+  setHackathonTechFilter,
+} from "@/redux/features/hackathon/hackathonSlice";
 import {
   setNewsletterAudienceFilter,
   setNewsletterLangFilter,
@@ -29,25 +28,21 @@ import {
 export const findCategoryData = [
   {
     name: "City",
-    toChangeAtt: setCityFilter,
     toChangeHackathonAtt: setHackathonCityFilter,
     isActiveValue: "citySelected",
   },
   {
     name: "Country",
-    toChangeAtt: setCountryFilter,
     toChangeHackathonAtt: setHackathonCountryFilter,
     isActiveValue: "countrySelected",
   },
   {
     name: "Continent",
-    toChangeAtt: setContinentFilter,
     toChangeHackathonAtt: setHackathonContinentFilter,
     isActiveValue: "continentSelected",
   },
   {
     name: "Technology",
-    toChangeAtt: setTechFilter,
     toChangeHackathonAtt: setHackathonTechFilter,
     isActiveValue: "techSelected",
   },

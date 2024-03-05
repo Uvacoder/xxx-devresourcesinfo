@@ -4,10 +4,6 @@ import { useDispatch } from "react-redux";
 import { addQuotesToString } from "@/utils/utils";
 import { getAreaByCity, getAreaByCountry } from "@/services/api/conferenceAPI";
 import {
-  setOtherByCity,
-  setOtherByCountry,
-} from "@/redux/features/conference/conferenceSlice";
-import {
   setHackathonOtherByCity,
   setHackathonOtherByCountry,
 } from "@/redux/features/hackathon/hackathonSlice";
@@ -25,14 +21,7 @@ const AreaDropDown = ({
     const convertId = addQuotesToString(id);
     if (categorySelected?.name === "City") {
       const { data } = await getAreaByCity(convertId);
-      if (page === "conferences") {
-        dispatch(
-          setOtherByCity({
-            country: data?.country?.name,
-            continent: data?.country?.continent?.name,
-          })
-        );
-      } else if (page === "hackathons") {
+      if (page === "hackathons") {
         dispatch(
           setHackathonOtherByCity({
             country: data?.country?.name,
@@ -44,9 +33,7 @@ const AreaDropDown = ({
       }
     } else {
       const { data } = await getAreaByCountry(convertId);
-      if (page === "conferences") {
-        dispatch(setOtherByCountry(data?.continent?.name));
-      } else if (page === "hackathons") {
+      if (page === "hackathons") {
         dispatch(setHackathonOtherByCountry(data?.continent?.name));
       } else {
         return;
@@ -56,9 +43,7 @@ const AreaDropDown = ({
   };
 
   const clickHandler = (name) => {
-    if (page === "conferences") {
-      dispatch(categorySelected.toChangeAtt({ value: name, id: obj?.id }));
-    } else if (page === "hackathons") {
+    if (page === "hackathons") {
       dispatch(
         categorySelected.toChangeHackathonAtt({ value: name, id: obj?.id })
       );

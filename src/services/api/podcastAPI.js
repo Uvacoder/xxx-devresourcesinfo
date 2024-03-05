@@ -1,25 +1,10 @@
 import { getClient } from "../graphQLClient";
 import {
-  allPodcastQuery,
   findAllLangQuery,
   findAllAudienceQuery,
   findAllTechnologiesQuery,
   allPodcastFilterQuery,
 } from "../queries/podcastQueries";
-
-export const getAllPodcasts = async () => {
-  const client = getClient(false);
-  try {
-    const dataQuery = allPodcastQuery();
-    const gqlResponse = await client.request(dataQuery);
-    return {
-      data: gqlResponse?.allPodcast?.edges || [],
-    };
-  } catch (error) {
-    console.error("Error fetching all podcast data:", error);
-    return { data: [] };
-  }
-};
 
 export const getAllLang = async () => {
   const client = getClient(false);
@@ -82,10 +67,7 @@ export const getPodcastByAllFilter = async (
       data: gqlResponse?.allPodcast?.edges || [],
     };
   } catch (error) {
-    console.error(
-      "Error fetching all Podcast data:",
-      error
-    );
+    console.error("Error fetching all Podcast data:", error);
     return { data: [] };
   }
 };
