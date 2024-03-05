@@ -1,18 +1,22 @@
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/navbar";
-import ReduxProvider from "@/redux/provider";
-import Footer from "@/components/footer";
-import "react-toastify/dist/ReactToastify.css";
-import Toaster from "@/components/toast";
 import PlausibleProvider from "next-plausible";
+import { Inter } from "next/font/google";
+import Toaster from "@/components/toast";
+import ReduxProvider from "@/redux/provider";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import { generateSharedMetaData } from "./sharedMeta/sharedMeta";
+import "react-toastify/dist/ReactToastify.css";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+const meta = {
   title: "DevResources",
+  link: "https://www.devresources.info/",
   description: "One place information for all the events, across the globe",
 };
+
+export const metadata = generateSharedMetaData(meta);
 
 export default function RootLayout({ children }) {
   return (

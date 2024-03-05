@@ -159,13 +159,13 @@ const SubmitNewModal = ({ setShowForm }) => {
 
           <div className="flex justify-end gap-3">
             <button
-              className="py-[6px] px-5 text-primary-end font-medium text-[14px] bg-indigos-op-100 hover:bg-indigos-op-200 hover:border-gray-700 rounded-[40px]"
+              className="py-2 px-4 text-[14px] font-[700] text-neutrals-400 hover:text-neutrals-600 border border-neutrals-200 hover:border-gray-400 rounded-[40px]"
               onClick={cancelHandler}
             >
               Cancel
             </button>
             <button
-              className="py-[6px] px-5 text-[14px] text-white font-medium bg-primary-end rounded-[40px] opacity-80 hover:opacity-95"
+              className="py-2 px-4 text-[14px] text-white font-[700] bg-primary-end rounded-[40px] opacity-80 hover:opacity-95"
               onClick={submitHandler}
             >
               Submit
