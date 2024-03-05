@@ -55,14 +55,14 @@ export const generateSharedMetaData = (meta) => {
       {
         rel: "icon",
         type: "image/png",
-        sizes: "32x32",
-        url: "/images/favicon-devresources-32.png",
+        sizes: "16x16",
+        url: "/images/favicon-devresources-16.png",
       },
       {
         rel: "icon",
         type: "image/png",
-        sizes: "16x16",
-        url: "/images/favicon-devresources-16.png",
+        sizes: "32x32",
+        url: "/images/favicon-devresources-32.png",
       },
     ],
   };
