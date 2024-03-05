@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllPodcasts, fetchPodcastByAllFilter } from "./action";
+import { fetchPodcastByAllFilter } from "./action";
 import { clearFiltersFromURL } from "@/utils/utils";
 import { PODCASTS_URL } from "@/utils/constants";
 
@@ -40,18 +40,6 @@ export const podcastSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // fetchAllPodcasts
-      .addCase(fetchAllPodcasts.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchAllPodcasts.fulfilled, (state, action) => {
-        state.status = "success";
-        state.allPodcasts = action.payload;
-      })
-      .addCase(fetchAllPodcasts.rejected, (state, action) => {
-        state.status = "error";
-        state.error = action.error.message;
-      })
 
       // fetchPodcastByAllFilter
       .addCase(fetchPodcastByAllFilter.pending, (state) => {

@@ -26,15 +26,19 @@ const IndividualRow = ({ node, stateObj }) => {
             stateObj={stateObj}
             country={node?.country[0]?.name}
           />
-          {node?.country[0]?.name && (
-            <Country
-              node={node}
-              stateObj={stateObj}
-              continent={node?.continent[0]?.name}
-            />
-          )}
-          {node?.continent[0]?.name && (
-            <Continent node={node} stateObj={stateObj} />
+          {node?.city?.name !== "Online" && (
+            <>
+              {node?.country[0]?.name && (
+                <Country
+                  node={node}
+                  stateObj={stateObj}
+                  continent={node?.continent[0]?.name}
+                />
+              )}
+              {node?.continent[0]?.name && (
+                <Continent node={node} stateObj={stateObj} />
+              )}
+            </>
           )}
         </p>
       </div>

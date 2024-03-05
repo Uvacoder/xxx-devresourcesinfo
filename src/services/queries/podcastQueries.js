@@ -39,14 +39,6 @@ const commonQueries = `edges {
       startCursor
     }`;
 
-export const allPodcastQuery = () => gql`
-  query allPodcast {
-    allPodcast {
-      ${commonQueries}
-    }
-  }
-`;
-
 export const findAllLangQuery = () => gql`
   query allLanguage {
     allLanguage {

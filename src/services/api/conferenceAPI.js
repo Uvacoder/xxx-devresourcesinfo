@@ -1,8 +1,5 @@
 import { getClient } from "../graphQLClient";
 import {
-  allConferenceQuery,
-  upcomingConferenceQuery,
-  upcomingConferenceLimitQuery,
   findAllCitiesQuery,
   findAllCountriesQuery,
   findAllContinentsQuery,
@@ -11,55 +8,6 @@ import {
   findAreaByCityQuery,
   findAreaByCountryQuery,
 } from "../queries/conferenceQueries";
-
-export const getAllConferences = async () => {
-  const client = getClient(false);
-  try {
-    const dataQuery = allConferenceQuery();
-    const gqlResponse = await client.request(dataQuery);
-    return {
-      data: gqlResponse?.allConference?.edges || [],
-    };
-  } catch (error) {
-    console.error("Error fetching conference data:", error);
-    return { data: [] };
-  }
-};
-
-export const getUpcomingConferences = async (currentDate) => {
-  const client = getClient(false);
-  try {
-    const dataQuery = upcomingConferenceQuery(currentDate);
-    const gqlResponse = await client.request(dataQuery);
-    return {
-      data: gqlResponse?.allConference?.edges || [],
-      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
-      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
-    };
-  } catch (error) {
-    console.error("Error fetching conference data:", error);
-    return { data: [] };
-  }
-};
-
-export const getUpcomingLimitConferences = async (
-  currentDate,
-  endCursorValue
-) => {
-  const client = getClient(false);
-  try {
-    const dataQuery = upcomingConferenceLimitQuery(currentDate, endCursorValue);
-    const gqlResponse = await client.request(dataQuery);
-    return {
-      data: gqlResponse?.allConference?.edges || [],
-      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
-      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
-    };
-  } catch (error) {
-    console.error("Error fetching conference data:", error);
-    return { data: [] };
-  }
-};
 
 export const getAllCities = async () => {
   const client = getClient(false);
