@@ -1,6 +1,8 @@
 import { gql } from "graphql-request";
 
-const pastDate = `"${process.env.NEXT_PAST_DATE_DATA}"` || `"2023-01-01"`;
+const pastDate =
+  `"${process.env.NEXT_PUBLIC_PAST_DATE_DATA}"` || `"2023-01-01"`;
+const dataLimit = process.env.NEXT_PUBLIC_CAISY_DATA_LIMIT || 10;
 
 const commonQueries = `edges {
       node {
@@ -155,13 +157,16 @@ export const findAreaByCountryQuery = (countryId) => gql`
   }
 `;
 
-export const allConferenceFilterQuery = (
+export const allConferenceFilterQuery = ({
   citySelected,
   countrySelected,
   continentSelected,
   techSelected,
-  convertedDate
-) => {
+  convertedDate,
+  endCursor,
+  startCursor,
+}) => {
+  console.log({ endCursor, startCursor });
   let filtersSelected = `${
     techSelected
       ? `technologies: { findOne: { Technology: { name: { contains: ${techSelected} } } } }`
@@ -187,7 +192,9 @@ export const allConferenceFilterQuery = (
     return gql`
       query allConference {
         allConference(
-          sort: {startDate: ASC},
+         ${startCursor ? `last:  ${dataLimit}` : `first:  ${dataLimit}`}
+          ${endCursor ? `after:  ${endCursor}` : ""},
+          ${startCursor ? `before:  ${startCursor}` : ""},
           where: {
             startDate: {gte: ${convertedDate}},
               ${filtersSelected}
@@ -201,7 +208,10 @@ export const allConferenceFilterQuery = (
     return gql`
   query allConference {
     allConference(
-      sort: {startDate: ASC},
+       ${startCursor ? `last:  ${dataLimit}` : `first:  ${dataLimit}`}
+          ${endCursor ? `after:  ${endCursor}` : ""},
+          ${startCursor ? `before:  ${startCursor}` : ""},
+     
       where: {
          startDate: {gte: ${pastDate}},
           ${filtersSelected}

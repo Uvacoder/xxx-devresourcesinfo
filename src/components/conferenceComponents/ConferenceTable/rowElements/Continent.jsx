@@ -32,6 +32,9 @@ const Continent = ({ node, stateObj }) => {
       city: "",
       tech: stateObj?.techSelected,
       mode: stateObj?.pastConf,
+      hasStartCursor: stateObj?.hasStartCursor,
+      hasEndCursor: stateObj?.hasEndCursor,
+      page: stateObj?.page,
     };
 
     router.push(`${url}/?${createQueryString(queryParams)}`);

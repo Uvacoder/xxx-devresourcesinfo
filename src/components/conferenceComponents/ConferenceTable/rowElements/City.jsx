@@ -37,6 +37,9 @@ const City = ({ node, stateObj, country }) => {
       city: selectedCityName,
       tech: stateObj?.techSelected,
       mode: stateObj?.pastConf,
+      hasStartCursor: stateObj?.hasStartCursor,
+      hasEndCursor: stateObj?.hasEndCursor,
+      page: stateObj?.page,
     };
 
     router.push(`${url}/?${createQueryString(queryParams)}`);

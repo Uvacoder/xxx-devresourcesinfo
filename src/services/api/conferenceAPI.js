@@ -99,27 +99,63 @@ export const getConferenceByAllFilters = async (
   countrySelected,
   continentSelected,
   techSelected,
-  convertedDate
+  convertedDate,
+  endCursor,
+  startCursor,
+  hasNextPage,
+  hasPreviousPage,
+  getPage
 ) => {
   const client = getClient(false);
+console.log({ endCursor, startCursor });
   try {
-    const dataQuery = allConferenceFilterQuery(
-      citySelected,
-      countrySelected,
-      continentSelected,
-      techSelected,
-      convertedDate
-    );
+    let dataQuery;
 
+    if (getPage === "previous") {
+      dataQuery = allConferenceFilterQuery({
+        citySelected,
+        countrySelected,
+        continentSelected,
+        techSelected,
+        convertedDate,
+        startCursor,
+        endCursor: "",
+      });
+    } else {
+      dataQuery = allConferenceFilterQuery({
+        citySelected,
+        countrySelected,
+        continentSelected,
+        techSelected,
+        convertedDate,
+        startCursor: "",
+        endCursor,
+      });
+    }
+    console.log(dataQuery);
     const gqlResponse = await client.request(dataQuery);
+    console.log({
+      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
+      hasStartCursor: gqlResponse?.allConference?.pageInfo?.startCursor,
+      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
+      hasPreviousPage: gqlResponse?.allConference?.pageInfo?.hasPreviousPage,
+    });
 
     return {
       data: gqlResponse?.allConference?.edges || [],
       hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
+      hasStartCursor: gqlResponse?.allConference?.pageInfo?.startCursor,
       hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
+      hasPreviousPage: gqlResponse?.allConference?.pageInfo?.hasPreviousPage,
     };
   } catch (error) {
     console.error("Error fetching conference data:", error);
-    return { data: [] };
+    return {
+      data: [],
+      hasEndCursor: "",
+      hasStartCursor: "",
+      hasNextPage: "",
+      hasPreviousPage: "",
+    };
   }
 };
