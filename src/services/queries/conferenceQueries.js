@@ -209,8 +209,8 @@ export const allConferenceFilterQuery = ({
   query allConference {
     allConference(
        ${startCursor ? `last:  ${dataLimit}` : `first:  ${dataLimit}`}
-          ${endCursor ? `after:  ${endCursor}` : ""},
-          ${startCursor ? `before:  ${startCursor}` : ""},
+       ${endCursor ? `after:  ${endCursor}` : ""},
+       ${startCursor ? `before:  ${startCursor}` : ""},
      
       where: {
          startDate: {gte: ${pastDate}},
