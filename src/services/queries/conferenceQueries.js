@@ -6,7 +6,7 @@ const pastDate =
 const commonQueries = `edges {
       node {
          _meta {
-          createdAt
+          publishedAt
         }
         id
         name

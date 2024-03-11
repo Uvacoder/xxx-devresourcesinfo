@@ -3,7 +3,7 @@ import { gql } from "graphql-request";
 const commonQueries = `edges {
       node {
          _meta {
-          createdAt
+          publishedAt
         }
         id
         language {

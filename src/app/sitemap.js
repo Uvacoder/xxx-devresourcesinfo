@@ -23,32 +23,32 @@ const sitemap = async () => {
 
   const conferenceURLs = conferences?.data.map(({ node }) => ({
     url: `${BASE_URL}/conferences/${encodeURIComponent(node?.name)}`,
-    lastModified: new Date(node?._meta?.createdAt),
+    lastModified: new Date(node?._meta?.publishedAt),
   }));
 
   const podcastURLs = podcasts?.data.map(({ node }) => ({
     url: `${BASE_URL}/podcasts/${encodeURIComponent(node?.name)}`,
-    lastModified: new Date(node?._meta?.createdAt),
+    lastModified: new Date(node?._meta?.publishedAt),
   }));
 
   const newsletterURLs = newsletters?.data.map(({ node }) => ({
     url: `${BASE_URL}/newsletters/${encodeURIComponent(node?.name)}`,
-    lastModified: new Date(node?._meta?.createdAt),
+    lastModified: new Date(node?._meta?.publishedAt),
   }));
 
   const blogURLs = blogs?.data.map(({ node }) => ({
     url: `${BASE_URL}/blogs/${encodeURIComponent(node?.name)}`,
-    lastModified: new Date(node?._meta?.createdAt),
+    lastModified: new Date(node?._meta?.publishedAt),
   }));
 
   const youTubeURLs = youTube?.data.map(({ node }) => ({
     url: `${BASE_URL}/youtube/${encodeURIComponent(node?.name)}`,
-    lastModified: new Date(node?._meta?.createdAt),
+    lastModified: new Date(node?._meta?.publishedAt),
   }));
 
   const hackathonURLs = hackathons?.data.map(({ node }) => ({
     url: `${BASE_URL}/hackathons/${encodeURIComponent(node?.name)}`,
-    lastModified: new Date(node?._meta?.createdAt),
+    lastModified: new Date(node?._meta?.publishedAt),
   }));
 
   const sitemapUrls = [
