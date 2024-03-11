@@ -1,4 +1,5 @@
 import PlausibleProvider from "next-plausible";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Inter } from "next/font/google";
 import Toaster from "@/components/toast";
 import ReduxProvider from "@/redux/provider";

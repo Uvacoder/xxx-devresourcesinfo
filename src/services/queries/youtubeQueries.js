@@ -2,6 +2,9 @@ import { gql } from "graphql-request";
 
 const commonQueries = `edges {
       node {
+         _meta {
+          publishedAt
+        }
         id
         language {
           ... on Language {

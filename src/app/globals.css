@@ -1,8 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face{
+  src: url('/Manrope.ttf');
+  font-family: 'Manrope';
+  font-weight: 100 1000;
+  font-stretch: 25% 151%;
+  font-style: oblique -10deg 0deg;
+  font-display: swap;
+}
 
 * {
   font-family: "Manrope", sans-serif;
@@ -128,4 +135,9 @@ input:checked + .slider:before {
 
 .modalShadow {
   box-shadow: 0px 8px 16px 0px #6865b31f;
+}
+
+.hoverImage:hover {
+  scale: 1.5;
+  transition: 0.5s ease;
 }

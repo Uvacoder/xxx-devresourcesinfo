@@ -3,6 +3,9 @@ const dataLimit = process.env.NEXT_PUBLIC_CAISY_DATA_LIMIT || 10;
 
 const commonQueries = `edges {
       node {
+         _meta {
+          publishedAt
+        }
         id
         language {
           ... on Language {
