@@ -1,9 +1,13 @@
 import { gql } from "graphql-request";
 
-const pastDate = `"${process.env.NEXT_PAST_DATE_DATA}"` || `"2023-01-01"`;
+const pastDate =
+  `"${process.env.NEXT_PUBLIC_PAST_DATE_DATA}"` || `"2023-01-01"`;
 
 const commonQueries = `edges {
       node {
+         _meta {
+          createdAt
+        }
         id
         name
         startDate
@@ -184,6 +188,7 @@ export const allConferenceFilterQuery = (
   }`;
 
   if (convertedDate) {
+    console.log("queries", {convertedDate})
     return gql`
       query allConference {
         allConference(
@@ -198,6 +203,7 @@ export const allConferenceFilterQuery = (
      }
     `;
   } else {
+     console.log("queries past", { pastDate });
     return gql`
   query allConference {
     allConference(
