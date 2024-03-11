@@ -8,13 +8,7 @@ import { getYoutubeByAllFilter } from "@/services/api/youtubeAPI";
 const sitemap = async () => {
   const BASE_URL = "https://devresources.info";
 
-  const conferences = await getConferenceByAllFilters(
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined
-  );
+  const conferences = await getConferenceByAllFilters();
   const podcasts = await getPodcastByAllFilter();
   const newsletters = await getNewsletterByAllFilter();
   const blogs = await getBlogByAllFilter();
