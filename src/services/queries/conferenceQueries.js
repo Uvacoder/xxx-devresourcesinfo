@@ -188,7 +188,6 @@ export const allConferenceFilterQuery = (
   }`;
 
   if (convertedDate) {
-    console.log("queries", {convertedDate})
     return gql`
       query allConference {
         allConference(
@@ -203,7 +202,6 @@ export const allConferenceFilterQuery = (
      }
     `;
   } else {
-     console.log("queries past", { pastDate });
     return gql`
   query allConference {
     allConference(
