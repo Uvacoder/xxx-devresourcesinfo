@@ -13,7 +13,7 @@ const sitemap = async () => {
     undefined,
     undefined,
     undefined,
-    `"2023-01-01"`
+    undefined
   );
   const podcasts = await getPodcastByAllFilter();
   const newsletters = await getNewsletterByAllFilter();
