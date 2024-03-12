@@ -10,6 +10,10 @@ const initialState = {
   tagSelected: "",
   status: "",
   error: "",
+  startCursor: "",
+  endCursor: "",
+  hasNextPage: "",
+  hasPreviousPage: "",
 };
 
 export const podcastSlice = createSlice({
@@ -47,7 +51,11 @@ export const podcastSlice = createSlice({
       })
       .addCase(fetchPodcastByAllFilter.fulfilled, (state, action) => {
         state.status = "success";
-        state.allPodcasts = action.payload;
+        state.allPodcasts = action.payload?.data;
+        state.startCursor = action.payload?.hasStartCursor;
+        state.endCursor = action.payload?.hasEndCursor;
+        state.hasNextPage = action.payload?.hasNextPage;
+        state.hasPreviousPage = action.payload?.hasPreviousPage;
       })
       .addCase(fetchPodcastByAllFilter.rejected, (state, action) => {
         state.status = "error";

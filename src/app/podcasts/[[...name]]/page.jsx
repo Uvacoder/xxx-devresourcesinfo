@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
 import { fetchPodcastByAllFilter } from "@/redux/features/podcast/action";
@@ -21,8 +21,9 @@ import { PODCASTS_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
 import NoDataFound from "@/components/noDataFound";
 import Loader from "@/components/loader";
+import AudiencePagination from "@/components/pagination/AudiencePagination";
 
-const Podcasts = ({ params: { name } }) => {
+const Podcasts = ({ searchParams }) => {
   const dispatch = useDispatch();
   const podcasts = useSelector(({ podcasts }) => podcasts);
   const { allPodcasts, status, langSelected, audienceSelected, tagSelected } =
@@ -42,11 +43,23 @@ const Podcasts = ({ params: { name } }) => {
       ? addQuotesToString(obj?.tagSelected)
       : undefined;
 
+    const convertEndCursor = searchParams?.hasEndCursor
+      ? addQuotesToString(searchParams?.hasEndCursor)
+      : "";
+    const convertStartCursor = searchParams?.hasStartCursor
+      ? addQuotesToString(searchParams?.hasStartCursor)
+      : "";
+
+    const getPage = searchParams?.page ?? "next";
+
     dispatch(
       fetchPodcastByAllFilter({
         langSelected: convertLang,
         audienceSelected: convertAudience,
         tagSelected: convertTag,
+        endCursor: convertEndCursor,
+        startCursor: convertStartCursor,
+        getPage,
       })
     );
   };
@@ -58,10 +71,10 @@ const Podcasts = ({ params: { name } }) => {
       dataFromURL
     );
     fetchData(filterFromURL);
-  }, [pathname]);
+  }, [pathname, searchParams?.hasEndCursor]);
 
   useEffect(() => {
-    updateURLAndData(PODCASTS_URL, fetchData, {
+    updateURLAndData(PODCASTS_URL, {
       langSelected,
       audienceSelected,
       tagSelected,
@@ -108,6 +121,7 @@ const Podcasts = ({ params: { name } }) => {
       ) : (
         status !== "error" && <Loader />
       )}
+      <AudiencePagination stateObj={podcasts} URL={PODCASTS_URL} />
     </PageContainer>
   );
 };

@@ -57,3 +57,8 @@ export const extractDataFromURL = (pathname) => {
   const parts = pathname.split("/");
   return parts;
 };
+
+export const queryString = (string) => {
+  const splitStr = string.split(" ");
+  return splitStr.join("+");
+};

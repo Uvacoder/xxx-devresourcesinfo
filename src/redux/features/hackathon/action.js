@@ -9,14 +9,21 @@ export const fetchHackathonsByAllFilter = createAsyncThunk(
     continentSelected,
     techSelected,
     convertedDate,
+    endCursor,
+    startCursor,
+    getPage,
   }) => {
-    const { data, hasEndCursor, hasNextPage } = await getHackathonByAllFilters(
-      citySelected,
-      countrySelected,
-      continentSelected,
-      techSelected,
-      convertedDate
-    );
-    return data;
+    const { data, hasEndCursor, hasStartCursor, hasNextPage, hasPreviousPage } =
+      await getHackathonByAllFilters(
+        citySelected,
+        countrySelected,
+        continentSelected,
+        techSelected,
+        convertedDate,
+        endCursor,
+        startCursor,
+        getPage
+      );
+    return { data, hasEndCursor, hasStartCursor, hasNextPage, hasPreviousPage };
   }
 );

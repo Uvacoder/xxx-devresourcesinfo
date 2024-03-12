@@ -10,6 +10,10 @@ const initialState = {
   tagSelected: "",
   status: "",
   error: "",
+  startCursor: "",
+  endCursor: "",
+  hasNextPage: "",
+  hasPreviousPage: "",
 };
 
 export const blogSlice = createSlice({
@@ -47,7 +51,11 @@ export const blogSlice = createSlice({
       })
       .addCase(fetchBlogByAllFilter.fulfilled, (state, action) => {
         state.status = "success";
-        state.allBlogs = action.payload;
+        state.allBlogs = action.payload?.data;
+         state.startCursor = action.payload?.hasStartCursor;
+         state.endCursor = action.payload?.hasEndCursor;
+         state.hasNextPage = action.payload?.hasNextPage;
+         state.hasPreviousPage = action.payload?.hasPreviousPage;
       })
       .addCase(fetchBlogByAllFilter.rejected, (state, action) => {
         state.status = "error";

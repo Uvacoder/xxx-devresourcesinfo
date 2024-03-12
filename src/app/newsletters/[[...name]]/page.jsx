@@ -21,8 +21,9 @@ import { NEWSLETTERS_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
 import NoDataFound from "@/components/noDataFound";
 import Loader from "@/components/loader";
+import AudiencePagination from "@/components/pagination/AudiencePagination";
 
-const NewsLetters = ({ name }) => {
+const NewsLetters = ({ searchParams }) => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const dataFromURL = extractDataFromURL(pathname);
@@ -45,12 +46,23 @@ const NewsLetters = ({ name }) => {
     const convertTag = obj?.tagSelected
       ? addQuotesToString(obj?.tagSelected)
       : undefined;
+    const convertEndCursor = searchParams?.hasEndCursor
+      ? addQuotesToString(searchParams?.hasEndCursor)
+      : "";
+    const convertStartCursor = searchParams?.hasStartCursor
+      ? addQuotesToString(searchParams?.hasStartCursor)
+      : "";
+
+    const getPage = searchParams?.page ?? "next";
 
     dispatch(
       fetchNewsletterByAllFilter({
         langSelected: convertLang,
         audienceSelected: convertAudience,
         tagSelected: convertTag,
+        endCursor: convertEndCursor,
+        startCursor: convertStartCursor,
+        getPage,
       })
     );
   };
@@ -62,10 +74,10 @@ const NewsLetters = ({ name }) => {
       dataFromURL
     );
     fetchData(filterFromURL);
-  }, [pathname]);
+  }, [pathname, searchParams?.hasEndCursor]);
 
   useEffect(() => {
-    updateURLAndData(NEWSLETTERS_URL, fetchData, {
+    updateURLAndData(NEWSLETTERS_URL, {
       langSelected,
       audienceSelected,
       tagSelected,
@@ -111,6 +123,7 @@ const NewsLetters = ({ name }) => {
       ) : (
         status !== "error" && <Loader />
       )}
+      <AudiencePagination stateObj={newsletters} URL={NEWSLETTERS_URL} />
     </PageContainer>
   );
 };

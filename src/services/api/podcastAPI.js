@@ -51,23 +51,50 @@ export const getAllTags = async () => {
 export const getPodcastByAllFilter = async (
   langSelected,
   audienceSelected,
-  tagSelected
+  tagSelected,
+  endCursor,
+  startCursor,
+  getPage
 ) => {
   const client = getClient(false);
   try {
-    const dataQuery = allPodcastFilterQuery(
-      langSelected,
-      audienceSelected,
-      tagSelected
-    );
+    let dataQuery;
+
+    if (getPage === "previous") {
+      dataQuery = allPodcastFilterQuery({
+        langSelected,
+        audienceSelected,
+        tagSelected,
+        startCursor,
+        endCursor: "",
+      });
+    } else {
+      dataQuery = allPodcastFilterQuery({
+        langSelected,
+        audienceSelected,
+        tagSelected,
+        startCursor: "",
+        endCursor,
+      });
+    }
 
     const gqlResponse = await client.request(dataQuery);
 
     return {
       data: gqlResponse?.allPodcast?.edges || [],
+      hasEndCursor: gqlResponse?.allPodcast?.pageInfo?.endCursor,
+      hasStartCursor: gqlResponse?.allPodcast?.pageInfo?.startCursor,
+      hasNextPage: gqlResponse?.allPodcast?.pageInfo?.hasNextPage,
+      hasPreviousPage: gqlResponse?.allPodcast?.pageInfo?.hasPreviousPage,
     };
   } catch (error) {
     console.error("Error fetching all Podcast data:", error);
-    return { data: [] };
+    return {
+      data: [],
+      hasEndCursor: "",
+      hasStartCursor: "",
+      hasNextPage: "",
+      hasPreviousPage: "",
+    };
   }
 };
