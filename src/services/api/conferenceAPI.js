@@ -99,27 +99,55 @@ export const getConferenceByAllFilters = async (
   countrySelected,
   continentSelected,
   techSelected,
-  convertedDate
+  convertedDate,
+  endCursor,
+  startCursor,
+  getPage
 ) => {
   const client = getClient(false);
+
   try {
-    const dataQuery = allConferenceFilterQuery(
-      citySelected,
-      countrySelected,
-      continentSelected,
-      techSelected,
-      convertedDate
-    );
+    let dataQuery;
+
+    if (getPage === "previous") {
+      dataQuery = allConferenceFilterQuery({
+        citySelected,
+        countrySelected,
+        continentSelected,
+        techSelected,
+        convertedDate,
+        startCursor,
+        endCursor: "",
+      });
+    } else {
+      dataQuery = allConferenceFilterQuery({
+        citySelected,
+        countrySelected,
+        continentSelected,
+        techSelected,
+        convertedDate,
+        startCursor: "",
+        endCursor,
+      });
+    }
 
     const gqlResponse = await client.request(dataQuery);
 
     return {
       data: gqlResponse?.allConference?.edges || [],
       hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
+      hasStartCursor: gqlResponse?.allConference?.pageInfo?.startCursor,
       hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
+      hasPreviousPage: gqlResponse?.allConference?.pageInfo?.hasPreviousPage,
     };
   } catch (error) {
     console.error("Error fetching conference data:", error);
-    return { data: [] };
+    return {
+      data: [],
+      hasEndCursor: "",
+      hasStartCursor: "",
+      hasNextPage: "",
+      hasPreviousPage: "",
+    };
   }
 };

@@ -83,7 +83,7 @@ export const fetchFilterFromURL = (dispatch, setterFunc, urlArr) => {
   }
 };
 
-export const updateURLAndData = (URL, fetchData, obj) => {
+export const updateURLAndData = (URL, obj) => {
   const { langSelected, audienceSelected, tagSelected } = obj;
   if (langSelected && audienceSelected && tagSelected) {
     window.history.pushState(
@@ -91,49 +91,51 @@ export const updateURLAndData = (URL, fetchData, obj) => {
       "",
       `${URL}/${tagSelected}/${audienceSelected}/${langSelected}`
     );
+    return `${URL}/${tagSelected}/${audienceSelected}/${langSelected}`;
   } else if (langSelected && audienceSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${audienceSelected}/${langSelected}`
     );
+    return `${URL}/${audienceSelected}/${langSelected}`;
   } else if (tagSelected && audienceSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${tagSelected}/${audienceSelected}/${ADDITIONAL_LANGUAGE_URL}`
     );
+    return `${URL}/${tagSelected}/${audienceSelected}/${ADDITIONAL_LANGUAGE_URL}`;
   } else if (tagSelected && langSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${tagSelected}/${langSelected}/${ADDITIONAL_AUDIENCE_URL}`
     );
+    return `${URL}/${tagSelected}/${langSelected}/${ADDITIONAL_AUDIENCE_URL}`;
   } else if (langSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${langSelected}/${ADDITIONAL_LANGUAGE_URL}`
     );
+    return `${URL}/${langSelected}/${ADDITIONAL_LANGUAGE_URL}`;
   } else if (audienceSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${audienceSelected}/${ADDITIONAL_AUDIENCE_URL}`
     );
+    return `${URL}/${audienceSelected}/${ADDITIONAL_AUDIENCE_URL}`;
   } else if (tagSelected) {
     window.history.pushState(null, "", `${URL}/${tagSelected}`);
+    return `${URL}/${tagSelected}`;
   } else {
-    return;
+    return `${URL}/`;
   }
 };
 
-export const fetchAreaFilterFromURL = (
-  dispatch,
-  setterFunc,
-  urlArr,
-  fetchData
-) => {
+export const fetchAreaFilterFromURL = (dispatch, setterFunc, urlArr) => {
   if (urlArr.length === 6 && urlArr[5] === ADDITIONAL_ALL_URL) {
     const cityData = removePercent20(urlArr[4]);
     const countryData = removePercent20(urlArr[3]);
@@ -145,11 +147,11 @@ export const fetchAreaFilterFromURL = (
         continentSelected: continentData,
       })
     );
-    fetchData({
+    return {
       citySelected: cityData,
       countrySelected: countryData,
       continentSelected: continentData,
-    });
+    };
   } else if (urlArr.length === 6) {
     const techData = removePercent20(urlArr[5]);
     const cityData = removePercent20(urlArr[4]);
@@ -163,12 +165,12 @@ export const fetchAreaFilterFromURL = (
         techSelected: techData,
       })
     );
-    fetchData({
+    return {
       citySelected: cityData,
       countrySelected: countryData,
       continentSelected: continentData,
       techSelected: techData,
-    });
+    };
   } else if (urlArr.length === 5 && urlArr[4] === ADDITIONAL_ALL_URL) {
     const countryData = removePercent20(urlArr[3]);
     const continentData = removePercent20(urlArr[2]);
@@ -178,10 +180,10 @@ export const fetchAreaFilterFromURL = (
         continentSelected: continentData,
       })
     );
-    fetchData({
+    return {
       countrySelected: countryData,
       continentSelected: continentData,
-    });
+    };
   } else if (urlArr.length === 5) {
     const techData = removePercent20(urlArr[4]);
     const countryData = removePercent20(urlArr[3]);
@@ -193,11 +195,11 @@ export const fetchAreaFilterFromURL = (
         techSelected: techData,
       })
     );
-    fetchData({
+    return {
       countrySelected: countryData,
       continentSelected: continentData,
       techSelected: techData,
-    });
+    };
   } else if (urlArr.length === 4 && urlArr[3] === ADDITIONAL_ALL_URL) {
     const continentData = removePercent20(urlArr[2]);
     dispatch(
@@ -205,9 +207,9 @@ export const fetchAreaFilterFromURL = (
         continentSelected: continentData,
       })
     );
-    fetchData({
+    return {
       continentSelected: continentData,
-    });
+    };
   } else if (urlArr.length === 4) {
     const techData = removePercent20(urlArr[3]);
     const continentData = removePercent20(urlArr[2]);
@@ -217,10 +219,10 @@ export const fetchAreaFilterFromURL = (
         techSelected: techData,
       })
     );
-    fetchData({
+    return {
       continentSelected: continentData,
       techSelected: techData,
-    });
+    };
   } else if (urlArr.length === 3) {
     const techData = removePercent20(urlArr[2]);
     dispatch(
@@ -228,16 +230,15 @@ export const fetchAreaFilterFromURL = (
         techSelected: techData,
       })
     );
-    fetchData({
+    return {
       techSelected: techData,
-    });
+    };
   } else {
-     fetchData();
-    return;
+    return {};
   }
 };
 
-export const updateAreaURLAndData = (URL, fetchData, obj) => {
+export const updateAreaURLAndData = (URL, obj) => {
   const { citySelected, countrySelected, continentSelected, techSelected } =
     obj;
   if (citySelected && techSelected) {
@@ -246,40 +247,47 @@ export const updateAreaURLAndData = (URL, fetchData, obj) => {
       "",
       `${URL}/${continentSelected}/${countrySelected}/${citySelected}/${techSelected}`
     );
+    return `${URL}/${continentSelected}/${countrySelected}/${citySelected}/${techSelected}`;
   } else if (countrySelected && techSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${continentSelected}/${countrySelected}/${techSelected}`
     );
+    return `${URL}/${continentSelected}/${countrySelected}/${techSelected}`;
   } else if (continentSelected && techSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${continentSelected}/${techSelected}`
     );
+    return `${URL}/${continentSelected}/${techSelected}`;
   } else if (techSelected) {
     window.history.pushState(null, "", `${URL}/${techSelected}`);
+    return `${URL}/${techSelected}`;
   } else if (citySelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${continentSelected}/${countrySelected}/${citySelected}/${ADDITIONAL_ALL_URL}`
     );
+    return `${URL}/${continentSelected}/${countrySelected}/${citySelected}/${ADDITIONAL_ALL_URL}`;
   } else if (countrySelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${continentSelected}/${countrySelected}/${ADDITIONAL_ALL_URL}`
     );
+    return `${URL}/${continentSelected}/${countrySelected}/${ADDITIONAL_ALL_URL}`;
   } else if (continentSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${continentSelected}/${ADDITIONAL_ALL_URL}`
     );
+    return `${URL}/${continentSelected}/${ADDITIONAL_ALL_URL}`;
   } else {
-    return;
+    return `${URL}/`;
   }
 };
 

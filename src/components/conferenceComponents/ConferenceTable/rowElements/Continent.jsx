@@ -42,7 +42,7 @@ const Continent = ({ node, stateObj }) => {
       className="hover:font-[700] hover:underline hover:text-primary-end cursor-pointer"
       onClick={() => clickHandler(node?.continent[0]?.name)}
     >
-      { node?.continent[0]?.name}
+      {node?.continent[0]?.name}
     </span>
   );
 };

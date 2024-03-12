@@ -15,6 +15,10 @@ const initialState = {
   status: "",
   error: "",
   todayDate: "",
+  startCursor: "",
+  endCursor: "",
+  hasNextPage: "",
+  hasPreviousPage: "",
 };
 
 export const hackathonSlice = createSlice({
@@ -76,7 +80,11 @@ export const hackathonSlice = createSlice({
       })
       .addCase(fetchHackathonsByAllFilter.fulfilled, (state, action) => {
         state.status = "success";
-        state.allHackathons = action.payload;
+        state.allHackathons = action.payload?.data;
+        state.startCursor = action.payload?.hasStartCursor;
+        state.endCursor = action.payload?.hasEndCursor;
+        state.hasNextPage = action.payload?.hasNextPage;
+        state.hasPreviousPage = action.payload?.hasPreviousPage;
       })
       .addCase(fetchHackathonsByAllFilter.rejected, (state, action) => {
         state.status = "error";

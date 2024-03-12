@@ -1,4 +1,5 @@
 import { gql } from "graphql-request";
+const dataLimit = process.env.NEXT_PUBLIC_CAISY_DATA_LIMIT || 10;
 
 const commonQueries = `edges {
       node {
@@ -47,6 +48,9 @@ export const findAllLangQuery = () => gql`
     allLanguage {
       edges {
         node {
+          _meta {
+            publishedAt
+          }
           id
           name
           slug
@@ -62,6 +66,9 @@ export const findAllAudienceQuery = () => gql`
     allTarget {
       edges {
         node {
+          _meta {
+            publishedAt
+          }
           id
           name
           slug
@@ -77,6 +84,9 @@ export const findAllTechnologiesQuery = () => gql`
     allTechnology {
       edges {
         node {
+          _meta {
+            publishedAt
+          }
           id
           name
           slug
@@ -87,11 +97,13 @@ export const findAllTechnologiesQuery = () => gql`
   }
 `;
 
-export const allPodcastFilterQuery = (
+export const allPodcastFilterQuery = ({
   langSelected,
   audienceSelected,
-  tagSelected
-) => {
+  tagSelected,
+  endCursor,
+  startCursor,
+}) => {
   let filtersSelected = `${
     langSelected
       ? `language: { findOne: { Language: { name: { contains: ${langSelected} } } } }`
@@ -111,6 +123,9 @@ export const allPodcastFilterQuery = (
   return gql`
   query allPodcast {
     allPodcast(
+       ${startCursor ? `last:  ${dataLimit}` : `first:  ${dataLimit}`}
+       ${endCursor ? `after:  ${endCursor}` : ""},
+       ${startCursor ? `before:  ${startCursor}` : ""},
       where: {
           ${filtersSelected}
       }

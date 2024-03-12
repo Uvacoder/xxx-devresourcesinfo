@@ -13,12 +13,17 @@ const Conferences = async ({ searchParams }) => {
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
 
-  const stateObj = {
+  const stateFetched = {
     citySelected: searchParams?.city ?? "",
     countrySelected: searchParams?.country ?? "",
     continentSelected: searchParams?.continent ?? "",
     techSelected: searchParams?.tech ?? "",
     pastConf: searchParams?.mode ?? "",
+    hasStartCursor: searchParams?.hasStartCursor ?? "",
+    hasEndCursor: searchParams?.hasEndCursor ?? "",
+    hasPreviousPage: searchParams?.hasPreviousPage ?? false,
+    hasNextPage: searchParams?.hasNextPage ?? true,
+    page: searchParams?.page ?? "next",
   };
 
   const {
@@ -27,31 +32,51 @@ const Conferences = async ({ searchParams }) => {
     continentSelected,
     techSelected,
     pastConf,
-  } = stateObj;
+  } = stateFetched;
 
-  const convertCity = stateObj?.citySelected
-    ? addQuotesToString(stateObj?.citySelected)
+  const convertCity = stateFetched?.citySelected
+    ? addQuotesToString(stateFetched?.citySelected)
     : undefined;
-  const convertCountry = stateObj?.countrySelected
-    ? addQuotesToString(stateObj?.countrySelected)
+  const convertCountry = stateFetched?.countrySelected
+    ? addQuotesToString(stateFetched?.countrySelected)
     : undefined;
-  const convertContinent = stateObj?.continentSelected
-    ? addQuotesToString(stateObj?.continentSelected)
+  const convertContinent = stateFetched?.continentSelected
+    ? addQuotesToString(stateFetched?.continentSelected)
     : undefined;
-  const convertTech = stateObj?.techSelected
-    ? addQuotesToString(stateObj?.techSelected)
+  const convertTech = stateFetched?.techSelected
+    ? addQuotesToString(stateFetched?.techSelected)
     : undefined;
 
   const convertedDateStr =
     searchParams?.mode === "past" ? undefined : convertedDate;
+
+  const convertEndCursor = stateFetched?.hasEndCursor
+    ? addQuotesToString(stateFetched?.hasEndCursor)
+    : "";
+  const convertStartCursor = stateFetched?.hasStartCursor
+    ? addQuotesToString(stateFetched?.hasStartCursor)
+    : "";
+
+  const getPage = stateFetched?.page;
 
   const allConferences = await getConferenceByAllFilters(
     convertCity,
     convertCountry,
     convertContinent,
     convertTech,
-    convertedDateStr
+    convertedDateStr,
+    convertEndCursor,
+    convertStartCursor,
+    getPage
   );
+
+  const stateObj = {
+    ...stateFetched,
+    hasStartCursor: allConferences?.hasStartCursor,
+    hasEndCursor: allConferences?.hasEndCursor,
+    hasPreviousPage: allConferences?.hasPreviousPage.toString(),
+    hasNextPage: allConferences?.hasNextPage.toString(),
+  };
 
   const currentYear = currentDate.split("-")[0];
 

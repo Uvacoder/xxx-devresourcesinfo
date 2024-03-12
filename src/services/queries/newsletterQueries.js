@@ -1,4 +1,5 @@
 import { gql } from "graphql-request";
+const dataLimit = process.env.NEXT_PUBLIC_CAISY_DATA_LIMIT || 10;
 
 const commonQueries = `edges {
       node {
@@ -42,11 +43,13 @@ const commonQueries = `edges {
       startCursor
     }`;
 
-export const allNewsletterFilterQuery = (
+export const allNewsletterFilterQuery = ({
   langSelected,
   audienceSelected,
-  tagSelected
-) => {
+  tagSelected,
+  endCursor,
+  startCursor,
+}) => {
   let filtersSelected = `${
     langSelected
       ? `language: { findOne: { Language: { name: { contains: ${langSelected} } } } }`
@@ -66,6 +69,9 @@ export const allNewsletterFilterQuery = (
   return gql`
   query allNewsletter {
     allNewsletter(
+       ${startCursor ? `last:  ${dataLimit}` : `first:  ${dataLimit}`}
+       ${endCursor ? `after:  ${endCursor}` : ""},
+       ${startCursor ? `before:  ${startCursor}` : ""},
       where: {
           ${filtersSelected}
       }

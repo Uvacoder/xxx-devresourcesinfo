@@ -10,6 +10,10 @@ const initialState = {
   tagSelected: "",
   status: "",
   error: "",
+  startCursor: "",
+  endCursor: "",
+  hasNextPage: "",
+  hasPreviousPage: "",
 };
 
 export const youtubeSlice = createSlice({
@@ -47,7 +51,11 @@ export const youtubeSlice = createSlice({
       })
       .addCase(fetchYoutubeByAllFilter.fulfilled, (state, action) => {
         state.status = "success";
-        state.allYoutube = action.payload;
+        state.allYoutube = action.payload?.data;
+        state.startCursor = action.payload?.hasStartCursor;
+        state.endCursor = action.payload?.hasEndCursor;
+        state.hasNextPage = action.payload?.hasNextPage;
+        state.hasPreviousPage = action.payload?.hasPreviousPage;
       })
       .addCase(fetchYoutubeByAllFilter.rejected, (state, action) => {
         state.status = "error";

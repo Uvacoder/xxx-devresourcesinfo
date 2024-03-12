@@ -21,8 +21,9 @@ import { YOUTUBE_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
 import NoDataFound from "@/components/noDataFound";
 import Loader from "@/components/loader";
+import AudiencePagination from "@/components/pagination/AudiencePagination";
 
-const Youtube = ({ name }) => {
+const Youtube = ({ searchParams }) => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const dataFromURL = extractDataFromURL(pathname);
@@ -40,12 +41,23 @@ const Youtube = ({ name }) => {
     const convertTag = obj?.tagSelected
       ? addQuotesToString(obj?.tagSelected)
       : undefined;
+    const convertEndCursor = searchParams?.hasEndCursor
+      ? addQuotesToString(searchParams?.hasEndCursor)
+      : "";
+    const convertStartCursor = searchParams?.hasStartCursor
+      ? addQuotesToString(searchParams?.hasStartCursor)
+      : "";
+
+    const getPage = searchParams?.page ?? "next";
 
     dispatch(
       fetchYoutubeByAllFilter({
         langSelected: convertLang,
         audienceSelected: convertAudience,
         tagSelected: convertTag,
+        endCursor: convertEndCursor,
+        startCursor: convertStartCursor,
+        getPage,
       })
     );
   };
@@ -57,10 +69,10 @@ const Youtube = ({ name }) => {
       dataFromURL
     );
     fetchData(filterFromURL);
-  }, [pathname]);
+  }, [pathname, searchParams?.hasEndCursor]);
 
   useEffect(() => {
-    updateURLAndData(YOUTUBE_URL, fetchData, {
+    updateURLAndData(YOUTUBE_URL, {
       langSelected,
       audienceSelected,
       tagSelected,
@@ -107,6 +119,7 @@ const Youtube = ({ name }) => {
       ) : (
         status !== "error" && <Loader />
       )}
+      <AudiencePagination stateObj={youtube} URL={YOUTUBE_URL} />
     </PageContainer>
   );
 };

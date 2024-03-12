@@ -21,8 +21,9 @@ import { BLOGS_URL } from "@/utils/constants";
 import MobileFilterBar from "@/components/mobileFilterBar";
 import NoDataFound from "@/components/noDataFound";
 import Loader from "@/components/loader";
+import AudiencePagination from "@/components/pagination/AudiencePagination";
 
-const Blogs = ({ name }) => {
+const Blogs = ({ searchParams }) => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const dataFromURL = extractDataFromURL(pathname);
@@ -40,12 +41,23 @@ const Blogs = ({ name }) => {
     const convertTag = obj?.tagSelected
       ? addQuotesToString(obj?.tagSelected)
       : undefined;
+    const convertEndCursor = searchParams?.hasEndCursor
+      ? addQuotesToString(searchParams?.hasEndCursor)
+      : "";
+    const convertStartCursor = searchParams?.hasStartCursor
+      ? addQuotesToString(searchParams?.hasStartCursor)
+      : "";
+
+    const getPage = searchParams?.page ?? "next";
 
     dispatch(
       fetchBlogByAllFilter({
         langSelected: convertLang,
         audienceSelected: convertAudience,
         tagSelected: convertTag,
+        endCursor: convertEndCursor,
+        startCursor: convertStartCursor,
+        getPage,
       })
     );
   };
@@ -57,10 +69,10 @@ const Blogs = ({ name }) => {
       dataFromURL
     );
     fetchData(filterFromURL);
-  }, [pathname]);
+  }, [pathname, searchParams?.hasEndCursor]);
 
   useEffect(() => {
-    updateURLAndData(BLOGS_URL, fetchData, {
+    updateURLAndData(BLOGS_URL, {
       langSelected,
       audienceSelected,
       tagSelected,
@@ -106,6 +118,7 @@ const Blogs = ({ name }) => {
       ) : (
         status !== "error" && <Loader />
       )}
+      <AudiencePagination stateObj={blogs} URL={BLOGS_URL} />
     </PageContainer>
   );
 };
