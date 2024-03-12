@@ -94,6 +94,7 @@ export const allHackathonFilterQuery = ({
     return gql`
       query allHackathon {
         allHackathon(
+         sort: {startDate: ASC}
          ${startCursor ? `last:  ${dataLimit}` : `first:  ${dataLimit}`}
          ${endCursor ? `after:  ${endCursor}` : ""},
          ${startCursor ? `before:  ${startCursor}` : ""},
@@ -110,6 +111,7 @@ export const allHackathonFilterQuery = ({
     return gql`
   query allHackathon {
     allHackathon(
+      sort: {startDate: ASC}
       ${startCursor ? `last:  ${dataLimit}` : `first:  ${dataLimit}`}
       ${endCursor ? `after:  ${endCursor}` : ""},
       ${startCursor ? `before:  ${startCursor}` : ""},

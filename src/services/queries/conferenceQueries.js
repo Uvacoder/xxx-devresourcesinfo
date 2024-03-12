@@ -206,6 +206,7 @@ export const allConferenceFilterQuery = ({
     return gql`
       query allConference {
         allConference(
+        sort: {startDate: ASC}
          ${startCursor ? `last:  ${dataLimit}` : `first:  ${dataLimit}`}
           ${endCursor ? `after:  ${endCursor}` : ""},
           ${startCursor ? `before:  ${startCursor}` : ""},
@@ -222,6 +223,7 @@ export const allConferenceFilterQuery = ({
     return gql`
   query allConference {
     allConference(
+       sort: {startDate: ASC}
        ${startCursor ? `last:  ${dataLimit}` : `first:  ${dataLimit}`}
        ${endCursor ? `after:  ${endCursor}` : ""},
        ${startCursor ? `before:  ${startCursor}` : ""},
