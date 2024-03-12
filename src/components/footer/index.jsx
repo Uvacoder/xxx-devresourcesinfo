@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <div className="flex flex-col gap-[2px] sm:gap-1 py-[24px] px-[16px] text-center text-neutrals-600">
       <p className="text-[13px] sm:text-[15px]">
-        © 2024 All rights reserved - DevResources from BugFender®
+        © 2024 All rights reserved - DevResources is created and mantained by <a href="https://bugfender.com" className="underline font-semibold hover:text-primary-end" target="_blank">Bugfender</a>®
       </p>
       <p className="text-[12px] sm:text-[14px]">
         Please read the{" "}
