@@ -102,8 +102,6 @@ export const getConferenceByAllFilters = async (
   convertedDate,
   endCursor,
   startCursor,
-  hasNextPage,
-  hasPreviousPage,
   getPage
 ) => {
   const client = getClient(false);

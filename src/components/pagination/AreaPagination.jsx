@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import SecondaryBtn from "../secondaryBtn";
+import { updateAreaURLAndData } from "@/utils/urlFunc";
 
-const AreaPagination = ({ stateObj }) => {
+const AreaPagination = ({ stateObj, URL }) => {
   const router = useRouter();
 
   const createQueryString = useCallback((queryParams) => {
@@ -19,10 +20,15 @@ const AreaPagination = ({ stateObj }) => {
   }, []);
 
   const previousClickHandler = () => {
-    const url = updateConferenceURL(stateObj);
+    const url = updateAreaURLAndData(URL, {
+      citySelected: stateObj?.citySelected,
+      countrySelected: stateObj?.countrySelected,
+      continentSelected: stateObj?.continentSelected,
+      techSelected: stateObj?.techSelected,
+    });
     const queryParams = {
-      hasStartCursor: stateObj?.hasStartCursor,
-      hasEndCursor: stateObj?.hasEndCursor,
+      hasStartCursor: stateObj?.startCursor,
+      hasEndCursor: stateObj?.endCursor,
       page: "previous",
     };
 
@@ -30,16 +36,16 @@ const AreaPagination = ({ stateObj }) => {
   };
 
   const nextClickHandler = () => {
-    const url = updateConferenceURL(stateObj);
+    const url = updateAreaURLAndData(URL, {
+      citySelected: stateObj?.citySelected,
+      countrySelected: stateObj?.countrySelected,
+      continentSelected: stateObj?.continentSelected,
+      techSelected: stateObj?.techSelected,
+    });
 
     const queryParams = {
-      continent: stateObj?.continentSelected,
-      country: stateObj?.countrySelected,
-      city: stateObj?.citySelected,
-      tech: stateObj?.techSelected,
-      mode: stateObj?.pastConf,
-      hasStartCursor: stateObj?.hasStartCursor,
-      hasEndCursor: stateObj?.hasEndCursor,
+      hasStartCursor: stateObj?.startCursor,
+      hasEndCursor: stateObj?.endCursor,
       page: "next",
     };
 
@@ -47,18 +53,15 @@ const AreaPagination = ({ stateObj }) => {
   };
 
   useEffect(() => {
-    if (stateObj?.hasPreviousPage !== "true") {
-      const url = updateConferenceURL(stateObj);
+    if (stateObj?.hasPreviousPage.toString() !== "true") {
+      const url = updateAreaURLAndData(URL, {
+        citySelected: stateObj?.citySelected,
+        countrySelected: stateObj?.countrySelected,
+        continentSelected: stateObj?.continentSelected,
+        techSelected: stateObj?.techSelected,
+      });
 
-      const queryParams = {
-        continent: stateObj?.continentSelected,
-        country: stateObj?.countrySelected,
-        city: stateObj?.citySelected,
-        tech: stateObj?.techSelected,
-        mode: stateObj?.pastConf,
-      };
-
-      router.push(`${url}/?${createQueryString(queryParams)}`);
+      router.push(`${url}`);
     }
   }, [stateObj?.hasNextPage, stateObj?.hasPreviousPage]);
 
@@ -67,7 +70,7 @@ const AreaPagination = ({ stateObj }) => {
       <div className="flex justify-between my-5 xl:my-7">
         <SecondaryBtn
           clickHandler={previousClickHandler}
-          shouldDisable={stateObj?.hasPreviousPage}
+          shouldDisable={stateObj?.hasPreviousPage.toString()}
         >
           <IoIosArrowBack className="-ml-[4px] text-[12px] xl:text-[14px]" />
           <span className="pl-[2px] lg:pl-1 text-[12px] xl:text-[14px]">
@@ -76,7 +79,7 @@ const AreaPagination = ({ stateObj }) => {
         </SecondaryBtn>
         <SecondaryBtn
           clickHandler={nextClickHandler}
-          shouldDisable={stateObj?.hasNextPage}
+          shouldDisable={stateObj?.hasNextPage.toString()}
         >
           <span className="pr-[2px] lg:pr-1 text-[12px] xl:text-[14px]">
             Next

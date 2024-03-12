@@ -32,8 +32,6 @@ const Conferences = async ({ searchParams }) => {
     continentSelected,
     techSelected,
     pastConf,
-    hasPreviousPage,
-    hasNextPage,
   } = stateFetched;
 
   const convertCity = stateFetched?.citySelected
@@ -69,8 +67,6 @@ const Conferences = async ({ searchParams }) => {
     convertedDateStr,
     convertEndCursor,
     convertStartCursor,
-    hasNextPage,
-    hasPreviousPage,
     getPage
   );
 

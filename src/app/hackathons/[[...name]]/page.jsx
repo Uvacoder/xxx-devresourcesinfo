@@ -26,8 +26,9 @@ import {
 import MobileFilterBar from "@/components/mobileFilterBar";
 import NoDataFound from "@/components/noDataFound";
 import Loader from "@/components/loader";
+import AreaPagination from "@/components/pagination/AreaPagination";
 
-const Hackathons = ({ params: { name } }) => {
+const Hackathons = ({ searchParams }) => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const hackathons = useSelector(({ hackathons }) => hackathons);
@@ -40,6 +41,7 @@ const Hackathons = ({ params: { name } }) => {
     continentSelected,
     techSelected,
   } = hackathons;
+
   const dataFromURL = extractDataFromURL(pathname);
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
@@ -58,6 +60,14 @@ const Hackathons = ({ params: { name } }) => {
       ? addQuotesToString(obj?.techSelected)
       : undefined;
     const convertedDateStr = pastHackathons ? undefined : convertedDate;
+    const convertEndCursor = searchParams?.hasEndCursor
+      ? addQuotesToString(searchParams?.hasEndCursor)
+      : "";
+    const convertStartCursor = searchParams?.hasStartCursor
+      ? addQuotesToString(searchParams?.hasStartCursor)
+      : "";
+
+    const getPage = searchParams?.page ?? "next";
 
     dispatch(setHackathonTodayDate(convertedDateStr));
 
@@ -68,21 +78,24 @@ const Hackathons = ({ params: { name } }) => {
         continentSelected: convertContinent,
         techSelected: convertTech,
         convertedDate: convertedDateStr,
+        endCursor: convertEndCursor,
+        startCursor: convertStartCursor,
+        getPage,
       })
     );
   };
 
   useEffect(() => {
-    fetchAreaFilterFromURL(
+    const filterFromURL = fetchAreaFilterFromURL(
       dispatch,
       setHackathonDataByUrl,
-      dataFromURL,
-      fetchData
+      dataFromURL
     );
-  }, [pathname]);
+    fetchData(filterFromURL);
+  }, [pathname, searchParams?.hasEndCursor]);
 
   useEffect(() => {
-    updateAreaURLAndData(HACKATHONS_URL, fetchData, {
+    updateAreaURLAndData(HACKATHONS_URL, {
       citySelected,
       countrySelected,
       continentSelected,
@@ -149,6 +162,7 @@ const Hackathons = ({ params: { name } }) => {
       ) : (
         status !== "error" && <Loader />
       )}
+      <AreaPagination stateObj={hackathons} URL={HACKATHONS_URL} />
     </PageContainer>
   );
 };
