@@ -8,7 +8,6 @@ import { updateURLAndData } from "@/utils/urlFunc";
 
 const AudiencePagination = ({ stateObj, URL }) => {
   const router = useRouter();
-
   const createQueryString = useCallback((queryParams) => {
     const params = new URLSearchParams();
     for (const [name, value] of Object.entries(queryParams)) {
