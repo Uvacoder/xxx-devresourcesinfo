@@ -48,6 +48,9 @@ export const findAllLangQuery = () => gql`
     allLanguage {
       edges {
         node {
+          _meta {
+            publishedAt
+          }
           id
           name
           slug
@@ -63,6 +66,9 @@ export const findAllAudienceQuery = () => gql`
     allTarget {
       edges {
         node {
+          _meta {
+            publishedAt
+          }
           id
           name
           slug
@@ -78,6 +84,9 @@ export const findAllTechnologiesQuery = () => gql`
     allTechnology {
       edges {
         node {
+          _meta {
+            publishedAt
+          }
           id
           name
           slug
@@ -88,13 +97,13 @@ export const findAllTechnologiesQuery = () => gql`
   }
 `;
 
-export const allPodcastFilterQuery = (
+export const allPodcastFilterQuery = ({
   langSelected,
   audienceSelected,
   tagSelected,
   endCursor,
-  startCursor
-) => {
+  startCursor,
+}) => {
   let filtersSelected = `${
     langSelected
       ? `language: { findOne: { Language: { name: { contains: ${langSelected} } } } }`

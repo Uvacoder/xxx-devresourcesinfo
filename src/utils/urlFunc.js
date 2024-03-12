@@ -83,7 +83,7 @@ export const fetchFilterFromURL = (dispatch, setterFunc, urlArr) => {
   }
 };
 
-export const updateURLAndData = (URL, fetchData, obj) => {
+export const updateURLAndData = (URL, obj) => {
   const { langSelected, audienceSelected, tagSelected } = obj;
   if (langSelected && audienceSelected && tagSelected) {
     window.history.pushState(
@@ -91,40 +91,47 @@ export const updateURLAndData = (URL, fetchData, obj) => {
       "",
       `${URL}/${tagSelected}/${audienceSelected}/${langSelected}`
     );
+    return `${URL}/${tagSelected}/${audienceSelected}/${langSelected}`;
   } else if (langSelected && audienceSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${audienceSelected}/${langSelected}`
     );
+    return `${URL}/${audienceSelected}/${langSelected}`;
   } else if (tagSelected && audienceSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${tagSelected}/${audienceSelected}/${ADDITIONAL_LANGUAGE_URL}`
     );
+    return `${URL}/${tagSelected}/${audienceSelected}/${ADDITIONAL_LANGUAGE_URL}`;
   } else if (tagSelected && langSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${tagSelected}/${langSelected}/${ADDITIONAL_AUDIENCE_URL}`
     );
+    return `${URL}/${tagSelected}/${langSelected}/${ADDITIONAL_AUDIENCE_URL}`;
   } else if (langSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${langSelected}/${ADDITIONAL_LANGUAGE_URL}`
     );
+    return `${URL}/${langSelected}/${ADDITIONAL_LANGUAGE_URL}`;
   } else if (audienceSelected) {
     window.history.pushState(
       null,
       "",
       `${URL}/${audienceSelected}/${ADDITIONAL_AUDIENCE_URL}`
     );
+    return `${URL}/${audienceSelected}/${ADDITIONAL_AUDIENCE_URL}`;
   } else if (tagSelected) {
     window.history.pushState(null, "", `${URL}/${tagSelected}`);
+    return `${URL}/${tagSelected}`;
   } else {
-    return;
+    return `${URL}/`;
   }
 };
 
@@ -232,7 +239,7 @@ export const fetchAreaFilterFromURL = (
       techSelected: techData,
     });
   } else {
-     fetchData();
+    fetchData();
     return;
   }
 };
