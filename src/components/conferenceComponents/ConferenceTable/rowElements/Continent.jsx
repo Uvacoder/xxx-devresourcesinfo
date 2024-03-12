@@ -32,9 +32,6 @@ const Continent = ({ node, stateObj }) => {
       city: "",
       tech: stateObj?.techSelected,
       mode: stateObj?.pastConf,
-      hasStartCursor: stateObj?.hasStartCursor,
-      hasEndCursor: stateObj?.hasEndCursor,
-      page: stateObj?.page,
     };
 
     router.push(`${url}/?${createQueryString(queryParams)}`);
@@ -45,7 +42,7 @@ const Continent = ({ node, stateObj }) => {
       className="hover:font-[700] hover:underline hover:text-primary-end cursor-pointer"
       onClick={() => clickHandler(node?.continent[0]?.name)}
     >
-      { node?.continent[0]?.name}
+      {node?.continent[0]?.name}
     </span>
   );
 };

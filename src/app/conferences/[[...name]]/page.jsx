@@ -9,8 +9,6 @@ import DesktopConfFilter from "@/components/conferenceComponents/ConferenceFilte
 import MobileConfFilter from "@/components/conferenceComponents/ConferenceFilter/mobileConfFilter";
 import Loader from "@/components/loader";
 
-//8BgrDDHKZUbTQwpJ31y2MxiOEVMFOniJ
-
 const Conferences = async ({ searchParams }) => {
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
@@ -34,11 +32,8 @@ const Conferences = async ({ searchParams }) => {
     continentSelected,
     techSelected,
     pastConf,
-    hasStartCursor,
-    hasEndCursor,
     hasPreviousPage,
     hasNextPage,
-    page,
   } = stateFetched;
 
   const convertCity = stateFetched?.citySelected

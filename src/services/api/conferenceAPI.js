@@ -107,7 +107,7 @@ export const getConferenceByAllFilters = async (
   getPage
 ) => {
   const client = getClient(false);
-console.log({ endCursor, startCursor });
+
   try {
     let dataQuery;
 
@@ -132,14 +132,8 @@ console.log({ endCursor, startCursor });
         endCursor,
       });
     }
-    console.log(dataQuery);
+
     const gqlResponse = await client.request(dataQuery);
-    console.log({
-      hasEndCursor: gqlResponse?.allConference?.pageInfo?.endCursor,
-      hasStartCursor: gqlResponse?.allConference?.pageInfo?.startCursor,
-      hasNextPage: gqlResponse?.allConference?.pageInfo?.hasNextPage,
-      hasPreviousPage: gqlResponse?.allConference?.pageInfo?.hasPreviousPage,
-    });
 
     return {
       data: gqlResponse?.allConference?.edges || [],

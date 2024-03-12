@@ -74,6 +74,9 @@ export const findAllCitiesQuery = () => gql`
     allCity {
       edges {
         node {
+          _meta {
+            publishedAt
+          }
           id
           name
           slug
@@ -88,6 +91,9 @@ export const findAllCountriesQuery = () => gql`
     allCountry {
       edges {
         node {
+          _meta {
+            publishedAt
+          }
           id
           name
           slug
@@ -102,6 +108,9 @@ export const findAllContinentsQuery = () => gql`
     allContinent {
       edges {
         node {
+          _meta {
+            publishedAt
+          }
           id
           name
           slug
@@ -116,6 +125,9 @@ export const findAllTechnologiesQuery = () => gql`
     allTechnology {
       edges {
         node {
+          _meta {
+            publishedAt
+          }
           id
           name
           slug
@@ -169,7 +181,6 @@ export const allConferenceFilterQuery = ({
   endCursor,
   startCursor,
 }) => {
-  console.log({ endCursor, startCursor });
   let filtersSelected = `${
     techSelected
       ? `technologies: { findOne: { Technology: { name: { contains: ${techSelected} } } } }`

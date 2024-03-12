@@ -1,4 +1,4 @@
-import IntersectionObserver from "./intersectionObserver/IntersectionObserver";
+import ConfPagination from "./pagination/ConfPagination";
 import IndividualRow from "./row/IndividualRow";
 
 const ConferenceTable = ({ data, stateObj }) => {
@@ -30,7 +30,7 @@ const ConferenceTable = ({ data, stateObj }) => {
           </div>
         ))}
       </div>
-      <IntersectionObserver stateObj={stateObj} />
+      <ConfPagination stateObj={stateObj} />
     </>
   );
 };

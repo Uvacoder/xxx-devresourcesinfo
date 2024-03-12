@@ -32,9 +32,6 @@ const Technologies = ({ tech, stateObj }) => {
       city: stateObj?.citySelected,
       tech: selectedTechName,
       mode: stateObj?.pastConf,
-      hasStartCursor: stateObj?.hasStartCursor,
-      hasEndCursor: stateObj?.hasEndCursor,
-      page: stateObj?.page,
     };
 
     router.push(`${url}/?${createQueryString(queryParams)}`);

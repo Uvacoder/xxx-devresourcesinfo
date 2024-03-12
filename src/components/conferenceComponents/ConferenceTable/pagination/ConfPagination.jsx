@@ -6,7 +6,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { updateConferenceURL } from "@/utils/conferenceFunc";
 import SecondaryBtn from "@/components/secondaryBtn";
 
-const IntersectionObserver = ({ stateObj }) => {
+const ConfPagination = ({ stateObj }) => {
   const router = useRouter();
 
   const createQueryString = useCallback((queryParams) => {
@@ -94,4 +94,4 @@ const IntersectionObserver = ({ stateObj }) => {
   );
 };
 
-export default IntersectionObserver;
+export default ConfPagination;
