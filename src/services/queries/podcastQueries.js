@@ -15,7 +15,6 @@ const commonQueries = `edges {
           }
         }
         name
-        tags
         target {
           ... on Target {
             id

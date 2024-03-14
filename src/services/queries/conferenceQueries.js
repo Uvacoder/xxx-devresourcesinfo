@@ -23,7 +23,6 @@ const commonQueries = `edges {
             slug
           }
         }
-        tags
         technologies {
           ... on Technology {
             id
