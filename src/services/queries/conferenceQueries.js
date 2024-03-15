@@ -121,7 +121,7 @@ export const findAllContinentsQuery = () => gql`
 
 export const findAllTechnologiesQuery = () => gql`
   query allTechnology {
-    allTechnology {
+    allTechnology (where: {conferencesTech: true}) {
       edges {
         node {
           _meta {
