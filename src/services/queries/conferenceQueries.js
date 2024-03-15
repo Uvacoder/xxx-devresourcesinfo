@@ -20,14 +20,12 @@ const commonQueries = `edges {
           ... on Language {
             id
             name
-            slug
           }
         }
         technologies {
           ... on Technology {
             id
             name
-            slug
             filledIcon {
               id
               src
@@ -42,20 +40,17 @@ const commonQueries = `edges {
         city {
           id
           name
-          slug
         }
         continent {
           ... on Continent {
             id
             name
-            slug
           }
         }
         country {
           ... on Country {
             id
             name
-            slug
           }
         }
       }
@@ -78,7 +73,27 @@ export const findAllCitiesQuery = () => gql`
           }
           id
           name
-          slug
+        }
+      }
+    }
+  }
+`;
+
+export const findAllCitiesExpandedQuery = () => gql`
+  query allCity {
+    allCity {
+      edges {
+        node {
+          _meta {
+            publishedAt
+          }
+          name
+          country {
+            name
+            continent {
+              name
+            }
+          }
         }
       }
     }
@@ -95,7 +110,24 @@ export const findAllCountriesQuery = () => gql`
           }
           id
           name
-          slug
+        }
+      }
+    }
+  }
+`;
+
+export const findAllCountriesWithContinentQuery = () => gql`
+  query allCountry {
+    allCountry {
+      edges {
+        node {
+          _meta {
+            publishedAt
+          }
+          name
+          continent {
+            name
+          }
         }
       }
     }
@@ -112,7 +144,6 @@ export const findAllContinentsQuery = () => gql`
           }
           id
           name
-          slug
         }
       }
     }
@@ -129,7 +160,6 @@ export const findAllTechnologiesQuery = () => gql`
           }
           id
           name
-          slug
         }
       }
     }
@@ -141,16 +171,13 @@ export const findAreaByCityQuery = (cityId) => gql`
     City(id: ${cityId}) {
       id
       name
-      slug
       country {
         continent {
           id
           name
-          slug
         }
         id
         name
-        slug
       }
     }
   }
@@ -161,11 +188,9 @@ export const findAreaByCountryQuery = (countryId) => gql`
     Country(id: ${countryId}) {
       id
       name
-      slug
       continent {
         id
         name
-        slug
       }
     }
   }
@@ -180,26 +205,22 @@ export const allConferenceFilterQuery = ({
   endCursor,
   startCursor,
 }) => {
-  let filtersSelected = `${
-    techSelected
+  let filtersSelected = `${techSelected
       ? `technologies: { findOne: { Technology: { name: { contains: ${techSelected} } } } }`
       : ""
-  },
-  ${
-    citySelected
+    },
+  ${citySelected
       ? `city: { findOne: { City: { name: { contains: ${citySelected} } } } }`
       : ""
-  }, 
-  ${
-    countrySelected
+    }, 
+  ${countrySelected
       ? `country: { findOne: { Country: { name: { contains: ${countrySelected} } } } }`
       : ""
-  },
-  ${
-    continentSelected
+    },
+  ${continentSelected
       ? `continent: { findOne: { Continent: { name: { contains: ${continentSelected} } } } }`
       : ""
-  }`;
+    }`;
 
   if (convertedDate) {
     return gql`

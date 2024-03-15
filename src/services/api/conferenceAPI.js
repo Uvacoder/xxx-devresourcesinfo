@@ -7,6 +7,8 @@ import {
   allConferenceFilterQuery,
   findAreaByCityQuery,
   findAreaByCountryQuery,
+  findAllCitiesExpandedQuery,
+  findAllCountriesWithContinentQuery,
 } from "../queries/conferenceQueries";
 
 export const getAllCities = async () => {
@@ -23,10 +25,38 @@ export const getAllCities = async () => {
   }
 };
 
+export const getAllCitiesExpanded = async () => {
+  const client = getClient(false);
+  try {
+    const dataQuery = findAllCitiesExpandedQuery();
+    const gqlResponse = await client.request(dataQuery);
+    return {
+      data: gqlResponse?.allCity?.edges || [],
+    };
+  } catch (error) {
+    console.error("Error fetching cities data:", error);
+    return { data: [] };
+  }
+};
+
 export const getAllCountries = async () => {
   const client = getClient(false);
   try {
     const dataQuery = findAllCountriesQuery();
+    const gqlResponse = await client.request(dataQuery);
+    return {
+      data: gqlResponse?.allCountry?.edges || [],
+    };
+  } catch (error) {
+    console.error("Error fetching countries data:", error);
+    return { data: [] };
+  }
+};
+
+export const getAllCountriesWithContinent = async () => {
+  const client = getClient(false);
+  try {
+    const dataQuery = findAllCountriesWithContinentQuery();
     const gqlResponse = await client.request(dataQuery);
     return {
       data: gqlResponse?.allCountry?.edges || [],
