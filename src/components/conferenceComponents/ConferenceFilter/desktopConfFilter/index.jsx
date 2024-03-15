@@ -55,12 +55,12 @@ const DesktopConfFilter = ({ stateObj }) => {
         )}
       </div>
 
-      <div className="flex items-center gap-[8px] mx-[16px] pr-[8px] p-[6px]">
+      {/*<div className="flex items-center gap-[8px] mx-[16px] pr-[8px] p-[6px]">
         <Switch stateObj={stateObj} />
         <span className="text-[14px] text-neutrals-600 leading-[21px]">
           Show past conferences
         </span>
-      </div>
+      </div>*/}
     </div>
   );
 };
