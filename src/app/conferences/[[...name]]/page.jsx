@@ -1,3 +1,4 @@
+"use client";
 import React, { Suspense } from "react";
 import PageContainer from "@/components/pageContainer";
 import ConferenceTable from "@/components/conferenceComponents/ConferenceTable";
@@ -8,12 +9,13 @@ import NoDataFound from "@/components/noDataFound";
 import DesktopConfFilter from "@/components/conferenceComponents/ConferenceFilter/desktopConfFilter";
 import MobileConfFilter from "@/components/conferenceComponents/ConferenceFilter/mobileConfFilter";
 import Loader from "@/components/loader";
+import { usePathname } from "next/navigation";
 
 const Conferences = async ({ searchParams }) => {
   const currentDate = getCurrentDate();
   const convertedDate = addQuotesToString(currentDate);
 
-  const stateFetched = {
+  var stateFetched = {
     citySelected: searchParams?.city ?? "",
     countrySelected: searchParams?.country ?? "",
     continentSelected: searchParams?.continent ?? "",
@@ -25,7 +27,26 @@ const Conferences = async ({ searchParams }) => {
     hasNextPage: searchParams?.hasNextPage ?? true,
     page: searchParams?.page ?? "next",
   };
+  const router = usePathname();
+  let params = router.split("/").filter((param) => param !== "");
 
+  if (!stateFetched.techSelected && params.length > 1) {
+    stateFetched.techSelected = decodeURI(params[1]);
+  }
+  if (!stateFetched.continentSelected && params.length > 2) {
+    stateFetched.continentSelected = decodeURI(params[2]);
+  }
+  if (!stateFetched.countrySelected && params.length > 3) {
+    stateFetched.countrySelected = decodeURI(params[3]);
+  }
+  if (!stateFetched.citySelected && params.length > 4) {
+    stateFetched.citySelected = decodeURI(params[4]);
+  }
+
+  if (stateFetched.techSelected==="all") {
+    stateFetched.techSelected = "";
+  }
+  
   const {
     citySelected,
     countrySelected,
@@ -34,6 +55,9 @@ const Conferences = async ({ searchParams }) => {
     pastConf,
   } = stateFetched;
 
+  const convertTech = stateFetched?.techSelected
+    ? addQuotesToString(stateFetched?.techSelected)
+    : undefined;
   const convertCity = stateFetched?.citySelected
     ? addQuotesToString(stateFetched?.citySelected)
     : undefined;
@@ -42,9 +66,6 @@ const Conferences = async ({ searchParams }) => {
     : undefined;
   const convertContinent = stateFetched?.continentSelected
     ? addQuotesToString(stateFetched?.continentSelected)
-    : undefined;
-  const convertTech = stateFetched?.techSelected
-    ? addQuotesToString(stateFetched?.techSelected)
     : undefined;
 
   const convertedDateStr =
