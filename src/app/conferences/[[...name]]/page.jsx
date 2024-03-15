@@ -84,7 +84,7 @@ const Conferences = async ({ searchParams }) => {
     <PageContainer>
       <ConfBreadcrumb stateObj={stateObj} />
       <h1 className="text-[30px] sm:text-[40px] lg:text-[56px] font-[800] text-neutral-base -tracking-[1.12px] leading-[100%]">
-        Developers Conferences
+        Developer Conferences
       </h1>
       {pastConf !== "past" && (
         <p className="text-neutrals-800 font-[500] text-[25px] sm:text-[30px] lg:text-[40px]">
