@@ -33,7 +33,8 @@ const sitemap = async () => {
   const youtube = await getYoutubeByAllFilter();
   const hackathons = await getHackathonByAllFilters();
   const today = new Date();
-
+  today.setHours(Math.round(today.getHours() / 6) * 6, 0, 0, 0);
+  
   const conferenceURLs = [
     ...continents?.data.map(({ node }) => ({
       url: `${BASE_URL}/conferences/all/${encodeURIComponent(node?.name)}`,
