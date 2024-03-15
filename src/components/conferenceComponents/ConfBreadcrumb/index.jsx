@@ -32,38 +32,49 @@ const ConfBreadcrumb = ({ stateObj }) => {
   const clickHandler = (textSelected) => {
     if (textSelected === "conferences") {
       router.push(`${CONFERENCES_URL}`);
+    } else if (textSelected === techSelected) {
+      const queryParams = {
+        tech: techSelected ? techSelected : "all",
+        continent: "",
+        country: "",
+        city: "",
+        mode: pastConf,
+      };
+      const url = `${CONFERENCES_URL}/${techSelected}`;
+
+      router.push(`${url}/?${createQueryString(queryParams)}`);
     } else if (textSelected === citySelected) {
       const queryParams = {
+        tech: techSelected ? techSelected : "all",
         continent: continentSelected,
         country: countrySelected,
         city: citySelected,
-        tech: "",
         mode: pastConf,
       };
-      const url = `${CONFERENCES_URL}/${continentSelected}/${countrySelected}/${citySelected}`;
+      const url = `${CONFERENCES_URL}/${queryParams.tech}/${continentSelected}/${countrySelected}/${citySelected}`;
 
       router.push(`${url}/?${createQueryString(queryParams)}`);
     } else if (textSelected === countrySelected) {
       const queryParams = {
+        tech: techSelected ? techSelected : "all",
         continent: continentSelected,
         country: countrySelected,
         city: "",
-        tech: "",
         mode: pastConf,
       };
 
-      const url = `${CONFERENCES_URL}/${continentSelected}/${countrySelected}`;
+      const url = `${CONFERENCES_URL}/${queryParams.tech}/${continentSelected}/${countrySelected}`;
       router.push(`${url}/?${createQueryString(queryParams)}`);
     } else if (textSelected === continentSelected) {
       const queryParams = {
+        tech: techSelected ? techSelected : "all",
         continent: continentSelected,
         country: "",
         city: "",
-        tech: "",
         mode: pastConf,
       };
 
-      const url = `${CONFERENCES_URL}/${continentSelected}`;
+      const url = `${CONFERENCES_URL}/${queryParams.tech}/${continentSelected}`;
       router.push(`${url}/?${createQueryString(queryParams)}`);
     } else {
       return;
