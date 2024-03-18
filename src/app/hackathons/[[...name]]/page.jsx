@@ -117,7 +117,7 @@ const Hackathons = ({ searchParams }) => {
       </h1>
       <p className="text-[14px] sm:text-[16px] lg:text-[18px] pt-[12px] text-neutrals-600 pb-[25px] md:pb-[48px]">
         <span>
-          A curated list of the {techSelected && <span>{techSelected}</span>}{" "}
+          A curated list of {techSelected && <span>{techSelected}</span>}{" "}
           hackathons
         </span>
         {citySelected ? (
