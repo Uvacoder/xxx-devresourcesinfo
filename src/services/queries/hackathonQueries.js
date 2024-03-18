@@ -13,21 +13,18 @@ const commonQueries = `edges {
           ... on City {
             id
             name
-            slug
           }
         }
         continent {
           ... on Continent {
             id
             name
-            slug
           }
         }
         country {
           ... on Country {
             id
             name
-            slug
           }
         }
         endDate
@@ -38,7 +35,6 @@ const commonQueries = `edges {
           ... on Technology {
             id
             name
-            slug
             filledIcon {
               id
               src

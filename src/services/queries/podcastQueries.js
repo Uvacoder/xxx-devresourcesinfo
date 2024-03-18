@@ -11,7 +11,6 @@ const commonQueries = `edges {
           ... on Language {
             id
             name
-            slug
           }
         }
         name
@@ -19,14 +18,12 @@ const commonQueries = `edges {
           ... on Target {
             id
             name
-            slug
           }
         }
         technology {
           ... on Technology {
             id
             name
-            slug
             lightColor
             darkColor
           }
@@ -52,7 +49,6 @@ export const findAllLangQuery = () => gql`
           }
           id
           name
-          slug
         }
       }
       totalCount
@@ -70,7 +66,6 @@ export const findAllAudienceQuery = () => gql`
           }
           id
           name
-          slug
         }
       }
       totalCount
@@ -88,7 +83,6 @@ export const findAllTechnologiesQuery = () => gql`
           }
           id
           name
-          slug
         }
       }
       totalCount
