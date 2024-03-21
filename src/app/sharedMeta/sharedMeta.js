@@ -49,10 +49,6 @@ export const generateSharedMetaData = (meta) => {
       ],
     },
 
-    alternates: {
-      canonical: "https://www.devresources.info/",
-    },
-
     icons: [
       {
         rel: "icon",

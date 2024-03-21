@@ -19,7 +19,7 @@ import { getYoutubeByAllFilter } from "@/services/api/youtubeAPI";
 import { queryString } from "@/utils/utils";
 
 const sitemap = async () => {
-  const BASE_URL = "https://devresources.info";
+  const BASE_URL = "https://www.devresources.info";
 
   const cities = await getAllCitiesExpanded();
   const technologies = await getAllTechnologies();
